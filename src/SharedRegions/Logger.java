@@ -13,6 +13,10 @@ public class Logger implements LoggerInterface {
     private FileWriter fileWriter;
     private PrintWriter printWriter;
 
+    /**
+     * Logger constructor
+     * @param fileName path to the logging file
+     */
     public Logger(String fileName) {
         try {
             fileWriter = new FileWriter(fileName);
@@ -22,6 +26,9 @@ public class Logger implements LoggerInterface {
         }
     }
 
+    /**
+     * Default logger constructor
+     */
     public Logger() {
         this("heist.log");
     }
