@@ -1,4 +1,4 @@
-package Interfaces;
+package src.Interfaces;
 
 /**
  * AssaultParty is constituted by OrdinaryThiefs that are going to attack the museum.
