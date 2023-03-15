@@ -1,12 +1,12 @@
 package tests;
 
-import src.SharedRegions.Logger;
+import src.SharedRegions.GeneralRepository;
 
 public class TestLogger {
     public static void main(String[] args) {
-        Logger logger = new Logger();
-        logger.printHead();
-        logger.printState();
-        logger.printTail(0);
+        GeneralRepository generalRepository = new GeneralRepository();
+        generalRepository.printHead();
+        generalRepository.printState();
+        generalRepository.printTail(0);
     }
 }

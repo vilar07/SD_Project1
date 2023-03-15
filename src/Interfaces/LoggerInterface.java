@@ -5,18 +5,13 @@ package src.Interfaces;
  */
 public interface LoggerInterface {
     /**
-     * Prints the head of the logging file
+     * Prints the message to the internal stream
+     * @param message message to be logged
      */
-    public void printHead();
+    public void print(String message);
 
     /**
-     * Prints the state of the simulation to the logging file
+     * Closes the logger and associated streams
      */
-    public void printState();
-
-    /**
-     * Prints the tail of the logging file
-     * @param total number of paintings acquired
-     */
-    public void printTail(int total);
+    public void close();
 }
