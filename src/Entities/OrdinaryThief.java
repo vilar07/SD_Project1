@@ -11,6 +11,11 @@ public class OrdinaryThief extends Thread {
     private State state;
 
     /**
+     * Thief unique id.
+     */
+    private int id;
+
+    /**
      * Maximum displacement of the Ordinary Thief
      */
     private final int maxDisplacement;
@@ -60,8 +65,15 @@ public class OrdinaryThief extends Thread {
         }
     }
 
-    //falta completar
-    public OrdinaryThief() {
+    //falta completar? (temos de passar o logger?)
+    public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, ) {
+
+        this.id = id;
+        this.museum = museum;
+        this.collectionSite = collectionSite;
+        this.concentrationSite = concentrationSite;
+        this.assaultParties = assaultParties;
+
         state = State.CONCENTRATION_SITE;
         Random random = new Random();
         maxDisplacement = random.nextInt(
