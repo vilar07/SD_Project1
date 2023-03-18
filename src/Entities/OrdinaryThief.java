@@ -16,6 +16,27 @@ public class OrdinaryThief extends Thread {
     private final int maxDisplacement;
 
     /**
+     * Array holding the Assault Parties shared regions
+     */
+    private final AssaultPartyInterface[] assaultParties;
+
+    /**
+     * Variable holding the Concentration Site shared region
+     */
+    private final ConcentrationSiteInterface concentrationSite;
+
+    /**
+     * Variable holding the Collection Site shared region
+     */
+    private final MuseumInterface museum;
+
+    /**
+     * Variable holding the Collection Site shared region
+     */
+    private final CollectionSiteInterface collectionSite;
+
+
+    /**
      * Enumerated reference type with the possible states of the Ordinary Thief lifecycle
      */
     private enum State {
@@ -39,12 +60,30 @@ public class OrdinaryThief extends Thread {
         }
     }
 
+    //falta completar
     public OrdinaryThief() {
         state = State.CONCENTRATION_SITE;
         Random random = new Random();
         maxDisplacement = random.nextInt(
                 Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT) 
                 + Constants.MIN_THIEF_DISPLACEMENT;
+    }
+
+
+    /**
+     * Lifecycle of the Ordinay Thief
+     */
+    @Override
+    public void run() {
+        char operation;
+        while((operation=concentrationSite.amINeeded())!='E'){
+            int assaultPartyID = concentrationSite.prepareExcursion();
+            while(assaultParties[assaultPartyID].crawlIn());  //funçao na interface AssaultParty está a receber id do thief (metemos?)
+            museum.rollACanvas();
+            museum.reverseDirection();
+            while(assaultParties[assaultPartyID].crawlOut()); //funçao na interface AssaultParty está a receber id do thief (metemos?)
+            collectionSite.handACanvas();
+        }
     }
     
 }
