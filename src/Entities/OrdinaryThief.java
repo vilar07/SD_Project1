@@ -98,13 +98,13 @@ public class OrdinaryThief extends Thread {
     @Override
     public void run() {
         char operation;
-        while((operation=concentrationSite.amINeeded())!='E'){
-            int assaultPartyID = concentrationSite.prepareExcursion();
-            while(assaultParties[assaultPartyID].crawlIn());  //funçao na interface AssaultParty está a receber id do thief (metemos?)
-            museum.rollACanvas();
-            museum.reverseDirection();
-            while(assaultParties[assaultPartyID].crawlOut()); //funçao na interface AssaultParty está a receber id do thief (metemos?)
-            collectionSite.handACanvas();
+        while((operation=this.concentrationSite.amINeeded())!='E'){
+            int assaultPartyID = this.concentrationSite.prepareExcursion();
+            while(this.assaultParties[assaultPartyID].crawlIn());  //funçao na interface AssaultParty está a receber id do thief (metemos?)
+            this.museum.rollACanvas();
+            this.museum.reverseDirection();
+            while(this.assaultParties[assaultPartyID].crawlOut()); //funçao na interface AssaultParty está a receber id do thief (metemos?)
+            this.collectionSite.handACanvas();
         }
     }
     

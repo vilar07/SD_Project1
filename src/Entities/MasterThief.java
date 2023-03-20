@@ -83,20 +83,20 @@ public class MasterThief extends Thread {
     @Override
     public void run() {
         char operation;
-        collectionSite.startOperations();
-        while ((operation = collectionSite.appraiseSit()) != 'E') {
+        this.collectionSite.startOperations();
+        while ((operation = this.collectionSite.appraiseSit()) != 'E') {
             switch (operation) {
                 case 'P':
-                concentrationSite.prepareAssaultParty(null, collectionSite.getAssaultID(),
-                        collectionSite.getRoomID());
-                assaultParties[collectionSite.getAssaultID()].sendAssaultParty();
+                this.concentrationSite.prepareAssaultParty(null, this.collectionSite.getAssaultID(),
+                        this.collectionSite.getRoomID());
+                assaultParties[this.collectionSite.getAssaultID()].sendAssaultParty();
                 break;
                 case 'R':
-                collectionSite.takeARest();
-                collectionSite.collectACanvas();
+                this.collectionSite.takeARest();
+                this.collectionSite.collectACanvas();
                 break;
             }
         }
-        concentrationSite.sumUpResults(collectionSite.getNumberOfCanvas());
+        this.concentrationSite.sumUpResults(this.collectionSite.getNumberOfCanvas());
     }
 }
