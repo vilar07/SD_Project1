@@ -5,7 +5,7 @@ import src.Interfaces.ConcentrationSiteInterface;
 import src.Interfaces.CollectionSiteInterface;
 import src.Interfaces.MuseumInterface;
 import src.Interfaces.LoggerInterface;
-import src.Utils.Constants;
+import src.Constants;
 /**
  * Concurrent version of the HeistToTheMuseum.
  * Runs on a single computer.
