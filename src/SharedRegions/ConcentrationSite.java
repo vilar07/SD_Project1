@@ -4,26 +4,19 @@ import src.Interfaces.ConcentrarionSiteInterface;
 
 public ConcentrationSite implements ConcentrarionSiteInterface{
 
-     /**
-     * This is the first state change in the MasterThief life cycle it changes the MasterThief state to deciding what to do. 
-     */
-    public synchronized void startOperations(){
-        
-    }
-
-    public synchronized char appraiseSit(){
+    public synchronized void prepareAssaultParty(OrdinaryThief[] thieves, int id, int room){
 
     }
 
-    public synchronized void takeARest(){
+    public synchronized void sumUpResults(int paintings){
 
     }
 
-    public synchronized boolean collectACanvas(){
+    public synchronized boolean amINeeded(OrdinaryThief thief){
 
     }
 
-    public synchronized void handACanvas(boolean canvas){
+    public synchronized int prepareExcursion(){
 
     }
 }
