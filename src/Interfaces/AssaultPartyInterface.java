@@ -12,7 +12,7 @@ public interface AssaultPartyInterface {
      * After that call, AssaultParty can start crawling
      */
     
-    public void sendAssaultParty();
+    void sendAssaultParty();
 
     /**
      * Called by the OrdinaryThief to crawlIn inside the museum
@@ -20,7 +20,7 @@ public interface AssaultPartyInterface {
      * @return position of the thief after crawling In
      */
 
-    public int crawlIn(int thief);
+    int crawlIn(int thief);
 
     /**
      * Called by the OrdinaryThief to crawlOut inside the museum
@@ -28,6 +28,6 @@ public interface AssaultPartyInterface {
      * @return position of the thief after crawling Out
      */
 
-    public int crawlOut(int thief);
+    int crawlOut(int thief);
 
 }

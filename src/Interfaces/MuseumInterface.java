@@ -11,7 +11,7 @@ public interface MuseumInterface{
      * @return true if there are still paintings in the room, otherwise returns false
      */
 
-    public boolean rollACanvas();
+    boolean rollACanvas();
 
     /**
      * Called to awake the first member in the line of AssaultParty, by the last party member that rolled a canvas
@@ -19,6 +19,6 @@ public interface MuseumInterface{
      *  Synchronization Point -> between members of the AssaultParty
      */
 
-    public void reverseDirection();
+    void reverseDirection();
 
 }
