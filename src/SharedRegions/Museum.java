@@ -12,7 +12,7 @@ public Museum implements MuseumInterface{
     private final GeneralRepositoryInterface generalRepository;
 
     public Museum(GeneralRepositoryInterface repository){
-        this.repository = repository;
+        this.generalRepository = repository;
     }
 
     public synchronized boolean rollACanvas(){
