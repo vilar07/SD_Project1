@@ -26,8 +26,7 @@ public class HeistToTheMuseum
             assaultParties[i] = new AssaultParty(i, (GeneralRepositoryInterface) repository); 
         }
 
-        //passámos o museum também?
-        MasterThief masterThief = new MasterThief((CollectionSiteInterface) controlCollectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, (MuseumInterface) museum, (GeneralRepositoryInterface) repository);
+        MasterThief masterThief = new MasterThief((CollectionSiteInterface) controlCollectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, (GeneralRepositoryInterface) repository);
 
         for(int i=0;i<ordinaryThieves.length;i++){
             ordinaryThieves[i] = new OrdinaryThief(i, (MuseumInterface) museum, (CollectionSiteInterface) CollectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, (GeneralRepositoryInterface) repository);
