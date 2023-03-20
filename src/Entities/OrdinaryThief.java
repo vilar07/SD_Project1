@@ -3,6 +3,11 @@ package src.Entities;
 import java.util.Random;
 
 import src.Constants;
+import src.Interfaces.ConcentrationSiteInterface;
+import src.Interfaces.GeneralRepositoryInterface;
+import src.SharedRegions.GeneralRepository;
+import src.Interfaces.AssaultPartyInterface;
+import src.Interfaces.CollectionSiteInterface;
 
 public class OrdinaryThief extends Thread {
     /**
@@ -40,6 +45,10 @@ public class OrdinaryThief extends Thread {
      */
     private final CollectionSiteInterface collectionSite;
 
+    /**
+     * Variable holding the General Repository shared region
+     */
+    private final GeneralRepositoryInterface generalRepository;
 
     /**
      * Enumerated reference type with the possible states of the Ordinary Thief lifecycle
@@ -66,13 +75,14 @@ public class OrdinaryThief extends Thread {
     }
 
     //falta completar? (temos de passar o logger?)
-    public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, ) {
+    public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface repository ) {
 
         this.id = id;
         this.museum = museum;
         this.collectionSite = collectionSite;
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
+        this.generalRepository = repository;
 
         state = State.CONCENTRATION_SITE;
         Random random = new Random();
