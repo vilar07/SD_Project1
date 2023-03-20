@@ -6,10 +6,8 @@ public CollectionSite implements CollectionSiteInterface{
 
      /**
      * This is the first state change in the MasterThief life cycle it changes the MasterThief state to deciding what to do. 
-     * @throws Exception Exception
      */
-    private void startOperations() throws Exception
-    {
+    private void startOperations(){
         
     }
 }
