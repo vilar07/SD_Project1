@@ -10,4 +10,20 @@ public CollectionSite implements CollectionSiteInterface{
     private synchronized void startOperations(){
         
     }
+
+    public synchronized char appraiseSit(){
+
+    }
+
+    public synchronized void takeARest(){
+
+    }
+
+    public synchronized boolean collectACanvas(){
+
+    }
+
+    public synchronized void handACanvas(boolean canvas){
+
+    }
 }
