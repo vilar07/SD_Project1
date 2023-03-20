@@ -15,6 +15,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     public getLogger(){
         return this.logger;
     }
+    
     /**
      * Prints the head of the logging file
      */

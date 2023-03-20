@@ -1,5 +1,7 @@
 package src.room;
 
+import src.Constants;
+
 /**
  * Rooms contains paintings that can be stolen by the Thieves attacking the museum.
  * Room is a shared region accessed by the thieves inside the museum.
@@ -24,16 +26,12 @@ package src.room;
     protected int paintings;
 
     /**
-     * Room constructor, the room stores its own position and the number of paintings inside.
-     * @param id Room identification.
-     * @param distance Room distance.
-     * @param paintings Number of paintings inside the room.
+     * Room constructor, calculates and initialize the numberOfPaintings inside the room
+     * and the room distance inside the museum
      */
-    public Room(int id, int distance, int paintings)
-    {
-        this.id = id;
-        this.distance = distance;
-        this.paintings = paintings;
+    public Room() {
+        this.numberOfPaintings = (int) (Math.random() * (Constants.MAX_PAINTINGS + 1 - Constants.MIN_PAINTINGS)) + Constants.MIN_PAINTINGS;
+        this.distance = (int) (Math.random() * (Constants.MAX_ROOM_DISTANCE + 1 - Constants.MIN_ROOM_DISTANCE)) + Constants.MIN_ROOM_DISTANCE;
     }
 
     /**
@@ -53,7 +51,7 @@ package src.room;
     }
     
     /**
-     * @return Room paintings.
+     * @return number Of paintings of the room.
      */
     public int getPaintings()
     {
