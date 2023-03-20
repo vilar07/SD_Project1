@@ -11,6 +11,7 @@ public class Constants {
     public static final int MIN_PAINTINGS = 8;
     public static final int MAX_PAINTINGS = 16;
     public static final int MAX_THIEF_SEPARATION = 3;
+    public static final int ASSAULT_PARTIES_NUMBER = 2;
 
     private Constants() {
 
