@@ -5,6 +5,7 @@ import java.util.Deque;
 
 import src.Constants;
 import src.Entities.OrdinaryThief;
+import src.Interfaces.AssaultPartyInterface;
 import src.Interfaces.ConcentrationSiteInterface;
 
 public class ConcentrationSite implements ConcentrationSiteInterface {
@@ -26,8 +27,11 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         finished = false;
     }
 
-    public void prepareAssaultParty(OrdinaryThief[] thieves, int id, int room){
-
+    public void prepareAssaultParty(OrdinaryThief[] thieves, AssaultPartyInterface assaultParty, int room){
+        assaultParty.waitForOtherThievesToBeReady();
+        synchronized (this) {
+            // rest of the method
+        }
     }
 
     public synchronized void sumUpResults(int paintings){
