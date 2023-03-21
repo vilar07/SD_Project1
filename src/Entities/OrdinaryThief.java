@@ -31,6 +31,11 @@ public class OrdinaryThief extends Thread {
     private boolean busyHands;
 
     /**
+     * Position of the Ordinary Thief in relation to the room target
+     */
+    private int position;
+
+    /**
      * Array holding the Assault Parties shared regions
      */
     private final AssaultPartyInterface[] assaultParties;
@@ -91,6 +96,8 @@ public class OrdinaryThief extends Thread {
         maxDisplacement = random.nextInt(
                 Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT) 
                 + Constants.MIN_THIEF_DISPLACEMENT;
+        busyHands = false;
+        position = 0;
     }
 
     /**
@@ -107,6 +114,22 @@ public class OrdinaryThief extends Thread {
      */
     public int getMaxDisplacement() {
         return maxDisplacement;
+    }
+
+    /**
+     * Getter for if the Ordinary Thief has busy hands
+     * @return true if thief has rolled a canvas, false otherwise
+     */
+    public boolean hasBusyHands() {
+        return busyHands;
+    }
+
+    /**
+     * Getter for the position of the Ordinary Thief relative to the room target
+     * @return the position (from 0 up to room distance)
+     */
+    public int getPosition() {
+        return position;
     }
 
     /**
