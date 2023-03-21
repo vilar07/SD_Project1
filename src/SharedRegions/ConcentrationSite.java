@@ -1,17 +1,17 @@
 package src.SharedRegions;
 
 import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.Deque;
 
 import src.Constants;
 import src.Entities.OrdinaryThief;
 import src.Interfaces.ConcentrationSiteInterface;
 
-public class ConcentrationSite implements ConcentrationSiteInterface{
+public class ConcentrationSite implements ConcentrationSiteInterface {
     /**
      * FIFO with the thieves waiting for instructions
      */
-    private final Queue<OrdinaryThief> thieves;
+    private final Deque<OrdinaryThief> thieves;
 
     /**
      * Boolean variable that is false until the Master Thief announces the end of the heist

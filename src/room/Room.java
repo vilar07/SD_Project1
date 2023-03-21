@@ -4,10 +4,14 @@ import src.Constants;
 
 /**
  * Rooms contains paintings that can be stolen by the Thieves attacking the museum.
- * Room is a shared region accessed by the thieves inside the museum.
  */
 
  public class Room{
+
+    /**
+     * Number of existing rooms, used to identify the next room that is created
+     */
+    private static int numRooms = 0;
 
     /**
      * Room identification.
@@ -30,8 +34,9 @@ import src.Constants;
      * and the room distance inside the museum
      */
     public Room() {
-        this.numberOfPaintings = (int) (Math.random() * (Constants.MAX_PAINTINGS + 1 - Constants.MIN_PAINTINGS)) + Constants.MIN_PAINTINGS;
-        this.distance = (int) (Math.random() * (Constants.MAX_ROOM_DISTANCE + 1 - Constants.MIN_ROOM_DISTANCE)) + Constants.MIN_ROOM_DISTANCE;
+        id = numRooms++;
+        paintings = (int) (Math.random() * (Constants.MAX_PAINTINGS + 1 - Constants.MIN_PAINTINGS)) + Constants.MIN_PAINTINGS;
+        distance = (int) (Math.random() * (Constants.MAX_ROOM_DISTANCE + 1 - Constants.MIN_ROOM_DISTANCE)) + Constants.MIN_ROOM_DISTANCE;
     }
 
     /**
