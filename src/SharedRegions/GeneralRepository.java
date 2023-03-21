@@ -11,10 +11,6 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     public GeneralRepository() {
         logger = new Logger();
     }
-
-    public getLogger(){
-        return this.logger;
-    }
     
     /**
      * Prints the head of the logging file
@@ -62,9 +58,13 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         logger.close();
     }
 
-    @Override
     public void setMasterThiefState(int state) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setMasterThiefState'");
+    }
+
+    public void setOrdinaryThiefStateAndAssaultPartyInfo(int state) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setOrdinaryThiefState'");
     }
 }

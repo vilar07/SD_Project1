@@ -1,10 +1,32 @@
 package src.SharedRegions;
 
-import src.Interfaces.ConcentrarionSiteInterface;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
-public ConcentrationSite implements ConcentrarionSiteInterface{
+import src.Constants;
+import src.Entities.OrdinaryThief;
+import src.Interfaces.ConcentrationSiteInterface;
 
-    public synchronized void prepareAssaultParty(OrdinaryThief[] thieves, int id, int room){
+public class ConcentrationSite implements ConcentrationSiteInterface{
+    /**
+     * FIFO with the thieves waiting for instructions
+     */
+    private final Queue<OrdinaryThief> thieves;
+
+    /**
+     * Boolean variable that is false until the Master Thief announces the end of the heist
+     */
+    private boolean finished;
+
+    /**
+     * Public constructor for the Concentration Site shared region
+     */
+    public ConcentrationSite() {
+        thieves = new ArrayDeque<>(Constants.NUM_THIEVES - 1);
+        finished = false;
+    }
+
+    public void prepareAssaultParty(OrdinaryThief[] thieves, int id, int room){
 
     }
 
@@ -13,10 +35,10 @@ public ConcentrationSite implements ConcentrarionSiteInterface{
     }
 
     public synchronized boolean amINeeded(OrdinaryThief thief){
-
+        return false;
     }
 
     public synchronized int prepareExcursion(){
-
+        return 0;
     }
 }

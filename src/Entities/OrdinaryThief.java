@@ -26,6 +26,11 @@ public class OrdinaryThief extends Thread {
     private final int maxDisplacement;
 
     /**
+     * Boolean value which is true if Ordinary Thief has a canvas in its possession or false otherwise
+     */
+    private boolean busyHands;
+
+    /**
      * Array holding the Assault Parties shared regions
      */
     private final AssaultPartyInterface[] assaultParties;
@@ -74,26 +79,38 @@ public class OrdinaryThief extends Thread {
         }
     }
 
-    //falta completar? (temos de passar o logger?)
-    public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface repository ) {
-
+    public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface generalRepository) {
         this.id = id;
         this.museum = museum;
         this.collectionSite = collectionSite;
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
-        this.generalRepository = repository;
-
+        this.generalRepository = generalRepository;
         state = State.CONCENTRATION_SITE;
-        Random random = new Random();
+        Random random = new Random(System.currentTimeMillis());
         maxDisplacement = random.nextInt(
                 Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT) 
                 + Constants.MIN_THIEF_DISPLACEMENT;
     }
 
+    /**
+     * Getter for the identification number of the Ordinary Thief
+     * @return the identification number of the Ordinary Thief
+     */
+    public int getID() {
+        return id;
+    }
 
     /**
-     * Lifecycle of the Ordinay Thief
+     * Getter for the maximum displacement of the Ordinary Thief
+     * @return the maximum displacement of the Ordinary Thief
+     */
+    public int getMaxDisplacement() {
+        return maxDisplacement;
+    }
+
+    /**
+     * Lifecycle of the Ordinary Thief
      */
     @Override
     public void run() {

@@ -1,33 +1,27 @@
 package src.Interfaces;
 
 /**
- * AssaultParty is constituted by OrdinaryThiefs that are going to attack the museum.
- * Assault party is shared by thieves
+ * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.
+ * Assault Party is shared by the thieves
  */
 
 public interface AssaultPartyInterface {
 
     /**
-     * Called by the MasterThief to send the assaultParty to the museum
-     * After that call, AssaultParty can start crawling
+     * Called by the Master Thief to send the assaultParty to the museum
+     * After that call, Assault Party can start crawling
      */
-    
-    void sendAssaultParty();
+    public void sendAssaultParty();
 
     /**
-     * Called by the OrdinaryThief to crawlIn inside the museum
-     * @param thief -> thief id that is crawling In
-     * @return position of the thief after crawling In
+     * Called by the Ordinary Thief to crawl into the museum
+     * @return true if Ordinary Thief is still crawling in, false otherwise
      */
-
-    int crawlIn(int thief);
+    public boolean crawlIn();
 
     /**
-     * Called by the OrdinaryThief to crawlOut inside the museum
-     * @param thief -> thief id that is crawling Out
-     * @return position of the thief after crawling Out
+     * Called by the Ordinary Thief to crawl out of the museum
+     * @return true if Ordinary Thief is still crawling out, false otherwise
      */
-
-    int crawlOut(int thief);
-
+    public boolean crawlOut();
 }

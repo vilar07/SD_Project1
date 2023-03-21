@@ -41,7 +41,7 @@ public class MasterThief extends Thread {
     /**
      * Enumerated reference type with the possible states of the Master Thief lifecycle
      */
-    private enum State {
+    public enum State {
         PLANNING_THE_HEIST (1000),
         DECIDING_WHAT_TO_DO (2000),
         ASSEMBLING_A_GROUP (3000),
@@ -75,6 +75,15 @@ public class MasterThief extends Thread {
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
         this.generalRepository = repository;
+    }
+
+    /**
+     * Sets the state of the Master Thief and propagates it to the General Repository
+     * @param state the updated Master Thief state
+     */
+    public void setState(State state) {
+        this.state = state;
+        generalRepository.setMasterThiefState(state.code);
     }
 
     /**

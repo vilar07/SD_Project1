@@ -19,10 +19,4 @@ public interface GeneralRepositoryInterface {
      * @param total number of paintings acquired
      */
     public void printTail(int total);
-
-    /**
-     * don't know
-     * @param state
-     */
-    public void setMasterThiefState(int state);
 }
