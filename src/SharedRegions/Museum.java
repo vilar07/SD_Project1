@@ -40,7 +40,7 @@ public Museum implements MuseumInterface{
                 for(int j = 0; j < i; j++){
                     if(distance == this.rooms[j].getDistance()){
                         distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1); //dúvida se adiciono o + 1, penso que sim
-                        repeat = true;
+                        tryAgain = true;
                         break;
                     }
                 }
