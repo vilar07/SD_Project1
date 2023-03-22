@@ -94,7 +94,7 @@ public class OrdinaryThief extends Thread {
         state = State.CONCENTRATION_SITE;
         Random random = new Random(System.currentTimeMillis());
         maxDisplacement = random.nextInt(
-                Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT) 
+                Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT)  //Não temos de adicionar +1 no -> Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT?
                 + Constants.MIN_THIEF_DISPLACEMENT;
         busyHands = false;
         position = 0;

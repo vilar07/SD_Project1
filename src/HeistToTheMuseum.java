@@ -25,7 +25,7 @@ public class HeistToTheMuseum
         AssaultParty[] assaultParties = new AssaultParty[Constants.ASSAULT_PARTIES_NUMBER];
         CollectionSite CollectionSite = new ControlCollectionSite();
         ConcentrationSite concentrationSite = new ConcentrationSite();
-        Museum museum = new Museum((GeneralRepositoryInterface) repository);
+        Museum museum = new Museum((GeneralRepositoryInterface) repository);//Não sei se é preciso passar o repositório para o Museum
         OrdinaryThief ordinaryThieves[] = new OrdinaryThief[Constants.NUM_THIEVES - 1];
 
         for(int i=0;i<assaultParties.length;i++){

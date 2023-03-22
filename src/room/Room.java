@@ -8,10 +8,6 @@ import src.Constants;
 
  public class Room{
 
-    /**
-     * Number of existing rooms, used to identify the next room that is created
-     */
-    private static int numRooms = 0;
 
     /**
      * Room identification.
@@ -30,13 +26,16 @@ import src.Constants;
     protected int paintings;
 
     /**
-     * Room constructor, calculates and initialize the numberOfPaintings inside the room
-     * and the room distance inside the museum
+     * Room constructor, the room stores its own position and the mumber of paintings inside.
+     * @param id Room id.
+     * @param distance Room distance.
+     * @param paintings Number of paintings inside the room.
      */
-    public Room() {
-        id = numRooms++;
-        paintings = (int) (Math.random() * (Constants.MAX_PAINTINGS + 1 - Constants.MIN_PAINTINGS)) + Constants.MIN_PAINTINGS;
-        distance = (int) (Math.random() * (Constants.MAX_ROOM_DISTANCE + 1 - Constants.MIN_ROOM_DISTANCE)) + Constants.MIN_ROOM_DISTANCE;
+    public Room(int id, int distance, int paintings)
+    {
+        this.id = id;
+        this.distance = distance;
+        this.paintings = paintings;
     }
 
     /**
@@ -62,5 +61,18 @@ import src.Constants;
     {
         return this.paintings;
     }
+
+    /**
+     * Remove a painting from the room.
+     * @return True if there is still a painting and it is removed.
+     */
+    public boolean rollACanvas(){
+        if(this.paintings > 0){
+            this.paintings--;
+            return true;
+        }
+        return false;
+    }
+
  }
 
