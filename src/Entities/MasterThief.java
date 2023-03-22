@@ -93,7 +93,6 @@ public class MasterThief extends Thread {
     public void run() {
         char operation;
         this.collectionSite.startOperations();
-        this.state = State.DECIDING_WHAT_TO_DO; 
         while ((operation = this.collectionSite.appraiseSit()) != 'E') {
             switch (operation) {
                 case 'P':
