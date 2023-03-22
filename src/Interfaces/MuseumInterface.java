@@ -4,7 +4,7 @@ package src.Interfaces;
  * The Museum has rooms inside of it. That rooms have paintings that can be stolen by the OrdinaryThiefs of the AssaultParty
  */
 
-public interface MuseumInterface{
+public interface MuseumInterface {
 
     /**
      * Called by OrdinaryThief to get a canvas

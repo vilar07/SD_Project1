@@ -5,7 +5,7 @@ import java.util.Random;
 import src.Constants;
 import src.Interfaces.ConcentrationSiteInterface;
 import src.Interfaces.GeneralRepositoryInterface;
-import src.SharedRegions.GeneralRepository;
+import src.Interfaces.MuseumInterface;
 import src.Interfaces.AssaultPartyInterface;
 import src.Interfaces.CollectionSiteInterface;
 
@@ -91,10 +91,10 @@ public class OrdinaryThief extends Thread {
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
         this.generalRepository = generalRepository;
-        state = State.CONCENTRATION_SITE;
+        setState(State.CONCENTRATION_SITE);
         Random random = new Random(System.currentTimeMillis());
         maxDisplacement = random.nextInt(
-                Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT)  //Não temos de adicionar +1 no -> Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT?
+                Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT + 1)
                 + Constants.MIN_THIEF_DISPLACEMENT;
         busyHands = false;
         position = 0;
@@ -130,6 +130,37 @@ public class OrdinaryThief extends Thread {
      */
     public int getPosition() {
         return position;
+    }
+
+    /**
+     * Setter for the state of the thief
+     * Propagates information to the GeneralRepository
+     * @param state the state
+     */
+    public void setState(State state) {
+        this.state = state;
+        generalRepository.setOrdinaryThiefState(id, state.code);
+    }
+
+    /**
+     * Setter for the position of the thief in relation to the room of the museum
+     * Propagates information to the GeneralRepository
+     * @param position the position
+     */
+    public void setPosition(int position) {
+        this.position = position;
+        generalRepository.setOrdinaryThiefState(id, position, getSituation(), maxDisplacement);
+    }
+
+    /**
+     * Getter for the situation of the thief
+     * @return 'W' if waiting or 'P' if in party
+     */
+    private char getSituation() {
+        if (state == State.CONCENTRATION_SITE || state == State.COLLECTION_SITE) {
+            return 'W';
+        }
+        return 'P';
     }
 
     /**

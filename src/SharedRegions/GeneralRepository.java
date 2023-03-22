@@ -115,24 +115,52 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         logger.close();
     }
 
+    /**
+     * Sets the Master Thief state
+     * @param state the state code to change to
+     */
     public void setMasterThiefState(int state) {
         masterThiefState = state;
     }
 
+    /**
+     * Sets the Ordinary Thief state
+     * @param id the identification of the thief
+     * @param state the state code to change to
+     * @param situation the situation of the thief
+     * @param maxDisplacement the maximum displacement of the thief
+     */
     public void setOrdinaryThiefState(int id, int state, char situation, int maxDisplacement) {
         ordinaryThieves[id].setState(state);
         ordinaryThieves[id].setSituation(situation);
         ordinaryThieves[id].setMaxDisplacement(maxDisplacement);
     }
 
+    /**
+     * Sets the Ordinary Thief state
+     * @param id the identification of the thief
+     * @param state the state code to change to
+     */
     public void setOrdinaryThiefState(int id, int state) {
         setOrdinaryThiefState(id, state, ordinaryThieves[id].getSituation(), ordinaryThieves[id].getMaxDisplacement());
     }
 
+    /**
+     * Sets the Assault Party room target
+     * @param party the party number
+     * @param room the room identification
+     */
     public void setAssaultPartyRoom(int party, int room) {
         assaultParties[party].setRoom(room + 1);
     }
 
+    /**
+     * Sets an Assault Party member
+     * @param party the party number
+     * @param thief the identification of the thief
+     * @param pos the present position of the thief
+     * @param cv 1 if the thief is carrying a canvas, 0 otherwise
+     */
     public void setAssaultPartyMember(int party, int thief, int pos, int cv) {
         AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
         int idx = 0;
@@ -151,6 +179,10 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         elems[idx].setCv(cv);
     }
 
+    /**
+     * Resets the Assault Party logging details
+     * @param party the party number
+     */
     public void disbandAssaultParty(int party) {
         assaultParties[party].setRoom(0);
         AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
@@ -161,11 +193,22 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         }
     }
 
+    /**
+     * Sets the room state
+     * @param id the room identification
+     * @param paintings the number of paintings
+     * @param distance the distance to the outside gathering site
+     */
     public void setRoomState(int id, int paintings, int distance) {
         rooms[id].setPaintings(paintings);
         rooms[id].setDistance(distance);
     }
 
+    /**
+     * Sets the room state
+     * @param id the room identification
+     * @param paintings the number of paintings
+     */
     public void setRoomState(int id, int paintings) {
         setRoomState(id, paintings, rooms[id].getDistance());
     }

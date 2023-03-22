@@ -69,7 +69,7 @@ public class MasterThief extends Thread {
      */
     public MasterThief(CollectionSiteInterface collectionSite,
             ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface repository) {
-        state = State.PLANNING_THE_HEIST;
+        setState(State.PLANNING_THE_HEIST);
         emptyRooms = new boolean[Constants.NUM_ROOMS];
         this.collectionSite = collectionSite;
         this.concentrationSite = concentrationSite;
