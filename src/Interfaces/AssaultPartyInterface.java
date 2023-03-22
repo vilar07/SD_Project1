@@ -1,5 +1,7 @@
 package src.Interfaces;
 
+import src.room.Room;
+
 /**
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.
  * Assault Party is shared by the thieves
@@ -24,4 +26,10 @@ public interface AssaultPartyInterface {
      * @return true if Ordinary Thief is still crawling out, false otherwise
      */
     public boolean crawlOut();
+
+    /**
+     * Getter for the room destination
+     * @return the room
+     */
+    public Room getRoom();
 }

@@ -1,9 +1,12 @@
 package src.Entities;
 
+import java.util.Arrays;
+
 import src.Constants;
 import src.Interfaces.ConcentrationSiteInterface;
 import src.Interfaces.GeneralRepositoryInterface;
 import src.SharedRegions.GeneralRepository;
+import src.room.Room;
 import src.Interfaces.AssaultPartyInterface;
 import src.Interfaces.CollectionSiteInterface;
 
@@ -101,7 +104,7 @@ public class MasterThief extends Thread {
     public void run() {
         char operation;
         this.collectionSite.startOperations();
-        while ((operation = this.collectionSite.appraiseSit()) != 'E') {
+        while ((operation = this.collectionSite.appraiseSit(assaultParties)) != 'E') {
             switch (operation) {
                 case 'P':
                 this.concentrationSite.prepareAssaultParty(null, this.collectionSite.getAssaultID(),

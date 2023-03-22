@@ -164,4 +164,12 @@ public class AssaultParty implements AssaultPartyInterface {
         }
         return false;
     }
+
+    /**
+     * Getter for the room destination
+     * @return the room
+     */
+    public Room getRoom() {
+        return room;
+    }
 }

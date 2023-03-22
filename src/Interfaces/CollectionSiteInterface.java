@@ -8,19 +8,20 @@ public interface CollectionSiteInterface {
     /**
      * Called by Master Thief to initiate operations
      */
-    void startOperations();
+    public void startOperations();
 
     /**
      * Called by Master Thief to appraise situation: either to take a rest, prepare assault party or
      * sum up results
+     * @param assaultPartyInterfaces an array with the Assault Parties
      * @return next situation
      */
-    char appraiseSit();
+    public char appraiseSit(AssaultPartyInterface[] assaultPartyInterfaces);
 
     /**
      * Called by Master Thief. Waits for Assault Party return.
      */
-    void takeARest();
+    public void takeARest();
 
     /**
      * Called by Master Thief to collect a canvas from an Ordinary Thief
@@ -28,12 +29,12 @@ public interface CollectionSiteInterface {
      * @param thief Number of the Ordinary Thief
      * @return true if a canvas was collected or false if Ordinary Thief returned empty-handed
      */
-    boolean collectACanvas(int thief);
+    public boolean collectACanvas(int thief);
 
     /**
      * Called by Ordinary Thief to hand out a canvas to Master Thief
      * - Synchronization point between Ordinary Thief and Master Thief
      * @param canvas false if Ordinary Thief is empty-handed, true otherwise
      */
-    void handACanvas(boolean canvas);
+    public void handACanvas(boolean canvas);
 }

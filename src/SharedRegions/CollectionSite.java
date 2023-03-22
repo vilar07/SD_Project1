@@ -1,11 +1,17 @@
 package src.SharedRegions;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import src.Constants;
 import src.Entities.MasterThief;
+import src.Interfaces.AssaultPartyInterface;
 import src.Interfaces.CollectionSiteInterface;
+import src.room.Room;
 
 public class CollectionSite implements CollectionSiteInterface {
     /**
@@ -36,7 +42,13 @@ public class CollectionSite implements CollectionSiteInterface {
         ((MasterThief) Thread.currentThread()).setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
-    public char appraiseSit(int[] assaultPartyRooms) {
+    /**
+     * Called by Master Thief to appraise situation: either to take a rest, prepare assault party or
+     * sum up results
+     * @param assaultPartyInterfaces an array with the Assault Parties
+     * @return next situation
+     */
+    public synchronized char appraiseSit(AssaultPartyInterface[] assaultPartyInterfaces) {
         boolean[] emptyRooms = ((MasterThief) Thread.currentThread()).getEmptyRooms();
         boolean empty = true;
         int nEmptyRooms = 0;
@@ -46,11 +58,19 @@ public class CollectionSite implements CollectionSiteInterface {
                 nEmptyRooms++;
             }
         }
-        if (empty && assaultPartyRooms.length == 0) {
+        List<Integer> assaultPartyRooms = new ArrayList<>();
+        Room room;
+        for (AssaultPartyInterface assaultPartyInterface: assaultPartyInterfaces) {
+            room = assaultPartyInterface.getRoom();
+            if (room != null) {
+                assaultPartyRooms.add(room.getID());
+            }
+        }
+        if (empty && assaultPartyRooms.size() == 0) {
             return 'E';
         }
-        if (assaultPartyRooms.length == Constants.ASSAULT_PARTIES_NUMBER || 
-                (assaultPartyRooms.length == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms[0]])) {
+        if (assaultPartyRooms.size() == Constants.ASSAULT_PARTIES_NUMBER || 
+                (assaultPartyRooms.size() == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms.get(0)])) {
             return 'W';
         }
         return 'P';
