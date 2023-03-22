@@ -165,7 +165,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
         int idx = 0;
         for (int i = elems.length - 1; i >= 0; i--) {
-            if (elems[i].getID() == thief - 1) {
+            if (elems[i].getID() == thief + 1) {
                 elems[i].setPos(pos);
                 elems[i].setCv(cv);
                 return;

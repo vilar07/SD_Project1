@@ -5,8 +5,12 @@ Stat   Stat S MD    Stat S MD    Stat S MD    Stat S MD    Stat S MD    Stat S M
                     Assault party 1                       Assault party 2                       Museum
             Elem 1     Elem 2     Elem 3          Elem 1     Elem 2     Elem 3   Room 1  Room 2  Room 3  Room 4  Room 5
      RId  Id Pos Cv  Id Pos Cv  Id Pos Cv  RId  Id Pos Cv  Id Pos Cv  Id Pos Cv   NP DT   NP DT   NP DT   NP DT   NP DT
-####   #### #  #    #### #  #    #### #  #    #### #  #    #### #  #    #### #  #
-      #    #  ##  #   #  ##  #   #  ##  #   #   #   ##  #   #  ##  #   #  ##  #   ## ##   ## ##   ## ##   ## ##   ## ##
+   0      0 W  0       0 W  0       0 W  0       0 W  0       0 W  0       0 W  0
+      0    0   0  0   0   0  0   0   0  0   0   0    0  0   0   0  0   0   0  0    0  0    0  0    0  0    0  0    0  0
+1000   3000 P  3    3000 P  4    3000 P  3    1000 W  2    2000 W  5    1000 W  6
+      2    1  16  0   2  17  0   3  19  1   0   0    0  0   0   0  0   0   0  0   10 17   12 19    9 22   21 15    5 30
+1000   3000 P  3    3000 P  4    3000 P  3    1000 W  2    2000 W  5    1000 W  6
+      0    0   0  0   0   0  0   0   0  0   0   0    0  0   0   0  0   0   0  0   10 17   12 19    9 22   21 15    5 30
 My friends, tonight's effort produced  0 priceless paintings!
 
 Legend:
