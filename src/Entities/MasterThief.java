@@ -87,6 +87,14 @@ public class MasterThief extends Thread {
     }
 
     /**
+     * Getter for the perception of the empty rooms
+     * @return an array with size equal to NUM_ROOMS with elements that are true if the rooms with the corresponding index are empty and false otherwise
+     */
+    public boolean[] getEmptyRooms() {
+        return emptyRooms;
+    }
+
+    /**
      * Lifecycle of the Master Thief
      */
     @Override

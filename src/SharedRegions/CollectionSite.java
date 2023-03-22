@@ -36,8 +36,19 @@ public class CollectionSite implements CollectionSiteInterface {
         ((MasterThief) Thread.currentThread()).setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
-    public synchronized char appraiseSit() {
-        return '\0';
+    public char appraiseSit(boolean[] partiesInOperation) {
+        boolean[] emptyRooms = ((MasterThief) Thread.currentThread()).getEmptyRooms();
+        boolean empty = true, inOperation = true;
+        for (boolean emptyRoom: emptyRooms) {
+            empty = empty && emptyRoom;
+        }
+        for (boolean partyInOperation: partiesInOperation) {
+            inOperation = inOperation && partyInOperation;
+        }
+        if (empty && !inOperation) {
+            return 'E';
+        }
+        return 'P';
     }
 
     public synchronized void takeARest() {
