@@ -8,7 +8,7 @@ import src.SharedRegions.GeneralRepository;
 import src.room.Room;
 
 
-public Museum implements MuseumInterface{
+public class Museum implements MuseumInterface{
 
     /**
      * Variable holding the General Repository shared region
@@ -26,12 +26,12 @@ public Museum implements MuseumInterface{
      */
     public Museum(GeneralRepositoryInterface repository){  //Não sei se é preciso passar o repositório para o Museum, dúvida se pode existir rooms com a mesma distância, considerei que não
         this.generalRepository = repository;
-        this.rooms = new Room[Constants.NUMBER_OF_ROOMS];
-
+        this.rooms = new Room[Constants.NUM_ROOMS];
+        Random random = new Random(System.currentTimeMillis());
         for(int i = 0; i < this.rooms.length; i++){
             boolean tryAgain = true;
-            int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1); //dúvida se adiciono o + 1, penso que sim
-            int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1); //dúvida se adiciono o + 1, penso que sim
+            int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1);
+            int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1);
 
             while(tryAgain){
 

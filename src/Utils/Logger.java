@@ -1,4 +1,4 @@
-package src.SharedRegions;
+package src.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;

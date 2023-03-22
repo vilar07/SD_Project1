@@ -9,7 +9,6 @@ import src.SharedRegions.GeneralRepository;
 import src.SharedRegions.CollectionSite;
 import src.SharedRegions.ConcentrationSite;
 import src.SharedRegions.Museum;
-import src.SharedRegions.CollectionSite;
 
 import src.Constants;
 /**

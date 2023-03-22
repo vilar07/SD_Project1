@@ -1,15 +1,44 @@
 package src.SharedRegions;
 
+import src.Constants;
 import src.Interfaces.GeneralRepositoryInterface;
+import src.Utils.AssaultPartyLogging;
+import src.Utils.Logger;
+import src.Utils.OrdinaryThiefLogging;
+import src.Utils.RoomLogging;
 
+/**
+ * General Repository where all information is stored and logging occurs
+ */
 public class GeneralRepository implements GeneralRepositoryInterface {
     /**
      * Logger that handles the writing of the internal state of the simulation to the logging file
      */
-    Logger logger;
+    private Logger logger;
+
+    private int masterThiefState;
+
+    private OrdinaryThiefLogging[] ordinaryThieves;
+
+    private AssaultPartyLogging[] assaultParties;
+
+    private RoomLogging[] rooms;
 
     public GeneralRepository() {
         logger = new Logger();
+        masterThiefState = 0;
+        ordinaryThieves = new OrdinaryThiefLogging[Constants.NUM_THIEVES - 1];
+        for (int i = 0; i < ordinaryThieves.length; i++) {
+            ordinaryThieves[i] = new OrdinaryThiefLogging(0, 'W', 0);
+        }
+        assaultParties = new AssaultPartyLogging[Constants.ASSAULT_PARTIES_NUMBER];
+        for (int i = 0; i < assaultParties.length; i++) {
+            assaultParties[i] = new AssaultPartyLogging(0, null);
+        }
+        rooms = new RoomLogging[Constants.NUM_ROOMS];
+        for (int i = 0; i < rooms.length; i++) {
+            rooms[i] = new RoomLogging(0, 0);
+        }
     }
     
     /**
@@ -31,8 +60,31 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      */
     public synchronized void printState() {
         StringBuilder stringBuilder = new StringBuilder(
-                         "####   #### #  #    #### #  #    #### #  #    #### #  #    #### #  #    #### #  #\n"
-                ).append("      #    #  ##  #   #  ##  #   #  ##  #   #   #   ##  #   #  ##  #   #  ##  #   ## ##   ## ##   ## ##   ## ##   ## ##\n");
+                 String.format("%4d   %4d %c  %d    %4d %c  %d    %4d %c  %d    %4d %c  %d    %4d %c  %d    %4d %c  %d\n",
+                        masterThiefState, 
+                        ordinaryThieves[0].getState(), ordinaryThieves[0].getSituation(), ordinaryThieves[0].getMaxDisplacement(),
+                        ordinaryThieves[1].getState(), ordinaryThieves[1].getSituation(), ordinaryThieves[1].getMaxDisplacement(),
+                        ordinaryThieves[2].getState(), ordinaryThieves[2].getSituation(), ordinaryThieves[2].getMaxDisplacement(),
+                        ordinaryThieves[3].getState(), ordinaryThieves[3].getSituation(), ordinaryThieves[3].getMaxDisplacement(),
+                        ordinaryThieves[4].getState(), ordinaryThieves[4].getSituation(), ordinaryThieves[4].getMaxDisplacement(),
+                        ordinaryThieves[5].getState(), ordinaryThieves[5].getSituation(), ordinaryThieves[5].getMaxDisplacement()
+                )
+        ).append(String.format("      %d    %d  %2d  %d   %d  %2d  %d   %d  %2d  %d   %d   %d   %2d  %d   %d  %2d  %d   %d  %2d  %d   %2d %2d   %2d %2d   %2d %2d   %2d %2d   %2d %2d\n",
+                        assaultParties[0].getRoom(), 
+                        assaultParties[0].getElems()[0].getID(), assaultParties[0].getElems()[0].getPos(), assaultParties[0].getElems()[0].getCv(),
+                        assaultParties[0].getElems()[1].getID(), assaultParties[0].getElems()[1].getPos(), assaultParties[0].getElems()[1].getCv(),
+                        assaultParties[0].getElems()[2].getID(), assaultParties[0].getElems()[2].getPos(), assaultParties[0].getElems()[2].getCv(),
+                        assaultParties[1].getRoom(), 
+                        assaultParties[1].getElems()[0].getID(), assaultParties[1].getElems()[0].getPos(), assaultParties[1].getElems()[0].getCv(),
+                        assaultParties[1].getElems()[1].getID(), assaultParties[1].getElems()[1].getPos(), assaultParties[1].getElems()[1].getCv(),
+                        assaultParties[1].getElems()[2].getID(), assaultParties[1].getElems()[2].getPos(), assaultParties[1].getElems()[2].getCv(),
+                        rooms[0].getPaintings(), rooms[0].getDistance(),
+                        rooms[1].getPaintings(), rooms[1].getDistance(),
+                        rooms[2].getPaintings(), rooms[2].getDistance(),
+                        rooms[3].getPaintings(), rooms[3].getDistance(),
+                        rooms[4].getPaintings(), rooms[4].getDistance()
+                )
+        );
         logger.print(stringBuilder.toString());
     }
 
