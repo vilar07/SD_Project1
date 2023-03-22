@@ -99,7 +99,7 @@ public class MasterThief extends Thread {
                 case 'P':
                 this.concentrationSite.prepareAssaultParty(null, this.collectionSite.getAssaultID(),
                         this.collectionSite.getRoomID());
-                assaultParties[this.collectionSite.getAssaultID()].sendAssaultParty();
+                this.assaultParties[this.collectionSite.getAssaultID()].sendAssaultParty();
                 break;
                 case 'R':
                 this.collectionSite.takeARest();
