@@ -11,6 +11,7 @@ import src.SharedRegions.ConcentrationSite;
 import src.SharedRegions.Museum;
 
 import src.Constants;
+
 /**
  * Concurrent version of the HeistToTheMuseum.
  * Runs on a single computer.
@@ -18,23 +19,20 @@ import src.Constants;
 public class HeistToTheMuseum
 {
     public static void main(String[] args){
-
         GeneralRepository repository = new GeneralRepository();
-        
-        AssaultParty[] assaultParties = new AssaultParty[Constants.ASSAULT_PARTIES_NUMBER];
-        CollectionSite CollectionSite = new ControlCollectionSite();
+        CollectionSite collectionSite = new CollectionSite();
         ConcentrationSite concentrationSite = new ConcentrationSite();
-        Museum museum = new Museum((GeneralRepositoryInterface) repository);//Não sei se é preciso passar o repositório para o Museum
-        OrdinaryThief ordinaryThieves[] = new OrdinaryThief[Constants.NUM_THIEVES - 1];
-
+        Museum museum = new Museum();
+        AssaultParty[] assaultParties = new AssaultParty[Constants.ASSAULT_PARTIES_NUMBER];
         for(int i=0;i<assaultParties.length;i++){
-            assaultParties[i] = new AssaultParty(i, (GeneralRepositoryInterface) repository); 
+            assaultParties[i] = new AssaultParty(i);
         }
 
-        MasterThief masterThief = new MasterThief((CollectionSiteInterface) controlCollectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, (GeneralRepositoryInterface) repository);
+        MasterThief masterThief = new MasterThief((CollectionSiteInterface) collectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, (GeneralRepositoryInterface) repository);
 
+        OrdinaryThief ordinaryThieves[] = new OrdinaryThief[Constants.NUM_THIEVES - 1];
         for(int i=0;i<ordinaryThieves.length;i++){
-            ordinaryThieves[i] = new OrdinaryThief(i, (MuseumInterface) museum, (CollectionSiteInterface) CollectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, (GeneralRepositoryInterface) repository);
+            ordinaryThieves[i] = new OrdinaryThief(i, (MuseumInterface) museum, (CollectionSiteInterface) collectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, (GeneralRepositoryInterface) repository);
         }
 
         masterThief.start();

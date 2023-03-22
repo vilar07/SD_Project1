@@ -9,23 +9,15 @@ import src.room.Room;
 
 
 public class Museum implements MuseumInterface{
-
     /**
-     * Variable holding the General Repository shared region
-     */
-    private final GeneralRepositoryInterface generalRepository;
-
-    /**
-     * Rooms inside the museum.
+     * Rooms inside the museum
      */
     private final Room[] rooms;
 
     /**
-     * Museum constructor, initializes rooms .
-     * @param Repository
+     * Museum constructor, initializes rooms
      */
-    public Museum(GeneralRepositoryInterface repository){  //Não sei se é preciso passar o repositório para o Museum, dúvida se pode existir rooms com a mesma distância, considerei que não
-        this.generalRepository = repository;
+    public Museum() {
         this.rooms = new Room[Constants.NUM_ROOMS];
         Random random = new Random(System.currentTimeMillis());
         for(int i = 0; i < this.rooms.length; i++){
