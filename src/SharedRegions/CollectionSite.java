@@ -36,17 +36,22 @@ public class CollectionSite implements CollectionSiteInterface {
         ((MasterThief) Thread.currentThread()).setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
-    public char appraiseSit(boolean[] partiesInOperation) {
+    public char appraiseSit(int[] assaultPartyRooms) {
         boolean[] emptyRooms = ((MasterThief) Thread.currentThread()).getEmptyRooms();
-        boolean empty = true, inOperation = true;
+        boolean empty = true;
+        int nEmptyRooms = 0;
         for (boolean emptyRoom: emptyRooms) {
             empty = empty && emptyRoom;
+            if (emptyRoom) {
+                nEmptyRooms++;
+            }
         }
-        for (boolean partyInOperation: partiesInOperation) {
-            inOperation = inOperation && partyInOperation;
-        }
-        if (empty && !inOperation) {
+        if (empty && assaultPartyRooms.length == 0) {
             return 'E';
+        }
+        if (assaultPartyRooms.length == Constants.ASSAULT_PARTIES_NUMBER || 
+                (assaultPartyRooms.length == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms[0]])) {
+            return 'W';
         }
         return 'P';
     }
