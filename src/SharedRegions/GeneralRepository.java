@@ -2,6 +2,7 @@ package src.SharedRegions;
 
 import src.Constants;
 import src.Interfaces.GeneralRepositoryInterface;
+import src.Utils.AssaultPartyElemLogging;
 import src.Utils.AssaultPartyLogging;
 import src.Utils.Logger;
 import src.Utils.OrdinaryThiefLogging;
@@ -33,7 +34,11 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         }
         assaultParties = new AssaultPartyLogging[Constants.ASSAULT_PARTIES_NUMBER];
         for (int i = 0; i < assaultParties.length; i++) {
-            assaultParties[i] = new AssaultPartyLogging(0, null);
+            AssaultPartyElemLogging[] elems = new AssaultPartyElemLogging[Constants.ASSAULT_PARTY_SIZE];
+            for (int j = 0; j < elems.length; j++) {
+                elems[j] = new AssaultPartyElemLogging(0, 0, 0);
+            }
+            assaultParties[i] = new AssaultPartyLogging(0, elems);
         }
         rooms = new RoomLogging[Constants.NUM_ROOMS];
         for (int i = 0; i < rooms.length; i++) {
@@ -111,12 +116,57 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     public void setMasterThiefState(int state) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setMasterThiefState'");
+        masterThiefState = state;
     }
 
-    public void setOrdinaryThiefStateAndAssaultPartyInfo(int state) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setOrdinaryThiefState'");
+    public void setOrdinaryThiefState(int id, int state, char situation, int maxDisplacement) {
+        ordinaryThieves[id].setState(state);
+        ordinaryThieves[id].setSituation(situation);
+        ordinaryThieves[id].setMaxDisplacement(maxDisplacement);
+    }
+
+    public void setOrdinaryThiefState(int id, int state) {
+        setOrdinaryThiefState(id, state, ordinaryThieves[id].getSituation(), ordinaryThieves[id].getMaxDisplacement());
+    }
+
+    public void setAssaultPartyRoom(int party, int room) {
+        assaultParties[party].setRoom(room + 1);
+    }
+
+    public void setAssaultPartyMember(int party, int thief, int pos, int cv) {
+        AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
+        int idx = 0;
+        for (int i = elems.length - 1; i >= 0; i--) {
+            if (elems[i].getID() == thief - 1) {
+                elems[i].setPos(pos);
+                elems[i].setCv(cv);
+                return;
+            }
+            if (elems[i].getID() == 0) {
+                idx = i;
+            }
+        }
+        elems[idx].setID(thief + 1);
+        elems[idx].setPos(pos);
+        elems[idx].setCv(cv);
+    }
+
+    public void disbandAssaultParty(int party) {
+        assaultParties[party].setRoom(0);
+        AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
+        for (int i = 0; i < elems.length; i++) {
+            elems[i].setID(0);
+            elems[i].setPos(0);
+            elems[i].setCv(0);
+        }
+    }
+
+    public void setRoomState(int id, int paintings, int distance) {
+        rooms[id].setPaintings(paintings);
+        rooms[id].setDistance(distance);
+    }
+
+    public void setRoomState(int id, int paintings) {
+        setRoomState(id, paintings, rooms[id].getDistance());
     }
 }
