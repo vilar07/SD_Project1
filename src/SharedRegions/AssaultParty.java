@@ -46,8 +46,9 @@ public class AssaultParty implements AssaultPartyInterface {
     }
 
     @Override
-    public void sendAssaultParty() {
+    public synchronized void sendAssaultParty() {
         ((MasterThief) Thread.currentThread()).setState(MasterThief.State.DECIDING_WHAT_TO_DO);
+        notifyAll();
     }
 
     @Override
@@ -171,5 +172,24 @@ public class AssaultParty implements AssaultPartyInterface {
      */
     public Room getRoom() {
         return room;
+    }
+
+    /**
+     * Setter for the room destination
+     * @param room the room identification
+     */
+    public void setRoomID(int room) {
+        this.room = new Room(room);
+    }
+
+    /**
+     * Sets the members of the Assault Party
+     * @param thieves array with the Ordinary Thieves
+     */
+    public void setMembers(OrdinaryThief[] thieves) {
+        this.thieves.clear();
+        for (OrdinaryThief thief: thieves) {
+            this.thieves.add(thief);
+        }
     }
 }

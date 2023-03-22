@@ -65,4 +65,13 @@ public class Museum implements MuseumInterface{
     public synchronized void reverseDirection(){
         
     }
+
+    /**
+     * Getter for a specific room of the Museum
+     * @param id the room identification
+     * @return the room
+     */
+    public Room getRoom(int id) {
+        return rooms[id];
+    }
 }

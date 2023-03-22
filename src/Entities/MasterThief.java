@@ -107,8 +107,7 @@ public class MasterThief extends Thread {
         while ((operation = this.collectionSite.appraiseSit(assaultParties)) != 'E') {
             switch (operation) {
                 case 'P':
-                this.concentrationSite.prepareAssaultParty(null, this.collectionSite.getAssaultID(),
-                        this.collectionSite.getRoomID());
+                concentrationSite.prepareAssaultParty(assaultParties[collectionSite.getNextAssaultPartyID()], getNextRoom());
                 this.assaultParties[this.collectionSite.getAssaultID()].sendAssaultParty();
                 break;
                 case 'R':
@@ -118,5 +117,18 @@ public class MasterThief extends Thread {
             }
         }
         this.concentrationSite.sumUpResults(this.collectionSite.getNumberOfCanvas());
+    }
+
+    /**
+     * Get next room that is not empty
+     * @return the room identification
+     */
+    private int getNextRoom() {
+        for (int i = 0; i < emptyRooms.length; i++) {
+            if (!emptyRooms[i]) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

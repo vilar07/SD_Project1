@@ -17,7 +17,7 @@ import src.Constants;
     /**
      * Room distance inside the museum.
      */
-    private final int distance;
+    private int distance;
 
     /**
      * Number of paintings currently inside the room.
@@ -36,6 +36,10 @@ import src.Constants;
         this.id = id;
         this.distance = distance;
         this.paintings = paintings;
+    }
+
+    public Room(int room) {
+        id = room;
     }
 
     /**

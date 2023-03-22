@@ -2,10 +2,8 @@ package src.SharedRegions;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import src.Constants;
 import src.Entities.MasterThief;
@@ -86,5 +84,13 @@ public class CollectionSite implements CollectionSiteInterface {
 
     public synchronized void handACanvas(boolean canvas) {
 
+    }
+
+    /**
+     * Get the number of the next Assault Party
+     * @return the Assault Party identification
+     */
+    public int getNextAssaultPartyID() {
+        return assaultParties.peek();
     }
 }

@@ -1,5 +1,7 @@
 package src.Interfaces;
 
+import src.room.Room;
+
 /**
  * The Museum has rooms inside of it. That rooms have paintings that can be stolen by the OrdinaryThiefs of the AssaultParty
  */
@@ -22,4 +24,10 @@ public interface MuseumInterface {
 
     void reverseDirection();
 
+    /**
+     * Getter for a specific room of the Museum
+     * @param id the room identification
+     * @return the room
+     */
+    public Room getRoom(int id);
 }

@@ -37,4 +37,10 @@ public interface CollectionSiteInterface {
      * @param canvas false if Ordinary Thief is empty-handed, true otherwise
      */
     public void handACanvas(boolean canvas);
+
+    /**
+     * Get the number of the next Assault Party
+     * @return the Assault Party identification
+     */
+    public int getNextAssaultPartyID();
 }
