@@ -35,6 +35,12 @@ public interface AssaultPartyInterface {
     public Room getRoom();
 
     /**
+     * Getter for the assault party identification
+     * @return the assault party number
+     */
+    public int getID();
+
+    /**
      * Setter for the room destination
      * @param room the room identification
      */
@@ -45,4 +51,11 @@ public interface AssaultPartyInterface {
      * @param thieves array with the Ordinary Thieves
      */
     public void setMembers(OrdinaryThief[] thieves);
+
+    /**
+     * Checks if given thief is in the Assault Party
+     * @param thief the Ordinary Thief
+     * @return true if they are part of the Assault Party, false otherwise
+     */
+    public boolean isMember(OrdinaryThief thief);
 }

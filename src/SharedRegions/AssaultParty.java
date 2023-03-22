@@ -27,6 +27,11 @@ public class AssaultParty implements AssaultPartyInterface {
     private Room room;
 
     /**
+     * Boolean value which is true if the Assault Party is operating or false if it is not
+     */
+    private boolean inOperation;
+
+    /**
      * Enumerate for the situation of the Ordinary Thief in the line, can be either front, mid or back
      */
     private enum Situation {
@@ -43,11 +48,13 @@ public class AssaultParty implements AssaultPartyInterface {
         this.id = id;
         thieves = new ArrayDeque<>(Constants.ASSAULT_PARTY_SIZE);
         room = null;
+        inOperation = false;
     }
 
     @Override
     public synchronized void sendAssaultParty() {
         ((MasterThief) Thread.currentThread()).setState(MasterThief.State.DECIDING_WHAT_TO_DO);
+        inOperation = true;
         notifyAll();
     }
 
@@ -175,6 +182,14 @@ public class AssaultParty implements AssaultPartyInterface {
     }
 
     /**
+     * Getter for the assault party identification
+     * @return the assault party number
+     */
+    public int getID() {
+        return id;
+    }
+
+    /**
      * Setter for the room destination
      * @param room the room identification
      */
@@ -191,5 +206,14 @@ public class AssaultParty implements AssaultPartyInterface {
         for (OrdinaryThief thief: thieves) {
             this.thieves.add(thief);
         }
+    }
+
+    /**
+     * Checks if given thief is in the Assault Party
+     * @param thief the Ordinary Thief
+     * @return true if they are part of the Assault Party, false otherwise
+     */
+    public boolean isMember(OrdinaryThief thief) {
+        return thieves.contains(thief);
     }
 }

@@ -63,7 +63,7 @@ public class OrdinaryThief extends Thread {
     /**
      * Enumerated reference type with the possible states of the Ordinary Thief lifecycle
      */
-    private enum State {
+    public enum State {
         CONCENTRATION_SITE (1000),
         COLLECTION_SITE (2000),
         CRAWLING_INWARDS (3000),
@@ -133,6 +133,14 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
+     * Getter for Assault Parties
+     * @return array with all Assault Parties
+     */
+    public AssaultPartyInterface[] getAssaultParties() {
+        return assaultParties;
+    }
+
+    /**
      * Setter for the state of the thief
      * Propagates information to the GeneralRepository
      * @param state the state
@@ -168,8 +176,7 @@ public class OrdinaryThief extends Thread {
      */
     @Override
     public void run() {
-        char operation;
-        while((operation=this.concentrationSite.amINeeded())!='E'){
+        while((this.concentrationSite.amINeeded())){
             int assaultPartyID = this.concentrationSite.prepareExcursion();
             while(this.assaultParties[assaultPartyID].crawlIn());  //funçao na interface AssaultParty está a receber id do thief (metemos?)
             this.museum.rollACanvas();

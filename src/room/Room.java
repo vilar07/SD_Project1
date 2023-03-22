@@ -67,6 +67,22 @@ import src.Constants;
     }
 
     /**
+     * Setter for the distance
+     * @param distance the distance of the room to the outside gathering site
+     */
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    /**
+     * Setter for the paintings
+     * @param paintings the number of paintings present in the room
+     */
+    public void setPaintings(int paintings) {
+        this.paintings = paintings;
+    }
+
+    /**
      * Remove a painting from the room.
      * @return True if there is still a painting and it is removed.
      */
