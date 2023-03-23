@@ -120,6 +120,10 @@ public class CollectionSite implements CollectionSiteInterface {
         masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
+    /**
+     * Called by the Ordinary Thief to hand a canvas to the Master Thief if they have any
+     * - Synchronization point between each busy-handed Ordinary Thief and the Master Thief
+     */
     public void handACanvas() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         if (thief.hasBusyHands()) {

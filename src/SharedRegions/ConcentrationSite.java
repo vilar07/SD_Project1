@@ -6,6 +6,7 @@ import java.util.Deque;
 import src.Constants;
 import src.Entities.MasterThief;
 import src.Entities.OrdinaryThief;
+import src.Entities.MasterThief.State;
 import src.Interfaces.AssaultPartyInterface;
 import src.Interfaces.ConcentrationSiteInterface;
 
@@ -65,8 +66,16 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         }
     }
 
-    public synchronized void sumUpResults(int paintings){
-
+    /**
+     * The Master Thief announces the end of operations
+     * and shares the number of paintings acquired in the heist
+     * @param paintings the number of paintings
+     */
+    public void sumUpResults(int paintings) {
+        MasterThief masterThief = (MasterThief) Thread.currentThread();
+        finished = true;
+        masterThief.setState(MasterThief.State.PRESENTING_THE_REPORT);
+        masterThief.getGeneralRepository().printTail(paintings);
     }
 
     public synchronized boolean amINeeded() {

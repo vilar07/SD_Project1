@@ -133,7 +133,7 @@ public class MasterThief extends Thread {
                 break;
             }
         }
-        this.concentrationSite.sumUpResults(this.collectionSite.getPaintings());
+        concentrationSite.sumUpResults(this.collectionSite.getPaintings());
     }
 
     /**

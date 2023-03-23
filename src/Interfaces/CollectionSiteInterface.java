@@ -35,11 +35,10 @@ public interface CollectionSiteInterface {
     public void collectACanvas();
 
     /**
-     * Called by Ordinary Thief to hand out a canvas to Master Thief
-     * - Synchronization point between Ordinary Thief and Master Thief
-     * @param canvas false if Ordinary Thief is empty-handed, true otherwise
+     * Called by the Ordinary Thief to hand a canvas to the Master Thief if they have any
+     * - Synchronization point between each busy-handed Ordinary Thief and the Master Thief
      */
-    public void handACanvas(boolean canvas);
+    public void handACanvas();
 
     /**
      * Get the number of the next Assault Party and remove it from the queue

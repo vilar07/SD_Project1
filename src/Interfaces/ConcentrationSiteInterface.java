@@ -17,9 +17,9 @@ public interface ConcentrationSiteInterface {
     public void prepareAssaultParty(AssaultPartyInterface assaultParty, int room);
 
     /**
-     * Called by the master thief to signal the end of the heist
-     * - Synchronization point between Master Thief and all Ordinary Thieves
-     * @param paintings number of paintings acquired in the heist
+     * The Master Thief announces the end of operations
+     * and shares the number of paintings acquired in the heist
+     * @param paintings the number of paintings
      */
     public void sumUpResults(int paintings);
 
