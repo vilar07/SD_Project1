@@ -34,6 +34,14 @@ public class CollectionSite implements CollectionSiteInterface {
     }
 
     /**
+     * Getter for the number of paintings acquired
+     * @return the number of paintings
+     */
+    public int getPaintings() {
+        return paintings;
+    }
+
+    /**
     * This is the first state change in the MasterThief life cycle it changes the MasterThief state to deciding what to do. 
     */
     public void startOperations() {
@@ -78,6 +86,7 @@ public class CollectionSite implements CollectionSiteInterface {
      * Master Thief waits while there are still Assault Parties in operation
      */
     public synchronized void takeARest() {
+        ((MasterThief) Thread.currentThread()).setState(MasterThief.State.WAITING_FOR_ARRIVAL);
         while (assaultParties.size() != Constants.ASSAULT_PARTIES_NUMBER) {
             try {
                 wait();

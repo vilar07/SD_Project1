@@ -4,6 +4,11 @@ package src.Interfaces;
  * Collection Site where Master Thief plans and paintings are stored
  */
 public interface CollectionSiteInterface {
+    /**
+     * Getter for the number of paintings acquired
+     * @return the number of paintings
+     */
+    public int getPaintings();
     
     /**
      * Called by Master Thief to initiate operations

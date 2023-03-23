@@ -125,7 +125,7 @@ public class MasterThief extends Thread {
                 break;
             }
         }
-        this.concentrationSite.sumUpResults(this.collectionSite.getNumberOfCanvas());
+        this.concentrationSite.sumUpResults(this.collectionSite.getPaintings());
     }
 
     /**
