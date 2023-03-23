@@ -212,6 +212,19 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
+     * Returns the Assault Party the Ordinary Thief is a part of
+     * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
+     */
+    public int getAssaultParty() {
+        for (AssaultPartyInterface assaultParty: assaultParties) {
+            if (assaultParty.isMember(this)) {
+                return assaultParty.getID();
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Getter for the situation of the thief
      * @return 'W' if waiting or 'P' if in party
      */

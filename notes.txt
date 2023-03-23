@@ -4,3 +4,6 @@ dar clear aos membros da party depois do crawlOut
 
 CollectionSite:
 adicionar uma party ao FIFO no final do crawlOut?
+
+-----
+Mudar a perceçao da ladra acerca das salas
