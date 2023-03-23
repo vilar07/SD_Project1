@@ -92,10 +92,15 @@ public class AssaultParty implements AssaultPartyInterface {
                 }
                 break;
                 if (!canICrawl) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-
+                    thieves.remove(thief);
+                    thieves.add(thief);
+                    notifyAll();
+                    while (!thieves.getFirst().equals(thief)) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+    
+                        }
                     }
                 }
             }
@@ -155,7 +160,7 @@ public class AssaultParty implements AssaultPartyInterface {
             return false;
         }
         int frontSeparation = Math.abs(frontThief.getPosition() - thief.getPosition());
-        int nextPosition = thief.getPosition() + Math.min(Constants.MAX_THIEF_SEPARATION - backSeparation, thief.getMaxDisplacement())
+        int nextPosition = thief.getPosition() + Math.min(Constants.MAX_THIEF_SEPARATION - backSeparation, thief.getMaxDisplacement());
         if (nextPosition <= room.getDistance() && nextPosition != thief.getPosition() + frontSeparation) {
             return true;
         }
@@ -176,6 +181,14 @@ public class AssaultParty implements AssaultPartyInterface {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Updates the position of the Ordinary Thief
+     */
+    private void crawlFront() {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        
     }
 
     /**
