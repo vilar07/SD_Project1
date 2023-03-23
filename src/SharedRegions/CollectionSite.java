@@ -74,8 +74,17 @@ public class CollectionSite implements CollectionSiteInterface {
         return 'P';
     }
 
+    /**
+     * Master Thief waits while there are still Assault Parties in operation
+     */
     public synchronized void takeARest() {
+        while (assaultParties.size() != Constants.ASSAULT_PARTIES_NUMBER) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
 
+            }
+        }
     }
 
     public synchronized boolean collectACanvas(int thief) {

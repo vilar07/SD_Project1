@@ -19,7 +19,7 @@ public interface CollectionSiteInterface {
     public char appraiseSit(AssaultPartyInterface[] assaultPartyInterfaces);
 
     /**
-     * Called by Master Thief. Waits for Assault Party return.
+     * Master Thief waits while there are still Assault Parties in operation
      */
     public void takeARest();
 

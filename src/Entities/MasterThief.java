@@ -120,8 +120,8 @@ public class MasterThief extends Thread {
                 assaultParties[assaultPartyID].sendAssaultParty();
                 break;
                 case 'R':
-                this.collectionSite.takeARest();
-                this.collectionSite.collectACanvas();
+                collectionSite.takeARest();
+                collectionSite.collectACanvas();
                 break;
             }
         }
