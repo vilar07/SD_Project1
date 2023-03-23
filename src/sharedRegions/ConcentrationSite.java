@@ -86,7 +86,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         thieves.add(thief);
         notifyAll();
         thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
-        thief.setDirectionIn(true);
         while (thieves.contains(thief)) {
             try {
                 wait();

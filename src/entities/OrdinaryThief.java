@@ -36,11 +36,6 @@ public class OrdinaryThief extends Thread {
     private int position;
 
     /**
-     * Boolean value that is true if going into the museum or false if going in the opposite direction
-     */
-    private boolean directionIn;
-
-    /**
      * Array holding the Assault Parties shared regions
      */
     private final AssaultPartyInterface[] assaultParties;
@@ -112,7 +107,6 @@ public class OrdinaryThief extends Thread {
                 + Constants.MIN_THIEF_DISPLACEMENT;
         busyHands = false;
         position = 0;
-        directionIn = true;
     }
 
     /**
@@ -145,14 +139,6 @@ public class OrdinaryThief extends Thread {
      */
     public int getPosition() {
         return position;
-    }
-
-    /**
-     * Getter for the direction of the Ordinary Thief
-     * @return true if going in, false if going out
-     */
-    public boolean getDirectionIn() {
-        return directionIn;
     }
 
     /**
@@ -222,14 +208,6 @@ public class OrdinaryThief extends Thread {
     public void setBusyHands(int party, boolean busyHands) {
         this.busyHands = busyHands;
         generalRepository.setAssaultPartyMember(party, id, position, busyHands ? 1 : 0);
-    }
-
-    /**
-     * Setter for the direction of the Ordinary Thief
-     * @param directionIn true if going in, false if going out
-     */
-    public void setDirectionIn(boolean directionIn) {
-        this.directionIn = directionIn;
     }
 
     /**

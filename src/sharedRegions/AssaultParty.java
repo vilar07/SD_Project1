@@ -111,18 +111,15 @@ public class AssaultParty implements AssaultPartyInterface {
      */
     public synchronized void reverseDirection() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        if (thief.getDirectionIn()) {
-            thief.setDirectionIn(false);
-            notifyAll();
-        }
-        while (!this.goingOut()) {
+        thieves.add(thief);
+        notifyAll();
+        while (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
             try {
                 wait();
             } catch (InterruptedException e) {
 
             }
         }
-        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
     }
 
     /**
