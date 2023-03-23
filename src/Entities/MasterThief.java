@@ -110,13 +110,14 @@ public class MasterThief extends Thread {
      */
     @Override
     public void run() {
+        collectionSite.startOperations();
         char operation;
-        this.collectionSite.startOperations();
-        while ((operation = this.collectionSite.appraiseSit(assaultParties)) != 'E') {
+        while ((operation = collectionSite.appraiseSit(assaultParties)) != 'E') {
             switch (operation) {
                 case 'P':
-                concentrationSite.prepareAssaultParty(assaultParties[collectionSite.getNextAssaultPartyID()], getNextRoom());
-                this.assaultParties[this.collectionSite.getAssaultID()].sendAssaultParty();
+                int assaultPartyID = collectionSite.getNextAssaultPartyID();
+                concentrationSite.prepareAssaultParty(assaultParties[assaultPartyID], getNextRoom());
+                assaultParties[assaultPartyID].sendAssaultParty();
                 break;
                 case 'R':
                 this.collectionSite.takeARest();

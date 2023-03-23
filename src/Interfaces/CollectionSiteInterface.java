@@ -39,7 +39,7 @@ public interface CollectionSiteInterface {
     public void handACanvas(boolean canvas);
 
     /**
-     * Get the number of the next Assault Party
+     * Get the number of the next Assault Party and remove it from the queue
      * @return the Assault Party identification
      */
     public int getNextAssaultPartyID();
