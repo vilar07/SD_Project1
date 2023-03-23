@@ -1,20 +1,16 @@
 package src.entities;
 
-import java.util.Arrays;
-
 import src.Constants;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
-import src.room.Room;
-import src.sharedRegions.GeneralRepository;
 
 public class MasterThief extends Thread {
     /**
      * Current state of the Master Thief
      */
-    private State state;
+    private MasterThief.State state;
 
     /**
      * Perception of the Master Thief about what rooms are empty

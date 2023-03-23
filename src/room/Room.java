@@ -6,10 +6,7 @@ import src.interfaces.GeneralRepositoryInterface;
 /**
  * Rooms contains paintings that can be stolen by the Thieves attacking the museum.
  */
-
  public class Room {
-
-
     /**
      * Room identification.
      */
@@ -24,7 +21,7 @@ import src.interfaces.GeneralRepositoryInterface;
      * Number of paintings currently inside the room.
      * This value is decreased every time a thief takes a painting from the room.
      */
-    protected int paintings;
+    private int paintings;
 
     /**
      * Room constructor, the room stores its own position and the mumber of paintings inside.

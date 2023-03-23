@@ -8,7 +8,7 @@ import src.interfaces.MuseumInterface;
 import src.room.Room;
 
 
-public class Museum implements MuseumInterface{
+public class Museum implements MuseumInterface {
     /**
      * Rooms inside the museum
      */
@@ -26,12 +26,13 @@ public class Museum implements MuseumInterface{
     public Museum(GeneralRepositoryInterface generalRepository) {
         this.rooms = new Room[Constants.NUM_ROOMS];
         this.generalRepository = generalRepository;
+        generalRepository.printHead();
         Random random = new Random(System.currentTimeMillis());
         for(int i = 0; i < this.rooms.length; i++){
             int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1);
             int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1);
             this.rooms[i] = new Room(i, distance, paintings);
-            this.generalRepository.setRoomState(i, paintings, distance);
+            generalRepository.setRoomState(i, paintings, distance);
         }
     }
 
