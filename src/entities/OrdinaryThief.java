@@ -172,6 +172,27 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
+     * Getter for the Collection Site
+     * @return the Collection Site
+     */
+    public CollectionSiteInterface getCollectionSite() {
+        return collectionSite;
+    }
+
+    /**
+     * Returns the Assault Party the Ordinary Thief is a part of
+     * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
+     */
+    public int getAssaultParty() {
+        for (AssaultPartyInterface assaultParty: assaultParties) {
+            if (assaultParty.isMember(this)) {
+                return assaultParty.getID();
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Setter for the state of the thief
      * Propagates information to the GeneralRepository
      * @param state the state
@@ -209,19 +230,6 @@ public class OrdinaryThief extends Thread {
      */
     public void setDirectionIn(boolean directionIn) {
         this.directionIn = directionIn;
-    }
-
-    /**
-     * Returns the Assault Party the Ordinary Thief is a part of
-     * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
-     */
-    public int getAssaultParty() {
-        for (AssaultPartyInterface assaultParty: assaultParties) {
-            if (assaultParty.isMember(this)) {
-                return assaultParty.getID();
-            }
-        }
-        return -1;
     }
 
     /**

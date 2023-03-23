@@ -64,27 +64,6 @@ public class AssaultParty implements AssaultPartyInterface {
     }
 
     /**
-     * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
-     * so that the Assault Party can crawl out
-     * - Synchronization Point between members of the Assault Party
-     */
-    public synchronized void reverseDirection() {
-        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        if (thief.getDirectionIn()) {
-            thief.setDirectionIn(false);
-            notifyAll();
-        }
-        while (!this.goingOut()) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-
-            }
-        }
-        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
-    }
-
-    /**
      * Called by the Ordinary Thief to crawl in
      * @return false if they have finished the crawling
      */
@@ -121,7 +100,30 @@ public class AssaultParty implements AssaultPartyInterface {
                 }
             }
         } while (thief.getPosition() < room.getDistance());
+        thieves.remove(thief);
         return false;
+    }
+
+    /**
+     * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
+     * so that the Assault Party can crawl out
+     * - Synchronization Point between members of the Assault Party
+     */
+    public synchronized void reverseDirection() {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        if (thief.getDirectionIn()) {
+            thief.setDirectionIn(false);
+            notifyAll();
+        }
+        while (!this.goingOut()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+
+            }
+        }
+        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
+        thieves.add(thief);
     }
 
     /**
@@ -162,6 +164,12 @@ public class AssaultParty implements AssaultPartyInterface {
                 }
             }
         } while (thief.getPosition() > 0);
+        thieves.remove(thief);
+        if (thieves.isEmpty()) {
+            inOperation = false;
+            thief.getGeneralRepository().disbandAssaultParty(id);
+            thief.getCollectionSite().addAssaultParty(id);
+        }
         return false;
     }
     
@@ -183,10 +191,10 @@ public class AssaultParty implements AssaultPartyInterface {
                 higher++;
             }
         }
-        if (higher == 2) {
+        if (higher == thieves.size() - 1) {
             return Situation.FRONT;
         }
-        if (lower == 2) {
+        if (lower == thieves.size() - 1) {
             return Situation.BACK;
         }
         return Situation.MID;
@@ -210,10 +218,10 @@ public class AssaultParty implements AssaultPartyInterface {
                 higher++;
             }
         }
-        if (higher == 2) {
+        if (higher == thieves.size() - 1) {
             return Situation.BACK;
         }
-        if (lower == 2) {
+        if (lower == thieves.size() - 1) {
             return Situation.FRONT;
         }
         return Situation.MID;

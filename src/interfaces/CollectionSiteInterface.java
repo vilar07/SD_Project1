@@ -45,4 +45,11 @@ public interface CollectionSiteInterface {
      * @return the Assault Party identification
      */
     public int getNextAssaultPartyID();
+
+    /**
+     * Adds an Assault Party to the end of the FIFO
+     * Called by the last member of the party to crawl out
+     * @param party the Assault Party identification
+     */
+    public void addAssaultParty(int party);
 }

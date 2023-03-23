@@ -1,9 +1,9 @@
 AssaultParty:
-inOperation a false depois do crawlOut
-dar clear aos membros da party depois do crawlOut
+inOperation a false depois do crawlOut - done
+dar clear aos membros da party depois do crawlOut - done
 
 CollectionSite:
-adicionar uma party ao FIFO no final do crawlOut?
+adicionar uma party ao FIFO no final do crawlOut - done
 
 -----
-Mudar a perceçao da ladra acerca das salas
+Mudar a perceçao da ladra acerca das paintings

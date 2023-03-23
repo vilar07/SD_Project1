@@ -154,4 +154,13 @@ public class CollectionSite implements CollectionSiteInterface {
     public int getNextAssaultPartyID() {
         return assaultParties.poll();
     }
+
+    /**
+     * Adds an Assault Party to the end of the FIFO
+     * Called by the last member of the party to crawl out
+     * @param party the Assault Party identification
+     */
+    public void addAssaultParty(int party) {
+        assaultParties.add(party);
+    }
 }

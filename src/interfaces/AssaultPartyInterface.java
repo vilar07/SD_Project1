@@ -16,17 +16,17 @@ public interface AssaultPartyInterface {
     public void sendAssaultParty();
 
     /**
+     * Called by the Ordinary Thief to crawl in
+     * @return false if they have finished the crawling
+     */
+    public boolean crawlIn();
+
+    /**
      * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
      * so that the Assault Party can crawl out
      * - Synchronization Point between members of the Assault Party
      */
     public void reverseDirection();
-
-    /**
-     * Called by the Ordinary Thief to crawl in
-     * @return false if they have finished the crawling
-     */
-    public boolean crawlIn();
 
     /**
      * Called by the Ordinary Thief to crawl out
