@@ -1,13 +1,13 @@
-package src.Entities;
+package src.entities;
 
 import java.util.Random;
 
 import src.Constants;
-import src.Interfaces.ConcentrationSiteInterface;
-import src.Interfaces.GeneralRepositoryInterface;
-import src.Interfaces.MuseumInterface;
-import src.Interfaces.AssaultPartyInterface;
-import src.Interfaces.CollectionSiteInterface;
+import src.interfaces.AssaultPartyInterface;
+import src.interfaces.CollectionSiteInterface;
+import src.interfaces.ConcentrationSiteInterface;
+import src.interfaces.GeneralRepositoryInterface;
+import src.interfaces.MuseumInterface;
 
 public class OrdinaryThief extends Thread {
     /**

@@ -1,4 +1,4 @@
-package src.Interfaces;
+package src.interfaces;
 
 import src.room.Room;
 

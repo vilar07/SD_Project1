@@ -1,7 +1,7 @@
 package src.room;
 
 import src.Constants;
-import src.Interfaces.GeneralRepositoryInterface;
+import src.interfaces.GeneralRepositoryInterface;
 
 /**
  * Rooms contains paintings that can be stolen by the Thieves attacking the museum.

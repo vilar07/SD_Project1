@@ -1,6 +1,6 @@
-package src.Interfaces;
+package src.interfaces;
 
-import src.Entities.OrdinaryThief;
+import src.entities.OrdinaryThief;
 import src.room.Room;
 
 /**
@@ -50,7 +50,7 @@ public interface AssaultPartyInterface {
      * Setter for the room destination
      * @param room the room identification
      */
-    public void setRoomID(int room);
+    public void setRoomID(int room, GeneralRepositoryInterface generalRepository);
 
     /**
      * Sets the members of the Assault Party

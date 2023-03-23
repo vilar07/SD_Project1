@@ -1,4 +1,4 @@
-package src.Interfaces;
+package src.interfaces;
 
 /**
  * Collection Site where Master Thief plans and paintings are stored

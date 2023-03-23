@@ -1,12 +1,12 @@
-package src.SharedRegions;
+package src.sharedRegions;
 
 import src.Constants;
-import src.Interfaces.GeneralRepositoryInterface;
-import src.Utils.AssaultPartyElemLogging;
-import src.Utils.AssaultPartyLogging;
-import src.Utils.Logger;
-import src.Utils.OrdinaryThiefLogging;
-import src.Utils.RoomLogging;
+import src.interfaces.GeneralRepositoryInterface;
+import src.utils.AssaultPartyElemLogging;
+import src.utils.AssaultPartyLogging;
+import src.utils.Logger;
+import src.utils.OrdinaryThiefLogging;
+import src.utils.RoomLogging;
 
 /**
  * General Repository where all information is stored and logging occurs

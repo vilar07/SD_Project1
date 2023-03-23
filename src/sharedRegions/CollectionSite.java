@@ -1,4 +1,4 @@
-package src.SharedRegions;
+package src.sharedRegions;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -6,10 +6,10 @@ import java.util.Deque;
 import java.util.List;
 
 import src.Constants;
-import src.Entities.MasterThief;
-import src.Entities.OrdinaryThief;
-import src.Interfaces.AssaultPartyInterface;
-import src.Interfaces.CollectionSiteInterface;
+import src.entities.MasterThief;
+import src.entities.OrdinaryThief;
+import src.interfaces.AssaultPartyInterface;
+import src.interfaces.CollectionSiteInterface;
 import src.room.Room;
 
 public class CollectionSite implements CollectionSiteInterface {

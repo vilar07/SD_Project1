@@ -1,10 +1,10 @@
-package src.SharedRegions;
+package src.sharedRegions;
 
 import java.util.Random;
 import src.Constants;
-import src.Entities.OrdinaryThief;
-import src.Interfaces.GeneralRepositoryInterface;
-import src.Interfaces.MuseumInterface;
+import src.entities.OrdinaryThief;
+import src.interfaces.GeneralRepositoryInterface;
+import src.interfaces.MuseumInterface;
 import src.room.Room;
 
 

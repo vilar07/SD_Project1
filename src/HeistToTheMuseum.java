@@ -1,16 +1,15 @@
 package src;
 
-import src.Interfaces.AssaultPartyInterface;
-import src.Interfaces.ConcentrationSiteInterface;
-import src.Interfaces.CollectionSiteInterface;
-import src.Interfaces.MuseumInterface;
-import src.Interfaces.GeneralRepositoryInterface;
-import src.SharedRegions.GeneralRepository;
-import src.SharedRegions.CollectionSite;
-import src.SharedRegions.ConcentrationSite;
-import src.SharedRegions.Museum;
-
+import src.sharedRegions.CollectionSite;
+import src.sharedRegions.ConcentrationSite;
+import src.sharedRegions.GeneralRepository;
+import src.sharedRegions.Museum;
 import src.Constants;
+import src.interfaces.AssaultPartyInterface;
+import src.interfaces.CollectionSiteInterface;
+import src.interfaces.ConcentrationSiteInterface;
+import src.interfaces.GeneralRepositoryInterface;
+import src.interfaces.MuseumInterface;
 
 /**
  * Concurrent version of the HeistToTheMuseum.

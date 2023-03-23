@@ -1,6 +1,6 @@
 package tests;
 
-import src.SharedRegions.GeneralRepository;
+import src.sharedRegions.GeneralRepository;
 
 public class TestGeneralRepository {
     public static void main(String[] args) {

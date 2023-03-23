@@ -1,14 +1,14 @@
-package src.SharedRegions;
+package src.sharedRegions;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 import src.Constants;
-import src.Entities.MasterThief;
-import src.Entities.OrdinaryThief;
-import src.Entities.MasterThief.State;
-import src.Interfaces.AssaultPartyInterface;
-import src.Interfaces.ConcentrationSiteInterface;
+import src.entities.MasterThief;
+import src.entities.OrdinaryThief;
+import src.entities.MasterThief.State;
+import src.interfaces.AssaultPartyInterface;
+import src.interfaces.ConcentrationSiteInterface;
 
 public class ConcentrationSite implements ConcentrationSiteInterface {
     /**
@@ -82,10 +82,11 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         if (finished) {
             return false;
         }
-        OrdinaryThief thief = ((OrdinaryThief) Thread.currentThread());
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thieves.add(thief);
         notifyAll();
         thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
+        thief.setDirectionIn(true);
         while (thieves.contains(thief)) {
             try {
                 wait();

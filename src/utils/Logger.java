@@ -1,10 +1,10 @@
-package src.Utils;
+package src.utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import src.Interfaces.LoggerInterface;
+import src.interfaces.LoggerInterface;
 
 /**
  * Logger responsible for generating and filling the logging file of the simulation

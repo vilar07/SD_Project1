@@ -1,14 +1,14 @@
-package src.Entities;
+package src.entities;
 
 import java.util.Arrays;
 
 import src.Constants;
-import src.Interfaces.ConcentrationSiteInterface;
-import src.Interfaces.GeneralRepositoryInterface;
-import src.SharedRegions.GeneralRepository;
+import src.interfaces.AssaultPartyInterface;
+import src.interfaces.CollectionSiteInterface;
+import src.interfaces.ConcentrationSiteInterface;
+import src.interfaces.GeneralRepositoryInterface;
 import src.room.Room;
-import src.Interfaces.AssaultPartyInterface;
-import src.Interfaces.CollectionSiteInterface;
+import src.sharedRegions.GeneralRepository;
 
 public class MasterThief extends Thread {
     /**

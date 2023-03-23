@@ -1,0 +1,4 @@
+AssaultParty:
+inOperation a false depois do crawlOut
+dar clear aos membros da party depois do crawlOut
+

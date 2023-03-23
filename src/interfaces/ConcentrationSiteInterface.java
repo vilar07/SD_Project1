@@ -1,4 +1,4 @@
-package src.Interfaces;
+package src.interfaces;
 
 /**
  * Concentration Site where ordinary thieves wait for orders

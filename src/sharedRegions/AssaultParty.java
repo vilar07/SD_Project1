@@ -1,4 +1,4 @@
-package src.SharedRegions;
+package src.sharedRegions;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

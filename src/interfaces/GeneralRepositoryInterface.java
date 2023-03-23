@@ -1,4 +1,4 @@
-package src.Interfaces;
+package src.interfaces;
 
 /**
  * General Repository where all information is stored and logging occurs

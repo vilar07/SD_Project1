@@ -1,4 +1,4 @@
-package src.Utils;
+package src.utils;
 
 /**
  * Util class used in GeneralRepository to represent the rooms, their number of paintings
