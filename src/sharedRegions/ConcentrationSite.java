@@ -108,7 +108,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         synchronized (assaultParty) {
             while (!assaultParty.isInOperation()) {
                 try {
-                    wait();
+                    assaultParty.wait();
                 } catch (InterruptedException e) {
 
                 }

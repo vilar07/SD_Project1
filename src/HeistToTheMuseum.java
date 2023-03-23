@@ -1,10 +1,13 @@
 package src;
 
+import src.sharedRegions.AssaultParty;
 import src.sharedRegions.CollectionSite;
 import src.sharedRegions.ConcentrationSite;
 import src.sharedRegions.GeneralRepository;
 import src.sharedRegions.Museum;
 import src.Constants;
+import src.entities.MasterThief;
+import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
 import src.interfaces.ConcentrationSiteInterface;
