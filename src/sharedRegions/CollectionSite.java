@@ -26,7 +26,7 @@ public class CollectionSite implements CollectionSiteInterface {
     /**
      * FIFO of the Ordinary Thieves with canvas
      */
-    private final Deque<Integer> thievesWithCanvas;
+    private final Deque<OrdinaryThief> arrivingThieves;
 
     /**
      * CollectionSite constructor
@@ -37,7 +37,7 @@ public class CollectionSite implements CollectionSiteInterface {
         for (int i = 0; i < Constants.ASSAULT_PARTIES_NUMBER; i++) {
             assaultParties.add(i);
         }
-        thievesWithCanvas = new ArrayDeque<>();
+        arrivingThieves = new ArrayDeque<>();
     }
 
     /**
@@ -104,10 +104,11 @@ public class CollectionSite implements CollectionSiteInterface {
     }
 
     /**
-     * Collects all available canvas
+     * Called by the Master Thief to collect all available canvas
      */
     public synchronized void collectACanvas() {
-        while (thievesWithCanvas.isEmpty()) {
+        List<Integer> arrivingParties;
+        while (!((arrivingParties = getArrivingParties()).isEmpty())) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -115,10 +116,15 @@ public class CollectionSite implements CollectionSiteInterface {
             }
         }
         MasterThief masterThief = (MasterThief) Thread.currentThread();
-        for (int thiefWithCanvas: thievesWithCanvas) {
-            thievesWithCanvas.poll();
-            paintings++;
-            notifyAll();
+        for (OrdinaryThief arrivingThief: arrivingThieves) {
+            if (arrivingParties.contains(arrivingThief.getAssaultParty())) {
+                arrivingThieves.remove(arrivingThief);
+                if (arrivingThief.hasBusyHands()) {
+                    paintings++;
+                    arrivingThief.setBusyHands(arrivingThief.getAssaultParty(), false);
+                }
+                notifyAll();
+            }
         }
         masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
@@ -127,24 +133,18 @@ public class CollectionSite implements CollectionSiteInterface {
      * Called by the Ordinary Thief to hand a canvas to the Master Thief if they have any
      * - Synchronization point between each busy-handed Ordinary Thief and the Master Thief
      */
-    public void handACanvas() {
+    public synchronized void handACanvas() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        if (thief.hasBusyHands()) {
-            synchronized (this) {
-                thievesWithCanvas.add(thief.getID());
-                notifyAll();
-            }
-        }
-        synchronized (this) {
-            while (thievesWithCanvas.contains(thief.getID())) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-    
-                }
-            }
-        }
         thief.setState(OrdinaryThief.State.COLLECTION_SITE);
+        arrivingThieves.add(thief);
+        notifyAll();
+        while (arrivingThieves.contains(thief)) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+
+            }
+        }
     }
 
     /**
@@ -162,5 +162,29 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     public void addAssaultParty(int party) {
         assaultParties.add(party);
+    }
+
+    /**
+     * Returns a list with the identification of the arriving Assault Parties
+     * @return an array with the identification of the arriving parties or null if none
+     */
+    private List<Integer> getArrivingParties() {
+        if (arrivingThieves.size() < Constants.ASSAULT_PARTY_SIZE) {
+            return null;
+        }
+        int[] tmp = new int[Constants.ASSAULT_PARTIES_NUMBER];
+        for (int i = 0; i < tmp.length; i++) {
+            tmp[i] = 0;
+        }
+        for (OrdinaryThief arrivingThief: arrivingThieves) {
+            tmp[arrivingThief.getAssaultParty()]++;
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < tmp.length; i++) {
+            if (tmp[i] == Constants.ASSAULT_PARTY_SIZE) {
+                res.add(i);
+            }
+        }
+        return res;
     }
 }
