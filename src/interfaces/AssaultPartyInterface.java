@@ -9,7 +9,6 @@ import src.room.Room;
  */
 
 public interface AssaultPartyInterface {
-
     /**
      * Called by the Master Thief to send the Assault Party to the museum
      * After that call, Assault Party can start crawling
@@ -17,18 +16,23 @@ public interface AssaultPartyInterface {
     public void sendAssaultParty();
 
     /**
+     * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
+     * so that the Assault Party can crawl out
+     * - Synchronization Point between members of the Assault Party
+     */
+    public void reverseDirection();
+
+    /**
      * Called by the Ordinary Thief to crawl in
-     * @param party the Assault Party
      * @return false if they have finished the crawling
      */
-    public boolean crawlIn(int party);
+    public boolean crawlIn();
 
     /**
      * Called by the Ordinary Thief to crawl out
-     * @param party the Assault Party
      * @return false if they have finished the crawling
      */
-    public boolean crawlOut(int party);
+    public boolean crawlOut();
 
     /**
      * Getter for the room destination

@@ -15,14 +15,6 @@ public interface MuseumInterface {
     public boolean rollACanvas(int id);
 
     /**
-     * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas, 
-     * so that the assaultParty can crawl out
-     * - Synchronization Point between members of the Assault Party
-     * @param party the Assault Party
-     */
-    public void reverseDirection(int party);
-
-    /**
      * Getter for a specific room of the Museum
      * @param id the room identification
      * @return the room

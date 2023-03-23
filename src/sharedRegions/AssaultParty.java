@@ -64,12 +64,32 @@ public class AssaultParty implements AssaultPartyInterface {
     }
 
     /**
+     * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
+     * so that the Assault Party can crawl out
+     * - Synchronization Point between members of the Assault Party
+     */
+    public synchronized void reverseDirection() {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        if (thief.getDirectionIn()) {
+            thief.setDirectionIn(false);
+            notifyAll();
+        }
+        while (!this.goingOut()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+
+            }
+        }
+        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
+    }
+
+    /**
      * Called by the Ordinary Thief to crawl in
-     * @param party the Assault Party
      * @return false if they have finished the crawling
      */
     @Override
-    public synchronized boolean crawlIn(int party) {
+    public synchronized boolean crawlIn() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         do {
@@ -87,7 +107,7 @@ public class AssaultParty implements AssaultPartyInterface {
                 break;
             }
             if (movement > 0) {
-                thief.setPosition(party, thief.getPosition() + movement);
+                thief.setPosition(this.id, thief.getPosition() + movement);
             } else {
                 thieves.remove(thief);
                 thieves.add(thief);
@@ -110,7 +130,7 @@ public class AssaultParty implements AssaultPartyInterface {
      * @return false if they have finished the crawling
      */
     @Override
-    public synchronized boolean crawlOut(int party) {
+    public synchronized boolean crawlOut() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
         do {
@@ -128,7 +148,7 @@ public class AssaultParty implements AssaultPartyInterface {
                 break;
             }
             if (movement > 0) {
-                thief.setPosition(party, thief.getPosition() - movement);
+                thief.setPosition(this.id, thief.getPosition() - movement);
             } else {
                 thieves.remove(thief);
                 thieves.add(thief);
@@ -250,6 +270,7 @@ public class AssaultParty implements AssaultPartyInterface {
         }
         return 0;
     }
+
 
     /**
      * Getter for the room destination
