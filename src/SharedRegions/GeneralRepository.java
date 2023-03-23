@@ -121,6 +121,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      */
     public void setMasterThiefState(int state) {
         masterThiefState = state;
+        printState();
     }
 
     /**
@@ -134,6 +135,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         ordinaryThieves[id].setState(state);
         ordinaryThieves[id].setSituation(situation);
         ordinaryThieves[id].setMaxDisplacement(maxDisplacement);
+        printState();
     }
 
     /**
@@ -152,6 +154,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      */
     public void setAssaultPartyRoom(int party, int room) {
         assaultParties[party].setRoom(room + 1);
+        printState();
     }
 
     /**
@@ -177,6 +180,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         elems[idx].setID(thief + 1);
         elems[idx].setPos(pos);
         elems[idx].setCv(cv);
+        printState();
     }
 
     /**
@@ -202,6 +206,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     public void setRoomState(int id, int paintings, int distance) {
         rooms[id].setPaintings(paintings);
         rooms[id].setDistance(distance);
+        printState();
     }
 
     /**
