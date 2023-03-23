@@ -106,6 +106,14 @@ public class MasterThief extends Thread {
     }
 
     /**
+     * Getter for the Assault Parties
+     * @return the Assault Parties
+     */
+    public AssaultPartyInterface[] getAssaultParties() {
+        return assaultParties;
+    }
+
+    /**
      * Lifecycle of the Master Thief
      */
     @Override

@@ -29,12 +29,10 @@ public interface CollectionSiteInterface {
     public void takeARest();
 
     /**
-     * Called by Master Thief to collect a canvas from an Ordinary Thief
-     * - Synchronization point between Master Thief and each individual Ordinary Thief
-     * @param thief Number of the Ordinary Thief
-     * @return true if a canvas was collected or false if Ordinary Thief returned empty-handed
+     * Called by Master Thief to collect all available canvas
+     * - Synchronization point between Master Thief and each individual Ordinary Thief with a canvas
      */
-    public boolean collectACanvas(int thief);
+    public void collectACanvas();
 
     /**
      * Called by Ordinary Thief to hand out a canvas to Master Thief

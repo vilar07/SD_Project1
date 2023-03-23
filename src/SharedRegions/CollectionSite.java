@@ -22,6 +22,8 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     private final Deque<Integer> assaultParties;
 
+    private final Deque<Integer> thievesWithCanvas;
+
     /**
      * CollectionSite constructor
      */
@@ -31,6 +33,7 @@ public class CollectionSite implements CollectionSiteInterface {
         for (int i = 0; i < Constants.ASSAULT_PARTIES_NUMBER; i++) {
             assaultParties.add(i);
         }
+        thievesWithCanvas = new ArrayDeque<>();
     }
 
     /**
@@ -96,8 +99,24 @@ public class CollectionSite implements CollectionSiteInterface {
         }
     }
 
-    public synchronized boolean collectACanvas(int thief) {
-        return false;
+    /**
+     * Collects all available canvas
+     */
+    public synchronized void collectACanvas() {
+        while (thievesWithCanvas.isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+
+            }
+        }
+        MasterThief masterThief = (MasterThief) Thread.currentThread();
+        for (int thiefWithCanvas: thievesWithCanvas) {
+            thievesWithCanvas.poll();
+            paintings++;
+            notifyAll();
+        }
+        masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
     public synchronized void handACanvas(boolean canvas) {
