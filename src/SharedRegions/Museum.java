@@ -4,8 +4,6 @@ import java.util.Random;
 import src.Constants;
 import src.Entities.OrdinaryThief;
 import src.Interfaces.MuseumInterface;
-import src.Interfaces.GeneralRepositoryInterface;
-import src.SharedRegions.GeneralRepository;
 import src.room.Room;
 
 
@@ -54,7 +52,7 @@ public class Museum implements MuseumInterface{
     }
 
     /**
-     * Roll a canvas
+     * The Ordinary Thief tries to roll a canvas
      * @param party the party identification
      * @return true if the thief rolls a canvas, false if the room was already empty
      */
@@ -69,8 +67,11 @@ public class Museum implements MuseumInterface{
     }
 
     //falta implementar
-    public synchronized void reverseDirection(){
-        
+    public synchronized void reverseDirection() {
+        if (direction) {
+            direction = false;
+            notifyAll();
+        }
     }
 
     /**

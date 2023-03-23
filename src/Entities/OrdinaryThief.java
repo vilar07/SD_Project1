@@ -36,6 +36,11 @@ public class OrdinaryThief extends Thread {
     private int position;
 
     /**
+     * Boolean value that is true if going into the museum or false if going in the opposite direction
+     */
+    private boolean directionIn;
+
+    /**
      * Array holding the Assault Parties shared regions
      */
     private final AssaultPartyInterface[] assaultParties;
@@ -84,6 +89,15 @@ public class OrdinaryThief extends Thread {
         }
     }
 
+    /**
+     * Ordinary Thief constructor
+     * @param id the identification of the thief
+     * @param museum the Museum
+     * @param collectionSite the Collection Site
+     * @param concentrationSite the Concentration Site
+     * @param assaultParties the Assault Parties array
+     * @param generalRepository the General Repository
+     */
     public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface generalRepository) {
         this.id = id;
         this.museum = museum;
@@ -98,6 +112,7 @@ public class OrdinaryThief extends Thread {
                 + Constants.MIN_THIEF_DISPLACEMENT;
         busyHands = false;
         position = 0;
+        directionIn = true;
     }
 
     /**
