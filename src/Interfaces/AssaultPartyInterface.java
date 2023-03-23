@@ -65,4 +65,10 @@ public interface AssaultPartyInterface {
      * @return true if they are part of the Assault Party, false otherwise
      */
     public boolean isMember(OrdinaryThief thief);
+
+    /**
+     * Returns true if the Assault Party is ready to go out
+     * @return true if all members are ready to go out, false otherwise
+     */
+    public boolean goingOut();
 }

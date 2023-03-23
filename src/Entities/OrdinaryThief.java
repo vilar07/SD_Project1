@@ -148,6 +148,14 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
+     * Getter for the direction of the Ordinary Thief
+     * @return true if going in, false if going out
+     */
+    public boolean getDirectionIn() {
+        return directionIn;
+    }
+
+    /**
      * Getter for Assault Parties
      * @return array with all Assault Parties
      */
@@ -196,6 +204,14 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
+     * Setter for the direction of the Ordinary Thief
+     * @param directionIn true if going in, false if going out
+     */
+    public void setDirectionIn(boolean directionIn) {
+        this.directionIn = directionIn;
+    }
+
+    /**
      * Getter for the situation of the thief
      * @return 'W' if waiting or 'P' if in party
      */
@@ -215,7 +231,7 @@ public class OrdinaryThief extends Thread {
             int assaultPartyID = concentrationSite.prepareExcursion();
             while(assaultParties[assaultPartyID].crawlIn());  //funçao na interface AssaultParty está a receber id do thief (metemos?) R.: Nao sei ainda
             museum.rollACanvas(assaultPartyID);
-            museum.reverseDirection();
+            museum.reverseDirection(assaultPartyID);
             while(assaultParties[assaultPartyID].crawlOut()); //funçao na interface AssaultParty está a receber id do thief (metemos?) R.: Nao sei ainda
             collectionSite.handACanvas();
         }

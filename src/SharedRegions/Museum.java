@@ -3,6 +3,7 @@ package src.SharedRegions;
 import java.util.Random;
 import src.Constants;
 import src.Entities.OrdinaryThief;
+import src.Interfaces.GeneralRepositoryInterface;
 import src.Interfaces.MuseumInterface;
 import src.room.Room;
 
@@ -14,18 +15,24 @@ public class Museum implements MuseumInterface{
     private final Room[] rooms;
 
     /**
-     * Museum constructor, initializes rooms
+     * General Repository shared region
      */
-    public Museum() {
+    private final GeneralRepositoryInterface generalRepository;
+
+    /**
+     * Museum constructor, initializes rooms
+     * @param generalRepository the General Repository
+     */
+    public Museum(GeneralRepositoryInterface generalRepository) {
         this.rooms = new Room[Constants.NUM_ROOMS];
+        this.generalRepository = generalRepository;
         Random random = new Random(System.currentTimeMillis());
         for(int i = 0; i < this.rooms.length; i++){
             int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1);
             int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1);
             this.rooms[i] = new Room(i, distance, paintings);
+            this.generalRepository.setRoomState(i, paintings, distance);
         }
-        //Para Debug
-        System.out.println("Info: Museum has " + this.countPaintings() + " paintings!");
     }
 
     /**
@@ -59,19 +66,33 @@ public class Museum implements MuseumInterface{
     public synchronized boolean rollACanvas(int party) {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         boolean res = this.rooms[thief.getAssaultParties()[party].getRoom().getID()]
-                .rollACanvas(thief.getGeneralRepository());
+                .rollACanvas(generalRepository);
         if (res) {
             thief.setBusyHands(party, res);
         }
         return res;
     }
 
-    //falta implementar
-    public synchronized void reverseDirection() {
-        if (direction) {
-            direction = false;
+    /**
+     * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas, 
+     * so that the assaultParty can crawl out
+     * - Synchronization Point between members of the Assault Party
+     * @param party the Assault Party
+     */
+    public synchronized void reverseDirection(int party) {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        if (thief.getDirectionIn()) {
+            thief.setDirectionIn(false);
             notifyAll();
         }
+        while (!thief.getAssaultParties()[party].goingOut()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+
+            }
+        }
+        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
     }
 
     /**

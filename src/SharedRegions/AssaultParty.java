@@ -233,4 +233,17 @@ public class AssaultParty implements AssaultPartyInterface {
     public boolean isMember(OrdinaryThief thief) {
         return thieves.contains(thief);
     }
+
+    /**
+     * Returns true if the Assault Party is ready to go out
+     * @return true if all members are ready to go out, false otherwise
+     */
+    public boolean goingOut() {
+        for (OrdinaryThief thief: thieves) {
+            if (thief.getDirectionIn()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -22,7 +22,7 @@ public class HeistToTheMuseum
         GeneralRepository repository = new GeneralRepository();
         CollectionSite collectionSite = new CollectionSite();
         ConcentrationSite concentrationSite = new ConcentrationSite();
-        Museum museum = new Museum();
+        Museum museum = new Museum(repository);
         AssaultParty[] assaultParties = new AssaultParty[Constants.ASSAULT_PARTIES_NUMBER];
         for(int i=0;i<assaultParties.length;i++){
             assaultParties[i] = new AssaultParty(i);

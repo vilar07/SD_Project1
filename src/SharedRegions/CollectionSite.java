@@ -81,7 +81,7 @@ public class CollectionSite implements CollectionSiteInterface {
         }
         if (assaultPartyRooms.size() == Constants.ASSAULT_PARTIES_NUMBER || 
                 (assaultPartyRooms.size() == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms.get(0)])) {
-            return 'W';
+            return 'R';
         }
         return 'P';
     }
