@@ -7,6 +7,7 @@ import java.util.List;
 
 import src.Constants;
 import src.Entities.MasterThief;
+import src.Entities.OrdinaryThief;
 import src.Interfaces.AssaultPartyInterface;
 import src.Interfaces.CollectionSiteInterface;
 import src.room.Room;
@@ -119,8 +120,24 @@ public class CollectionSite implements CollectionSiteInterface {
         masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
-    public synchronized void handACanvas(boolean canvas) {
-
+    public void handACanvas() {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        if (thief.hasBusyHands()) {
+            synchronized (this) {
+                thievesWithCanvas.add(thief.getID());
+                notifyAll();
+            }
+        }
+        synchronized (this) {
+            while (thievesWithCanvas.contains(thief.getID())) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+    
+                }
+            }
+        }
+        thief.setState(OrdinaryThief.State.COLLECTION_SITE);
     }
 
     /**

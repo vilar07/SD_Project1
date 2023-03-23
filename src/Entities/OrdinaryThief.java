@@ -147,17 +147,29 @@ public class OrdinaryThief extends Thread {
      */
     public void setState(State state) {
         this.state = state;
-        generalRepository.setOrdinaryThiefState(id, state.code);
+        generalRepository.setOrdinaryThiefState(id, state.code, getSituation(), maxDisplacement);
     }
 
     /**
      * Setter for the position of the thief in relation to the room of the museum
      * Propagates information to the GeneralRepository
+     * @param party the Assault Party the Ordinary Thief belongs to
      * @param position the position
      */
-    public void setPosition(int position) {
+    public void setPosition(int party, int position) {
         this.position = position;
-        generalRepository.setOrdinaryThiefState(id, position, getSituation(), maxDisplacement);
+        generalRepository.setAssaultPartyMember(party, id, position, hasBusyHands() ? 1 : 0);
+    }
+
+    /**
+     * Setter for the busy hands attribute
+     * Propagates information to the GeneralRepository
+     * @param party the Assault Party the Ordinary Thief belongs to
+     * @param busyHands true if carrying a canvas, false otherwise
+     */
+    public void setBusyHands(int party, boolean busyHands) {
+        this.busyHands = busyHands;
+        generalRepository.setAssaultPartyMember(party, id, position, busyHands ? 1 : 0);
     }
 
     /**
@@ -184,6 +196,5 @@ public class OrdinaryThief extends Thread {
             while(this.assaultParties[assaultPartyID].crawlOut()); //funçao na interface AssaultParty está a receber id do thief (metemos?)
             this.collectionSite.handACanvas();
         }
-    }
-    
+    }    
 }
