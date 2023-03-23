@@ -71,6 +71,7 @@ public class CollectionSite implements CollectionSiteInterface {
                 nEmptyRooms++;
             }
         }
+        System.out.println("Numero de emptyRooms: " + nEmptyRooms); //debug
         List<Integer> assaultPartyRooms = new ArrayList<>();
         Room room;
         for (AssaultPartyInterface assaultPartyInterface: assaultPartyInterfaces) {
