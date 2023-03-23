@@ -8,6 +8,7 @@ import src.Constants;
 import src.Entities.MasterThief;
 import src.Entities.OrdinaryThief;
 import src.Interfaces.AssaultPartyInterface;
+import src.Interfaces.GeneralRepositoryInterface;
 import src.room.Room;
 
 public class AssaultParty implements AssaultPartyInterface {
@@ -205,18 +206,22 @@ public class AssaultParty implements AssaultPartyInterface {
      * Setter for the room destination
      * @param room the room identification
      */
-    public void setRoomID(int room) {
+    public void setRoomID(int room, GeneralRepositoryInterface generalRepository) {
         this.room = new Room(room);
+        generalRepository.setAssaultPartyRoom(id, room);
     }
 
     /**
      * Sets the members of the Assault Party
      * @param thieves array with the Ordinary Thieves
+     * @param generalRepository the General Repository
      */
-    public void setMembers(OrdinaryThief[] thieves) {
+    public void setMembers(OrdinaryThief[] thieves, GeneralRepositoryInterface generalRepository) {
         this.thieves.clear();
         for (OrdinaryThief thief: thieves) {
             this.thieves.add(thief);
+            generalRepository.setAssaultPartyMember(id, thief.getID(), thief.getPosition(),
+                    thief.hasBusyHands() ? 1 : 0);
         }
     }
 

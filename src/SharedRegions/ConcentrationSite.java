@@ -51,14 +51,15 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
                 }
             }
         }
+        MasterThief master = (MasterThief) Thread.currentThread();
+        master.setState(MasterThief.State.ASSEMBLING_A_GROUP);
         assaultParty.setRoomID(room);
         assaultPartyID = assaultParty.getID();
         OrdinaryThief[] thieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
         for (int i = 0; i < thieves.length; i++) {
             thieves[i] = this.thieves.poll();
         }
-        assaultParty.setMembers(thieves);
-        ((MasterThief) Thread.currentThread()).setState(MasterThief.State.ASSEMBLING_A_GROUP);
+        assaultParty.setMembers(thieves, master.getGeneralRepository());
         synchronized (this) {
             notifyAll();
         }

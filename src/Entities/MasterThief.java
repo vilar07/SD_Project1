@@ -98,6 +98,14 @@ public class MasterThief extends Thread {
     }
 
     /**
+     * Getter for the General Repository 
+     * @return the General Repository
+     */
+    public GeneralRepositoryInterface getGeneralRepository() {
+        return generalRepository;
+    }
+
+    /**
      * Lifecycle of the Master Thief
      */
     @Override

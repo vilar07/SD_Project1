@@ -13,7 +13,7 @@ public class OrdinaryThief extends Thread {
     /**
      * Current state of the Ordinary Thief
      */
-    private State state;
+    private OrdinaryThief.State state;
 
     /**
      * Thief unique id.

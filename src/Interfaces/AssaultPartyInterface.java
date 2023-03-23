@@ -55,8 +55,9 @@ public interface AssaultPartyInterface {
     /**
      * Sets the members of the Assault Party
      * @param thieves array with the Ordinary Thieves
+     * @param generalRepository the General Repository
      */
-    public void setMembers(OrdinaryThief[] thieves);
+    public void setMembers(OrdinaryThief[] thieves, GeneralRepositoryInterface generalRepository);
 
     /**
      * Checks if given thief is in the Assault Party
