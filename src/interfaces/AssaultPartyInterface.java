@@ -17,16 +17,18 @@ public interface AssaultPartyInterface {
     public void sendAssaultParty();
 
     /**
-     * Called by the Ordinary Thief to crawl into the museum
-     * @return true if Ordinary Thief is still crawling in, false otherwise
+     * Called by the Ordinary Thief to crawl in
+     * @param party the Assault Party
+     * @return false if they have finished the crawling
      */
-    public boolean crawlIn();
+    public boolean crawlIn(int party);
 
     /**
-     * Called by the Ordinary Thief to crawl out of the museum
-     * @return true if Ordinary Thief is still crawling out, false otherwise
+     * Called by the Ordinary Thief to crawl out
+     * @param party the Assault Party
+     * @return false if they have finished the crawling
      */
-    public boolean crawlOut();
+    public boolean crawlOut(int party);
 
     /**
      * Getter for the room destination

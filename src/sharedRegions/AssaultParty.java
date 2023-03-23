@@ -63,132 +63,192 @@ public class AssaultParty implements AssaultPartyInterface {
         notifyAll();
     }
 
+    /**
+     * Called by the Ordinary Thief to crawl in
+     * @param party the Assault Party
+     * @return false if they have finished the crawling
+     */
     @Override
-    public synchronized boolean crawlIn() {
+    public synchronized boolean crawlIn(int party) {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         do {
-            Situation situation = whereAmI(thief.getID());
-            boolean canICrawl = true;
+            Situation situation = inWhereAmI();
+            int movement = 0;
             switch (situation) {
                 case FRONT:
-                if (canICrawlFront(thief)) {
-                    crawlFront(thief);
-                } else {
-                    canICrawl = false;
-                }
+                movement = canICrawlFront();
                 break;
                 case MID:
-                if (canICrawlMid(thief)) {
-                    crawlMid(thief);
-                } else {
-                    canICrawl = false;
-                }
+                movement = canICrawlMid();
                 break;
                 case BACK:
-                if (canICrawlBack(thief)) {
-                    crawlBack(thief);
-                } else {
-                    canICrawl = false;
-                }
+                movement = canICrawlBack();
                 break;
-                if (!canICrawl) {
-                    thieves.remove(thief);
-                    thieves.add(thief);
-                    notifyAll();
-                    while (!thieves.getFirst().equals(thief)) {
-                        try {
-                            wait();
-                        } catch (InterruptedException e) {
-    
-                        }
+            }
+            if (movement > 0) {
+                thief.setPosition(party, thief.getPosition() + movement);
+            } else {
+                thieves.remove(thief);
+                thieves.add(thief);
+                notifyAll();
+                while (!thieves.getFirst().equals(thief)) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+
                     }
                 }
             }
         } while (thief.getPosition() < room.getDistance());
+        return false;
     }
 
+    /**
+     * Called by the Ordinary Thief to crawl out
+     * @param party the Assault Party
+     * @return false if they have finished the crawling
+     */
     @Override
-    public synchronized boolean crawlOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crawlOut'");
+    public synchronized boolean crawlOut(int party) {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
+        do {
+            Situation situation = outWhereAmI();
+            int movement = 0;
+            switch (situation) {
+                case FRONT:
+                movement = canICrawlFront();
+                break;
+                case MID:
+                movement = canICrawlMid();
+                break;
+                case BACK:
+                movement = canICrawlBack();
+                break;
+            }
+            if (movement > 0) {
+                thief.setPosition(party, thief.getPosition() - movement);
+            } else {
+                thieves.remove(thief);
+                thieves.add(thief);
+                notifyAll();
+                while (!thieves.getFirst().equals(thief)) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+
+                    }
+                }
+            }
+        } while (thief.getPosition() > 0);
+        return false;
     }
     
     /**
-     * Private method to assess the situation of the Ordinary Thief in the line
-     * @param thief identification number of the Ordinary Thief
+     * Private method to assess the situation of the Ordinary Thief in the line when going in
      * @return situation in the line (front, back or mid)
      */
-    private Situation whereAmI(int thief) {
-        if (thief == thieves.getFirst().getID()) {
+    private Situation inWhereAmI() {
+        int higher = 0;
+        int lower = 0;
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        for (OrdinaryThief ordinaryThief: thieves) {
+            if (ordinaryThief.getID() == thief.getID()) {
+                continue;
+            }
+            if (ordinaryThief.getPosition() > thief.getPosition()) {
+                lower++;
+            } else {
+                higher++;
+            }
+        }
+        if (higher == 2) {
             return Situation.FRONT;
         }
-        if (thief == thieves.getLast().getID()) {
+        if (lower == 2) {
             return Situation.BACK;
         }
         return Situation.MID;
     }
 
     /**
-     * Returns whether or not the thief in front can crawl in further
-     * @param thief the Ordinary Thief in front
-     * @return false if the max separation between them and the previous thief in the line is equal to the maximum displacement between thieves, otherwise true
+     * Private method to assess the situation of the Ordinary Thief in the line when going in
+     * @return situation in the line (front, back or mid)
      */
-    private boolean canICrawlFront(OrdinaryThief thief) {
+    private Situation outWhereAmI() {
+        int higher = 0;
+        int lower = 0;
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        for (OrdinaryThief ordinaryThief: thieves) {
+            if (ordinaryThief.getID() == thief.getID()) {
+                continue;
+            }
+            if (ordinaryThief.getPosition() > thief.getPosition()) {
+                lower++;
+            } else {
+                higher++;
+            }
+        }
+        if (higher == 2) {
+            return Situation.BACK;
+        }
+        if (lower == 2) {
+            return Situation.FRONT;
+        }
+        return Situation.MID;
+    }
+
+    /**
+     * Returns whether or not the thief in front can crawl in further
+     * @return  the maximum movement the Ordinary Thief can make
+     */
+    private int canICrawlFront() {
         Iterator<OrdinaryThief> it = thieves.iterator();
         int i = 0;
         while (i++ < 1) {
             it.next();
         }
         OrdinaryThief previousThief = it.next();
-        if (Constants.MAX_THIEF_SEPARATION - Math.abs(thief.getPosition() - previousThief.getPosition()) == 0) {
-            return false;
-        }
-        return true;
+        return Constants.MAX_THIEF_SEPARATION - Math.abs(
+                ((OrdinaryThief) Thread.currentThread()).getPosition() - previousThief.getPosition()
+        );
     }
 
     /**
      * Returns whether or not the thief in the middle can crawl in further
-     * @param thief the Ordinary Thief in the middle
-     * @return false if the separation between the 2 last thieves is equal to the maximum distance between thieves and true if the next position doesn't coincide with the
-     * position of the Ordinary Thief in the front. In all other cases returns false
+     * @return the maximum movement the Ordinary Thief can make
      */
-    private boolean canICrawlMid(OrdinaryThief thief) {
+    private int canICrawlMid() {
         OrdinaryThief backThief = thieves.getLast();
         OrdinaryThief frontThief = thieves.getFirst();
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         int backSeparation = Math.abs(thief.getPosition() - backThief.getPosition());
         if (Constants.MAX_THIEF_SEPARATION - backSeparation == 0) {
-            return false;
+            return 0;
         }
         int frontSeparation = Math.abs(frontThief.getPosition() - thief.getPosition());
         int nextPosition = thief.getPosition() + Math.min(Constants.MAX_THIEF_SEPARATION - backSeparation, thief.getMaxDisplacement());
         if (nextPosition <= room.getDistance() && nextPosition != thief.getPosition() + frontSeparation) {
-            return true;
+            return nextPosition;
         }
-        return false;
+        return 0;
     }
 
     /**
      * Returns whether or not the thief in the back can crawl in further
-     * @param thief the Ordinary Thief in the back
-     * @return true if the thief's next position doesn't coincide with any of the other thieves, false otherwise
+     * @return the maximum movement the Ordinary Thief can make
      */
-    private boolean canICrawlBack(OrdinaryThief thief) {
+    private int canICrawlBack() {
         Iterator<OrdinaryThief> it = thieves.iterator();
         OrdinaryThief frontThief = it.next();
         OrdinaryThief midThief = it.next();
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         int nextPosition = thief.getPosition() + thief.getMaxDisplacement();
         if (nextPosition != midThief.getPosition() && nextPosition != frontThief.getPosition()) {
-            return true;
+            return thief.getMaxDisplacement();
         }
-        return false;
-    }
-
-    /**
-     * Updates the position of the Ordinary Thief
-     */
-    private void crawlFront() {
-        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        
+        return 0;
     }
 
     /**
