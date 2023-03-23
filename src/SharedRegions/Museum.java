@@ -2,6 +2,7 @@ package src.SharedRegions;
 
 import java.util.Random;
 import src.Constants;
+import src.Entities.OrdinaryThief;
 import src.Interfaces.MuseumInterface;
 import src.Interfaces.GeneralRepositoryInterface;
 import src.SharedRegions.GeneralRepository;
@@ -53,12 +54,18 @@ public class Museum implements MuseumInterface{
     }
 
     /**
-     * Roll a canvas.
-     * @param id Room id
-     * @return True if the thief remove a canvas, False if the room was already empty (There were no more paintings in the room)
+     * Roll a canvas
+     * @param party the party identification
+     * @return true if the thief rolls a canvas, false if the room was already empty
      */
-    public synchronized boolean rollACanvas(int id){ //adicionei o id aqui e na interface, porque acho q é preciso para remover uma pintura de uma certa room. 
-        return this.rooms[id].rollACanvas();
+    public synchronized boolean rollACanvas(int party) {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        boolean res = this.rooms[thief.getAssaultParties()[party].getRoom().getID()]
+                .rollACanvas(thief.getGeneralRepository());
+        if (res) {
+            thief.setBusyHands(party, res);
+        }
+        return res;
     }
 
     //falta implementar

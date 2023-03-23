@@ -141,6 +141,14 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
+     * Getter for the General Repository
+     * @return the General Repository
+     */
+    public GeneralRepositoryInterface getGeneralRepository() {
+        return generalRepository;
+    }
+
+    /**
      * Setter for the state of the thief
      * Propagates information to the GeneralRepository
      * @param state the state
@@ -188,13 +196,13 @@ public class OrdinaryThief extends Thread {
      */
     @Override
     public void run() {
-        while((this.concentrationSite.amINeeded())){
-            int assaultPartyID = this.concentrationSite.prepareExcursion();
-            while(this.assaultParties[assaultPartyID].crawlIn());  //funçao na interface AssaultParty está a receber id do thief (metemos?)
-            this.museum.rollACanvas();
-            this.museum.reverseDirection();
-            while(this.assaultParties[assaultPartyID].crawlOut()); //funçao na interface AssaultParty está a receber id do thief (metemos?)
-            this.collectionSite.handACanvas();
+        while((concentrationSite.amINeeded())){
+            int assaultPartyID = concentrationSite.prepareExcursion();
+            while(assaultParties[assaultPartyID].crawlIn());  //funçao na interface AssaultParty está a receber id do thief (metemos?) R.: Nao sei ainda
+            museum.rollACanvas(assaultPartyID);
+            museum.reverseDirection();
+            while(assaultParties[assaultPartyID].crawlOut()); //funçao na interface AssaultParty está a receber id do thief (metemos?) R.: Nao sei ainda
+            collectionSite.handACanvas();
         }
     }    
 }

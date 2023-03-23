@@ -7,14 +7,12 @@ import src.room.Room;
  */
 
 public interface MuseumInterface {
-
     /**
-     * Called by OrdinaryThief to get a canvas
-     * @param id Room id from where the OrdinaryThief wants to get a canvas.
-     * @return true if there are still paintings in the room, otherwise returns false
+     * Roll a canvas.
+     * @param id the room identification
+     * @return true if the thief rolls a canvas, false if the room was already empty (There were no more paintings in the room)
      */
-
-    boolean rollACanvas(int id);
+    public boolean rollACanvas(int id);
 
     /**
      * Called to awake the first member in the line of AssaultParty, by the last party member that rolled a canvas
