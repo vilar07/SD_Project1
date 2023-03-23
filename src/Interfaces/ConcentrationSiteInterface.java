@@ -31,8 +31,8 @@ public interface ConcentrationSiteInterface {
     public boolean amINeeded();
 
     /**
-     * Called by an ordinary thief. Waits for the other party members
-     * @return number of the assault party the ordinary thief belongs to
+     * Ordinary Thief waits for the Master Thief to dispatch the designed Assault Party
+     * @return the Assault Party identification 
      */
     public int prepareExcursion();
 }

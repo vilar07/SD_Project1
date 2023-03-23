@@ -21,11 +21,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     private boolean finished;
 
     /**
-     * Boolean variable set when Master Thief is preparing an Assault Party
-     */
-    private boolean summon;
-
-    /**
      * Identification of the next Assault Party
      */
     private int assaultPartyID;
@@ -36,7 +31,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     public ConcentrationSite() {
         thieves = new ArrayDeque<>(Constants.NUM_THIEVES - 1);
         finished = false;
-        summon = false;
     }
 
     /**
@@ -58,7 +52,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
             }
         }
         assaultParty.setRoomID(room);
-        summon = true;
         assaultPartyID = assaultParty.getID();
         OrdinaryThief[] thieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
         for (int i = 0; i < thieves.length; i++) {
@@ -81,9 +74,9 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         }
         OrdinaryThief thief = ((OrdinaryThief) Thread.currentThread());
         thieves.add(thief);
-        thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
         notifyAll();
-        while (!summon) {
+        thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
+        while (thieves.contains(thief)) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -93,7 +86,22 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         return true;
     }
 
-    public synchronized int prepareExcursion() {
-        return 0;
+    /**
+     * Ordinary Thief waits for the Master Thief to dispatch the designed Assault Party
+     * @return the Assault Party identification 
+     */
+    public int prepareExcursion() {
+        AssaultPartyInterface assaultParty = ((OrdinaryThief) Thread.currentThread())
+                .getAssaultParties()[assaultPartyID];
+        synchronized (assaultParty) {
+            while (!assaultParty.isInOperation()) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+
+                }
+            }
+        }
+        return assaultPartyID;
     }
 }

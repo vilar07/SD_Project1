@@ -51,6 +51,10 @@ public class AssaultParty implements AssaultPartyInterface {
         inOperation = false;
     }
 
+    /**
+     * Called by the Master Thief to send the Assault Party to the museum
+     * After that call, Assault Party can start crawling
+     */
     @Override
     public synchronized void sendAssaultParty() {
         ((MasterThief) Thread.currentThread()).setState(MasterThief.State.DECIDING_WHAT_TO_DO);
@@ -187,6 +191,14 @@ public class AssaultParty implements AssaultPartyInterface {
      */
     public int getID() {
         return id;
+    }
+
+    /**
+     * Getter for the in operation attribute
+     * @return true if Assault Party is operating, false otherwise
+     */
+    public boolean isInOperation() {
+        return inOperation;
     }
 
     /**

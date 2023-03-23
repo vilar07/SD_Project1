@@ -11,7 +11,7 @@ import src.room.Room;
 public interface AssaultPartyInterface {
 
     /**
-     * Called by the Master Thief to send the assaultParty to the museum
+     * Called by the Master Thief to send the Assault Party to the museum
      * After that call, Assault Party can start crawling
      */
     public void sendAssaultParty();
@@ -39,6 +39,12 @@ public interface AssaultPartyInterface {
      * @return the assault party number
      */
     public int getID();
+
+    /**
+     * Getter for the in operation attribute
+     * @return true if Assault Party is operating, false otherwise
+     */
+    public boolean isInOperation();
 
     /**
      * Setter for the room destination
