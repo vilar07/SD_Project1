@@ -71,6 +71,7 @@ public class Museum implements MuseumInterface {
         if (res) {
             thief.setBusyHands(party, res);
         }
+        thief.getAssaultParties()[party].addThiefToLine(thief);
         return res;
     }
 

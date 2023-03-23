@@ -66,6 +66,12 @@ public interface AssaultPartyInterface {
     public void setMembers(OrdinaryThief[] thieves, GeneralRepositoryInterface generalRepository);
 
     /**
+     * Adds an Ordinary Thief to the end of the line
+     * @param thief the Ordinary Thief
+     */
+    public void addThiefToLine(OrdinaryThief thief);
+
+    /**
      * Checks if given thief is in the Assault Party
      * @param thief the Ordinary Thief
      * @return true if they are part of the Assault Party, false otherwise

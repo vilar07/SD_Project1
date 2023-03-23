@@ -123,7 +123,6 @@ public class AssaultParty implements AssaultPartyInterface {
             }
         }
         thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
-        thieves.add(thief);
     }
 
     /**
@@ -335,6 +334,14 @@ public class AssaultParty implements AssaultPartyInterface {
             generalRepository.setAssaultPartyMember(id, thief.getID(), thief.getPosition(),
                     thief.hasBusyHands() ? 1 : 0);
         }
+    }
+
+    /**
+     * Adds an Ordinary Thief to the end of the line
+     * @param thief the Ordinary Thief
+     */
+    public void addThiefToLine(OrdinaryThief thief) {
+        thieves.add(thief);
     }
 
     /**

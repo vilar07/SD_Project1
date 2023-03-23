@@ -111,29 +111,6 @@ public class MasterThief extends Thread {
     }
 
     /**
-     * Lifecycle of the Master Thief
-     */
-    @Override
-    public void run() {
-        collectionSite.startOperations();
-        char operation;
-        while ((operation = collectionSite.appraiseSit(assaultParties)) != 'E') {
-            switch (operation) {
-                case 'P':
-                int assaultPartyID = collectionSite.getNextAssaultPartyID();
-                concentrationSite.prepareAssaultParty(assaultParties[assaultPartyID], getNextRoom());
-                assaultParties[assaultPartyID].sendAssaultParty();
-                break;
-                case 'R':
-                collectionSite.takeARest();
-                collectionSite.collectACanvas();
-                break;
-            }
-        }
-        concentrationSite.sumUpResults(this.collectionSite.getPaintings());
-    }
-
-    /**
      * Get next room that is not empty
      * @return the room identification
      */
@@ -144,5 +121,35 @@ public class MasterThief extends Thread {
             }
         }
         return -1;
+    }
+
+    /**
+     * Lifecycle of the Master Thief
+     */
+    @Override
+    public void run() {
+        collectionSite.startOperations();
+        System.out.println("startOperations");
+        char operation;
+        while ((operation = collectionSite.appraiseSit(assaultParties)) != 'E') {
+            System.out.println("appraiseSit");
+            switch (operation) {
+                case 'P':
+                int assaultPartyID = collectionSite.getNextAssaultPartyID();
+                concentrationSite.prepareAssaultParty(assaultParties[assaultPartyID], getNextRoom());
+                System.out.println("prepareAssaultParty " + assaultPartyID);
+                assaultParties[assaultPartyID].sendAssaultParty();
+                System.out.println("sendAssaultParty " + assaultPartyID);
+                break;
+                case 'R':
+                collectionSite.takeARest();
+                System.out.println("takeARest");
+                collectionSite.collectACanvas();
+                System.out.println("collectACanvas");
+                break;
+            }
+        }
+        concentrationSite.sumUpResults(this.collectionSite.getPaintings());
+        System.out.println("sumUpResults");
     }
 }
