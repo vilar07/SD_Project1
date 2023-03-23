@@ -54,7 +54,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         }
         MasterThief master = (MasterThief) Thread.currentThread();
         master.setState(MasterThief.State.ASSEMBLING_A_GROUP);
-        assaultParty.setRoomID(room);
+        assaultParty.setRoomID(room, master.getGeneralRepository());
         assaultPartyID = assaultParty.getID();
         OrdinaryThief[] thieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
         for (int i = 0; i < thieves.length; i++) {
@@ -104,6 +104,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     public int prepareExcursion() {
         AssaultPartyInterface assaultParty = ((OrdinaryThief) Thread.currentThread())
                 .getAssaultParties()[assaultPartyID];
+        thieves.remove((OrdinaryThief) Thread.currentThread());
         synchronized (assaultParty) {
             while (!assaultParty.isInOperation()) {
                 try {

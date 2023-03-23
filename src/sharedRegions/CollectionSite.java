@@ -23,6 +23,9 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     private final Deque<Integer> assaultParties;
 
+    /**
+     * FIFO of the Ordinary Thieves with canvas
+     */
     private final Deque<Integer> thievesWithCanvas;
 
     /**

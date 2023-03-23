@@ -5,10 +5,10 @@ import java.util.Deque;
 import java.util.Iterator;
 
 import src.Constants;
-import src.Entities.MasterThief;
-import src.Entities.OrdinaryThief;
-import src.Interfaces.AssaultPartyInterface;
-import src.Interfaces.GeneralRepositoryInterface;
+import src.entities.MasterThief;
+import src.entities.OrdinaryThief;
+import src.interfaces.AssaultPartyInterface;
+import src.interfaces.GeneralRepositoryInterface;
 import src.room.Room;
 
 public class AssaultParty implements AssaultPartyInterface {

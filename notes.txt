@@ -2,3 +2,5 @@ AssaultParty:
 inOperation a false depois do crawlOut
 dar clear aos membros da party depois do crawlOut
 
+CollectionSite:
+adicionar uma party ao FIFO no final do crawlOut?
