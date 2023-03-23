@@ -237,10 +237,14 @@ public class AssaultParty implements AssaultPartyInterface {
         while (i++ < 1) {
             it.next();
         }
-        OrdinaryThief previousThief = it.next();
-        return Constants.MAX_THIEF_SEPARATION - Math.abs(
-                ((OrdinaryThief) Thread.currentThread()).getPosition() - previousThief.getPosition()
-        );
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        if (it.hasNext()) {
+            OrdinaryThief previousThief = it.next();
+            return Constants.MAX_THIEF_SEPARATION - Math.abs(
+                    thief.getPosition() - previousThief.getPosition()
+            );
+        }
+        return Math.min(room.getDistance() - thief.getPosition(), thief.getMaxDisplacement());
     }
 
     /**
@@ -268,13 +272,19 @@ public class AssaultParty implements AssaultPartyInterface {
      * @return the maximum movement the Ordinary Thief can make
      */
     private int canICrawlBack() {
-        Iterator<OrdinaryThief> it = thieves.iterator();
-        OrdinaryThief frontThief = it.next();
-        OrdinaryThief midThief = it.next();
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         int nextPosition = thief.getPosition() + thief.getMaxDisplacement();
-        if (nextPosition != midThief.getPosition() && nextPosition != frontThief.getPosition()) {
-            return thief.getMaxDisplacement();
+        Iterator<OrdinaryThief> it = thieves.iterator();
+        OrdinaryThief frontThief = it.next();
+        if (it.hasNext()) {
+            OrdinaryThief midThief = it.next();
+            if (nextPosition != midThief.getPosition() && nextPosition != frontThief.getPosition()) {
+                return thief.getMaxDisplacement();
+            }
+        } else {
+            if (nextPosition != frontThief.getPosition()) {
+                return thief.getMaxDisplacement();
+            }
         }
         return 0;
     }
