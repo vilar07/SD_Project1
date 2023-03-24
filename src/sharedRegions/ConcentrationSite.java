@@ -103,7 +103,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     public int prepareExcursion() {
         OrdinaryThief ordinaryThief = (OrdinaryThief) Thread.currentThread();
         AssaultPartyInterface assaultParty = ordinaryThief.getAssaultParties()[assaultPartyID];
-        thieves.remove();
+        thieves.remove(ordinaryThief);
         synchronized (assaultParty) {
             assaultParty.notifyAll();
             while (!assaultParty.isInOperation()) {
