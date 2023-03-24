@@ -36,9 +36,9 @@ public interface AssaultPartyInterface {
 
     /**
      * Getter for the room destination
-     * @return the room
+     * @return the room identification
      */
-    public Room getRoom();
+    public int getRoom();
 
     /**
      * Getter for the assault party identification
@@ -61,8 +61,9 @@ public interface AssaultPartyInterface {
     /**
      * Setter for the room destination
      * @param room the room identification
+     * @param generalRepository the General Repository
      */
-    public void setRoomID(int room, GeneralRepositoryInterface generalRepository);
+    public void setRoom(int room, GeneralRepositoryInterface generalRepository);
 
     /**
      * Sets the members of the Assault Party

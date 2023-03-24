@@ -10,6 +10,7 @@ import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
+import src.interfaces.MuseumInterface;
 import src.room.Room;
 
 public class AssaultParty implements AssaultPartyInterface {
@@ -26,7 +27,7 @@ public class AssaultParty implements AssaultPartyInterface {
     /**
      * Room target of the Assault Party, contains identification of the room and the distance to it
      */
-    private Room room;
+    private int room;
 
     /**
      * Boolean value which is true if the Assault Party is operating or false if it is not
@@ -49,7 +50,7 @@ public class AssaultParty implements AssaultPartyInterface {
     public AssaultParty(int id) {
         this.id = id;
         thieves = new ArrayDeque<>(Constants.ASSAULT_PARTY_SIZE);
-        room = null;
+        room = -1;
         inOperation = false;
     }
 
@@ -256,6 +257,7 @@ public class AssaultParty implements AssaultPartyInterface {
      * Returns whether or not the thief in front can crawl in further
      * @return  the maximum movement the Ordinary Thief can make
      */
+    /*
     private int canICrawlFront() {
         Iterator<OrdinaryThief> it = thieves.iterator();
         int i = 0;
@@ -271,11 +273,13 @@ public class AssaultParty implements AssaultPartyInterface {
         }
         return Math.min(room.getDistance() - thief.getPosition(), thief.getMaxDisplacement());
     }
+    */
 
     /**
      * Returns whether or not the thief in the middle can crawl in further
      * @return the maximum movement the Ordinary Thief can make
      */
+    /*
     private int canICrawlMid() {
         OrdinaryThief backThief = thieves.getLast();
         OrdinaryThief frontThief = thieves.getFirst();
@@ -291,6 +295,7 @@ public class AssaultParty implements AssaultPartyInterface {
         }
         return 0;
     }
+    */
 
     /**
      * Returns whether or not the thief in the back can crawl in further
@@ -317,9 +322,9 @@ public class AssaultParty implements AssaultPartyInterface {
 
     /**
      * Getter for the room destination
-     * @return the room
+     * @return the room identification
      */
-    public Room getRoom() {
+    public int getRoom() {
         return room;
     }
 
@@ -350,9 +355,10 @@ public class AssaultParty implements AssaultPartyInterface {
     /**
      * Setter for the room destination
      * @param room the room identification
+     * @param generalRepository the General Repository
      */
-    public void setRoomID(int room, GeneralRepositoryInterface generalRepository) {
-        this.room = new Room(room);
+    public void setRoom(int room, GeneralRepositoryInterface generalRepository) {
+        this.room = room;
         generalRepository.setAssaultPartyRoom(id, room);
     }
 

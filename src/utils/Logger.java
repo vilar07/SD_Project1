@@ -47,6 +47,7 @@ public class Logger implements LoggerInterface {
     @Override
     public void print(String message) {
         printWriter.append(message);
+        printWriter.flush();
     }
 
     /**

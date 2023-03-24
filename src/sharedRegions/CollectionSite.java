@@ -72,11 +72,11 @@ public class CollectionSite implements CollectionSiteInterface {
             }
         }
         List<Integer> assaultPartyRooms = new ArrayList<>();
-        Room room;
+        int room;
         for (AssaultPartyInterface assaultPartyInterface: assaultPartyInterfaces) {
             room = assaultPartyInterface.getRoom();
-            if (room != null) {
-                assaultPartyRooms.add(room.getID());
+            if (room != -1) {
+                assaultPartyRooms.add(room);
             }
         }
         if (empty && assaultPartyRooms.size() == 0) {
@@ -93,8 +93,9 @@ public class CollectionSite implements CollectionSiteInterface {
      * Master Thief waits while there are still Assault Parties in operation
      */
     public synchronized void takeARest() {
-        ((MasterThief) Thread.currentThread()).setState(MasterThief.State.WAITING_FOR_ARRIVAL);
-        while (assaultParties.size() != Constants.ASSAULT_PARTIES_NUMBER) {
+        MasterThief masterThief = (MasterThief) Thread.currentThread();
+        masterThief.setState(MasterThief.State.WAITING_FOR_ARRIVAL);
+        while (!partyHasArrived(masterThief.getAssaultParties())) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -107,14 +108,7 @@ public class CollectionSite implements CollectionSiteInterface {
      * Called by the Master Thief to collect all available canvas
      */
     public synchronized void collectACanvas() {
-        List<Integer> arrivingParties;
-        while (!((arrivingParties = getArrivingParties()).isEmpty())) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-
-            }
-        }
+        List<Integer> arrivingParties = getArrivingParties();
         MasterThief masterThief = (MasterThief) Thread.currentThread();
         for (OrdinaryThief arrivingThief: arrivingThieves) {
             if (arrivingParties.contains(arrivingThief.getAssaultParty())) {
@@ -123,7 +117,7 @@ public class CollectionSite implements CollectionSiteInterface {
                     paintings++;
                     arrivingThief.setBusyHands(arrivingThief.getAssaultParty(), false);
                 } else {
-                    masterThief.setEmptyRoom(arrivingThief.getAssaultParties()[arrivingThief.getAssaultParty()].getRoom().getID(), true);
+                    masterThief.setEmptyRoom(arrivingThief.getAssaultParties()[arrivingThief.getAssaultParty()].getRoom(), true);
                 }
                 notifyAll();
             }
@@ -196,5 +190,25 @@ public class CollectionSite implements CollectionSiteInterface {
             }
         }
         return res;
+    }
+
+    /**
+     * Returns if all members of an Assault Party have arrived at the Collection Site
+     * @param assaultParties the array with the Assault Parties
+     * @return true if all members of at least 1 Assault Party have arrived, false otherwise
+     */
+    public boolean partyHasArrived(AssaultPartyInterface[] assaultParties) {
+        for (AssaultPartyInterface assaultParty: assaultParties) {
+            int numArrivingThieves = 0;
+            for (OrdinaryThief arrivingThief: arrivingThieves) {
+                if (assaultParty.isMember(arrivingThief)) {
+                    numArrivingThieves++;
+                }
+            }
+            if (numArrivingThieves == Constants.ASSAULT_PARTY_SIZE) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -37,6 +37,14 @@ public class Museum implements MuseumInterface {
     }
 
     /**
+     * Getter for the General Repository
+     * @return the General Repository
+     */
+    public GeneralRepositoryInterface getGeneralRepository() {
+        return generalRepository;
+    }
+
+    /**
      * Get room array
      * @return Array of Room objects
      */
@@ -66,7 +74,7 @@ public class Museum implements MuseumInterface {
      */
     public synchronized boolean rollACanvas(int party) {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        boolean res = this.rooms[thief.getAssaultParties()[party].getRoom().getID()]
+        boolean res = this.rooms[thief.getAssaultParties()[party].getRoom()]
                 .rollACanvas(generalRepository);
         if (res) {
             thief.setBusyHands(party, res);

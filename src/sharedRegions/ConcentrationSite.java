@@ -8,6 +8,7 @@ import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
+import src.interfaces.MuseumInterface;
 
 public class ConcentrationSite implements ConcentrationSiteInterface {
     /**
@@ -53,7 +54,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
                 }
             }
         }
-        assaultParty.setRoomID(room, master.getGeneralRepository());
+        assaultParty.setRoom(room, master.getGeneralRepository());
         assaultPartyID = assaultParty.getID();
         OrdinaryThief[] ordinaryThieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
         for (int i = 0; i < ordinaryThieves.length; i++) {
