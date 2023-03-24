@@ -10,7 +10,6 @@ import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
-import src.room.Room;
 
 public class CollectionSite implements CollectionSiteInterface {
     /**
@@ -112,16 +111,16 @@ public class CollectionSite implements CollectionSiteInterface {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
         for (OrdinaryThief arrivingThief: arrivingThieves) {
             if (arrivingParties.contains(arrivingThief.getAssaultParty())) {
-                arrivingThieves.remove(arrivingThief);
                 if (arrivingThief.hasBusyHands()) {
                     paintings++;
                     arrivingThief.setBusyHands(arrivingThief.getAssaultParty(), false);
                 } else {
                     masterThief.setEmptyRoom(arrivingThief.getAssaultParties()[arrivingThief.getAssaultParty()].getRoom(), true);
                 }
-                notifyAll();
+                arrivingThieves.remove(arrivingThief);
             }
         }
+        notifyAll();
         for (int arrivingParty: arrivingParties) {
             masterThief.getAssaultParties()[arrivingParty].setInOperation(false);
             masterThief.getGeneralRepository().disbandAssaultParty(arrivingParty);
