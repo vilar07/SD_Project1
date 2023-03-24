@@ -137,7 +137,7 @@ public class MasterThief extends Thread {
                 return i;
             }
         }
-        return -1;
+        return 0;
     }
 
     /**
@@ -170,5 +170,6 @@ public class MasterThief extends Thread {
         }
         System.out.println("sumUpResults");
         concentrationSite.sumUpResults(this.collectionSite.getPaintings());
+        System.out.println("Terminated");
     }
 }
