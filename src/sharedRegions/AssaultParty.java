@@ -61,7 +61,6 @@ public class AssaultParty implements AssaultPartyInterface {
     @Override
     public synchronized void sendAssaultParty() {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
-        masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
         ConcentrationSiteInterface concentrationSite = masterThief.getConcentrationSite();
         synchronized (concentrationSite) {
             while (!readyThieves(concentrationSite)) {
@@ -74,6 +73,7 @@ public class AssaultParty implements AssaultPartyInterface {
         }
         inOperation = true;
         notifyAll();
+        masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
     public synchronized boolean crawlIn() {
@@ -142,6 +142,7 @@ public class AssaultParty implements AssaultPartyInterface {
 
             }
         }
+        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
     }
 
     public synchronized boolean crawlOut() {

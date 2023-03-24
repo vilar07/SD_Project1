@@ -100,13 +100,13 @@ public class OrdinaryThief extends Thread {
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
         this.generalRepository = generalRepository;
-        setState(State.CONCENTRATION_SITE);
         Random random = new Random(System.currentTimeMillis());
         maxDisplacement = random.nextInt(
                 Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT + 1)
                 + Constants.MIN_THIEF_DISPLACEMENT;
         busyHands = false;
         position = 0;
+        setState(State.CONCENTRATION_SITE);
     }
 
     /**

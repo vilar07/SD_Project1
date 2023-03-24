@@ -101,9 +101,9 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      * @return the Assault Party identification 
      */
     public int prepareExcursion() {
-        AssaultPartyInterface assaultParty = ((OrdinaryThief) Thread.currentThread())
-                .getAssaultParties()[assaultPartyID];
-        thieves.remove((OrdinaryThief) Thread.currentThread());
+        OrdinaryThief ordinaryThief = (OrdinaryThief) Thread.currentThread();
+        AssaultPartyInterface assaultParty = ordinaryThief.getAssaultParties()[assaultPartyID];
+        thieves.remove();
         synchronized (assaultParty) {
             assaultParty.notifyAll();
             while (!assaultParty.isInOperation()) {
@@ -114,6 +114,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
                 }
             }
         }
+        ordinaryThief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         return assaultPartyID;
     }
 
