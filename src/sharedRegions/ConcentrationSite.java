@@ -6,7 +6,6 @@ import java.util.Deque;
 import src.Constants;
 import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
-import src.entities.MasterThief.State;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
 
@@ -43,6 +42,8 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      * @param room number of the room in the museum
      */
     public void prepareAssaultParty(AssaultPartyInterface assaultParty, int room) {
+        MasterThief master = (MasterThief) Thread.currentThread();
+        master.setState(MasterThief.State.ASSEMBLING_A_GROUP);
         synchronized(this) {
             while (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
                 try {
@@ -52,15 +53,13 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
                 }
             }
         }
-        MasterThief master = (MasterThief) Thread.currentThread();
-        master.setState(MasterThief.State.ASSEMBLING_A_GROUP);
         assaultParty.setRoomID(room, master.getGeneralRepository());
         assaultPartyID = assaultParty.getID();
-        OrdinaryThief[] thieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
-        for (int i = 0; i < thieves.length; i++) {
-            thieves[i] = this.thieves.poll();
+        OrdinaryThief[] ordinaryThieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
+        for (int i = 0; i < ordinaryThieves.length; i++) {
+            ordinaryThieves[i] = this.thieves.poll();
         }
-        assaultParty.setMembers(thieves, master.getGeneralRepository());
+        assaultParty.setMembers(ordinaryThieves, master.getGeneralRepository());
         synchronized (this) {
             notifyAll();
         }
@@ -105,6 +104,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
                 .getAssaultParties()[assaultPartyID];
         thieves.remove((OrdinaryThief) Thread.currentThread());
         synchronized (assaultParty) {
+            assaultParty.notifyAll();
             while (!assaultParty.isInOperation()) {
                 try {
                     assaultParty.wait();
@@ -114,5 +114,14 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
             }
         }
         return assaultPartyID;
+    }
+
+    /**
+     * Returns true if an Ordinary Thief is in the Concentration Site
+     * @param thief the Ordinary Thief
+     * @return true if the thief is in the Concentration Site, false otherwise
+     */
+    public boolean contains(OrdinaryThief thief) {
+        return thieves.contains(thief);
     }
 }

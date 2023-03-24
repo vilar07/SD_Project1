@@ -19,7 +19,7 @@ public class CollectionSite implements CollectionSiteInterface {
     private int paintings;
 
     /**
-     * FIFO of the Assault Parties
+     * FIFO of the available Assault Parties
      */
     private final Deque<Integer> assaultParties;
 
@@ -71,7 +71,6 @@ public class CollectionSite implements CollectionSiteInterface {
                 nEmptyRooms++;
             }
         }
-        System.out.println("Numero de emptyRooms: " + nEmptyRooms); //debug
         List<Integer> assaultPartyRooms = new ArrayList<>();
         Room room;
         for (AssaultPartyInterface assaultPartyInterface: assaultPartyInterfaces) {
@@ -129,6 +128,11 @@ public class CollectionSite implements CollectionSiteInterface {
                 notifyAll();
             }
         }
+        for (int arrivingParty: arrivingParties) {
+            masterThief.getAssaultParties()[arrivingParty].setInOperation(false);
+            masterThief.getGeneralRepository().disbandAssaultParty(arrivingParty);
+            addAssaultParty(arrivingParty);
+        }
         masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
@@ -180,7 +184,10 @@ public class CollectionSite implements CollectionSiteInterface {
             tmp[i] = 0;
         }
         for (OrdinaryThief arrivingThief: arrivingThieves) {
-            tmp[arrivingThief.getAssaultParty()]++;
+            int assaultParty = arrivingThief.getAssaultParty();
+            if (assaultParty != -1) {
+                tmp[assaultParty]++;
+            }
         }
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < tmp.length; i++) {

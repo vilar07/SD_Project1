@@ -1,5 +1,7 @@
 package src.interfaces;
 
+import src.entities.OrdinaryThief;
+
 /**
  * Concentration Site where ordinary thieves wait for orders
  */
@@ -35,4 +37,11 @@ public interface ConcentrationSiteInterface {
      * @return the Assault Party identification 
      */
     public int prepareExcursion();
+
+    /**
+     * Returns true if an Ordinary Thief is in the Concentration Site
+     * @param thief the Ordinary Thief
+     * @return true if the thief is in the Concentration Site, false otherwise
+     */
+    public boolean contains(OrdinaryThief thief);
 }

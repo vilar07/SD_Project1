@@ -8,6 +8,7 @@ import src.Constants;
 import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
+import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
 import src.room.Room;
 
@@ -58,15 +59,34 @@ public class AssaultParty implements AssaultPartyInterface {
      */
     @Override
     public synchronized void sendAssaultParty() {
-        ((MasterThief) Thread.currentThread()).setState(MasterThief.State.DECIDING_WHAT_TO_DO);
+        MasterThief masterThief = (MasterThief) Thread.currentThread();
+        masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
+        ConcentrationSiteInterface concentrationSite = masterThief.getConcentrationSite();
+        synchronized (concentrationSite) {
+            while (!readyThieves(concentrationSite)) {
+                try {
+                    concentrationSite.wait();
+                } catch (InterruptedException e) {
+
+                }
+            }
+        }
         inOperation = true;
         notifyAll();
+    }
+
+    public synchronized boolean crawlIn() {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
+        thieves.remove(thief);
+        return false;
     }
 
     /**
      * Called by the Ordinary Thief to crawl in
      * @return false if they have finished the crawling
      */
+    /* 
     @Override
     public synchronized boolean crawlIn() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
@@ -103,6 +123,7 @@ public class AssaultParty implements AssaultPartyInterface {
         thieves.remove(thief);
         return false;
     }
+    */
 
     /**
      * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
@@ -122,11 +143,18 @@ public class AssaultParty implements AssaultPartyInterface {
         }
     }
 
+    public synchronized boolean crawlOut() {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
+        return false;
+    }
+    
     /**
      * Called by the Ordinary Thief to crawl out
      * @param party the Assault Party
      * @return false if they have finished the crawling
      */
+    /*
     @Override
     public synchronized boolean crawlOut() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
@@ -168,6 +196,7 @@ public class AssaultParty implements AssaultPartyInterface {
         }
         return false;
     }
+    */
     
     /**
      * Private method to assess the situation of the Ordinary Thief in the line when going in
@@ -311,6 +340,14 @@ public class AssaultParty implements AssaultPartyInterface {
     }
 
     /**
+     * Setter for the inOperation attribute
+     * @param inOperation true if Assault Party is operating, false if not
+     */
+    public void setInOperation(boolean inOperation) {
+        this.inOperation = inOperation;
+    }
+
+    /**
      * Setter for the room destination
      * @param room the room identification
      */
@@ -350,13 +387,9 @@ public class AssaultParty implements AssaultPartyInterface {
         return thieves.contains(thief);
     }
 
-    /**
-     * Returns true if the Assault Party is ready to go out
-     * @return true if all members are ready to go out, false otherwise
-     */
-    public boolean goingOut() {
-        for (OrdinaryThief thief: thieves) {
-            if (thief.getDirectionIn()) {
+    public boolean readyThieves(ConcentrationSiteInterface concentrationSite) {
+        for (OrdinaryThief ordinaryThief: thieves) {
+            if (concentrationSite.contains(ordinaryThief)) {
                 return false;
             }
         }

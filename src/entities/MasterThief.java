@@ -120,16 +120,22 @@ public class MasterThief extends Thread {
     }
 
     /**
+     * Getter for the Concentration Site
+     * @return the Concentration Site
+     */
+    public ConcentrationSiteInterface getConcentrationSite() {
+        return concentrationSite;
+    }
+
+    /**
      * Get next room that is not empty
      * @return the room identification
      */
     private int getNextRoom() {  // penso que alguma coisa esteja mal aqui .. apenas dá print duas vezes dentro do if
         for (int i = 0; i < emptyRooms.length; i++) { //As empty Rooms são inicializadas todas a False, mas em nenhum sítio sao colocadas a true (quando deixa de existir paintings nela)
             if (!emptyRooms[i]) {
-                System.out.println(emptyRooms[i]);
                 return i;
             }
-            System.out.println(emptyRooms[i]); 
         }
         return -1;
     }
@@ -146,16 +152,18 @@ public class MasterThief extends Thread {
             switch (operation) {
                 case 'P':
                 int assaultPartyID = collectionSite.getNextAssaultPartyID();
-                System.out.println("prepareAssaultParty " + assaultPartyID);
+                System.out.println("initiating prepareAssaultParty " + assaultPartyID);
                 concentrationSite.prepareAssaultParty(assaultParties[assaultPartyID], getNextRoom()); 
-                System.out.println("sendAssaultParty " + assaultPartyID);
+                System.out.println("finished prepareAssaultParty " + assaultPartyID + "; initiating sendAssaultParty " + assaultPartyID);
                 assaultParties[assaultPartyID].sendAssaultParty();
+                System.out.println("finished sendAssaultParty " + assaultPartyID);
                 break;
                 case 'R':
-                System.out.println("takeARest");
+                System.out.println("initiating takeARest");
                 collectionSite.takeARest();
-                System.out.println("collectACanvas");
+                System.out.println("finished takeARest; initiating collectACanvas");
                 collectionSite.collectACanvas();
+                System.out.println("finished collectACanvas");
                 break;
             }
             System.out.println("appraiseSit");
