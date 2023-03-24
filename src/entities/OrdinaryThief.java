@@ -229,14 +229,14 @@ public class OrdinaryThief extends Thread {
         while((concentrationSite.amINeeded())){
             System.out.println(id + " - prepareExcursion");
             int assaultPartyID = concentrationSite.prepareExcursion();
-            System.out.println(id + " - finished crawlIn in party " + assaultPartyID);
             while(assaultParties[assaultPartyID].crawlIn());
+            System.out.println(id + " - finished crawlIn in party " + assaultPartyID);
             System.out.println(id + " - rollACanvas in party " + assaultPartyID);
             museum.rollACanvas(assaultPartyID);
             System.out.println(id + " - reverseDirection in party " + assaultPartyID);
             assaultParties[assaultPartyID].reverseDirection();
-            System.out.println(id + " - finished crawlOut in party " + assaultPartyID);
             while(assaultParties[assaultPartyID].crawlOut());
+            System.out.println(id + " - finished crawlOut in party " + assaultPartyID);
             System.out.println(id + " - handACanvas in party " + assaultPartyID);
             collectionSite.handACanvas();
         }

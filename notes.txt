@@ -1,4 +1,1 @@
-
 Mudar a perceçao da ladra acerca das paintings
-
-mudar a condiçao de espera para em vez de pelo menos um thief chegar, esperar por todos da party
