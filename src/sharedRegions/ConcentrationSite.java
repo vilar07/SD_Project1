@@ -71,9 +71,10 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      * and shares the number of paintings acquired in the heist
      * @param paintings the number of paintings
      */
-    public void sumUpResults(int paintings) {
+    public synchronized void sumUpResults(int paintings) {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
         finished = true;
+        notifyAll();
         masterThief.setState(MasterThief.State.PRESENTING_THE_REPORT);
         masterThief.getGeneralRepository().printTail(paintings);
     }
@@ -81,16 +82,20 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     public synchronized boolean amINeeded() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
+        thieves.add(thief);
+        notifyAll();
         if (finished) {
             return false;
         }
-        thieves.add(thief);
-        notifyAll();
         while (!finished && thieves.contains(thief)) {
             try {
                 wait();
             } catch (InterruptedException e) {
 
+            } finally {
+                if (finished) {
+                    return false;
+                }
             }
         }
         return true;

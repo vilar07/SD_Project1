@@ -3,7 +3,9 @@ package src.sharedRegions;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import src.Constants;
 import src.entities.MasterThief;
@@ -107,18 +109,19 @@ public class CollectionSite implements CollectionSiteInterface {
      * Called by the Master Thief to collect all available canvas
      */
     public synchronized void collectACanvas() {
-        List<Integer> arrivingParties = getArrivingParties();
         MasterThief masterThief = (MasterThief) Thread.currentThread();
-        for (OrdinaryThief arrivingThief: arrivingThieves) {
-            if (arrivingParties.contains(arrivingThief.getAssaultParty())) {
-                if (arrivingThief.hasBusyHands()) {
-                    paintings++;
-                    arrivingThief.setBusyHands(arrivingThief.getAssaultParty(), false);
-                } else {
-                    masterThief.setEmptyRoom(arrivingThief.getAssaultParties()[arrivingThief.getAssaultParty()].getRoom(), true);
-                }
-                arrivingThieves.remove(arrivingThief);
+        List<OrdinaryThief> arrivingPartyMembers = getMembersOfFullArrivingParties(masterThief.getAssaultParties());
+        Set<Integer> arrivingParties = new HashSet<>();
+        for (OrdinaryThief arrivingThief: arrivingPartyMembers) {
+            int assaultPartyID = arrivingThief.getAssaultParty();
+            arrivingParties.add(assaultPartyID);
+            if (arrivingThief.hasBusyHands()) {
+                paintings++;
+                arrivingThief.setBusyHands(assaultPartyID, false);
+            } else {
+                masterThief.setEmptyRoom(arrivingThief.getAssaultParties()[assaultPartyID].getRoom(), true);
             }
+            arrivingThieves.remove(arrivingThief);
         }
         notifyAll();
         for (int arrivingParty: arrivingParties) {
@@ -209,5 +212,26 @@ public class CollectionSite implements CollectionSiteInterface {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns all Ordinary Thieves whose party's members have all returned
+     * @param assaultParties an array with the Assault Parties
+     * @return a list with the Ordinary Thieves whose full party has returned, it's size should be a multiple of ASSAULT_PARTY_SIZE
+     */
+    private List<OrdinaryThief> getMembersOfFullArrivingParties(AssaultPartyInterface[] assaultParties) {
+        List<OrdinaryThief> res = new ArrayList<>();
+        for (AssaultPartyInterface assaultParty: assaultParties) {
+            List<OrdinaryThief> arrivingThievesInParty = new ArrayList<>();
+            for (OrdinaryThief arrivingThief: arrivingThieves) {
+                if (assaultParty.isMember(arrivingThief)) {
+                    arrivingThievesInParty.add(arrivingThief);
+                }
+            }
+            if (arrivingThievesInParty.size() == Constants.ASSAULT_PARTY_SIZE) {
+                res.addAll(arrivingThievesInParty);
+            }
+        }
+        return res;
     }
 }
