@@ -10,8 +10,6 @@ import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
-import src.interfaces.MuseumInterface;
-import src.room.Room;
 
 public class AssaultParty implements AssaultPartyInterface {
     /**

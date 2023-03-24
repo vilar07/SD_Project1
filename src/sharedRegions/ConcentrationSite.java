@@ -120,7 +120,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
             }
         }
         ordinaryThief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
-        return assaultPartyID;
+        return assaultParty.getID();
     }
 
     /**
