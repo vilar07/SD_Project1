@@ -79,14 +79,14 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     }
 
     public synchronized boolean amINeeded() {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
         if (finished) {
             return false;
         }
-        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thieves.add(thief);
         notifyAll();
-        thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
-        while (thieves.contains(thief)) {
+        while (!finished && thieves.contains(thief)) {
             try {
                 wait();
             } catch (InterruptedException e) {
