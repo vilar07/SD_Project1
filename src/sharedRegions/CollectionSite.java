@@ -123,6 +123,8 @@ public class CollectionSite implements CollectionSiteInterface {
                 if (arrivingThief.hasBusyHands()) {
                     paintings++;
                     arrivingThief.setBusyHands(arrivingThief.getAssaultParty(), false);
+                } else {
+                    masterThief.setEmptyRoom(arrivingThief.getAssaultParties()[arrivingThief.getAssaultParty()].getRoom().getID(), true);
                 }
                 notifyAll();
             }

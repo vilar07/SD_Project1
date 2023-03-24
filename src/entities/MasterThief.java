@@ -87,6 +87,15 @@ public class MasterThief extends Thread {
     }
 
     /**
+     * Setter for the empty rooms
+     * @param room the room identification
+     * @param empty true if it is empty, false otherwise
+     */
+    public void setEmptyRoom(int room, boolean empty) {
+        emptyRooms[room] = empty;
+    }
+
+    /**
      * Getter for the perception of the empty rooms
      * @return an array with size equal to NUM_ROOMS with elements that are true if the rooms with the corresponding index are empty and false otherwise
      */
