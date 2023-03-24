@@ -114,11 +114,13 @@ public class MasterThief extends Thread {
      * Get next room that is not empty
      * @return the room identification
      */
-    private int getNextRoom() {
-        for (int i = 0; i < emptyRooms.length; i++) {
+    private int getNextRoom() {  // penso que alguma coisa esteja mal aqui .. apenas dá print duas vezes dentro do if
+        for (int i = 0; i < emptyRooms.length; i++) { //As empty Rooms são inicializadas todas a False, mas em nenhum sítio sao colocadas a true (quando deixa de existir paintings nela)
             if (!emptyRooms[i]) {
+                System.out.println(emptyRooms[i]);
                 return i;
             }
+            System.out.println(emptyRooms[i]); 
         }
         return -1;
     }
@@ -136,7 +138,7 @@ public class MasterThief extends Thread {
                 case 'P':
                 int assaultPartyID = collectionSite.getNextAssaultPartyID();
                 System.out.println("prepareAssaultParty " + assaultPartyID);
-                concentrationSite.prepareAssaultParty(assaultParties[assaultPartyID], getNextRoom());
+                concentrationSite.prepareAssaultParty(assaultParties[assaultPartyID], getNextRoom()); 
                 System.out.println("sendAssaultParty " + assaultPartyID);
                 assaultParties[assaultPartyID].sendAssaultParty();
                 break;
