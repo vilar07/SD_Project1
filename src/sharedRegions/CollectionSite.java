@@ -79,10 +79,10 @@ public class CollectionSite implements CollectionSiteInterface {
                 assaultPartyRooms.add(room);
             }
         }
-        if (empty && assaultPartyRooms.size() == 0) {
+        if (empty && assaultParties.size() == Constants.ASSAULT_PARTIES_NUMBER) {
             return 'E';
         }
-        if (assaultPartyRooms.size() == Constants.ASSAULT_PARTIES_NUMBER || 
+        if (assaultParties.size() == 0 || 
                 (assaultPartyRooms.size() == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms.get(0)])) {
             return 'R';
         }
