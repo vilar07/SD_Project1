@@ -145,31 +145,31 @@ public class MasterThief extends Thread {
      */
     @Override
     public void run() {
-        System.out.println("startOperations");
+        // System.out.println("startOperations");
         collectionSite.startOperations();
         char operation;
         while ((operation = collectionSite.appraiseSit(assaultParties)) != 'E') {
             switch (operation) {
                 case 'P':
                 int assaultPartyID = collectionSite.getNextAssaultPartyID();
-                System.out.println("initiating prepareAssaultParty " + assaultPartyID);
+                // System.out.println("initiating prepareAssaultParty " + assaultPartyID);
                 concentrationSite.prepareAssaultParty(assaultParties[assaultPartyID], getNextRoom()); 
-                System.out.println("finished prepareAssaultParty " + assaultPartyID + "; initiating sendAssaultParty " + assaultPartyID);
+                // System.out.println("finished prepareAssaultParty " + assaultPartyID + "; initiating sendAssaultParty " + assaultPartyID);
                 assaultParties[assaultPartyID].sendAssaultParty();
-                System.out.println("finished sendAssaultParty " + assaultPartyID);
+                // System.out.println("finished sendAssaultParty " + assaultPartyID);
                 break;
                 case 'R':
-                System.out.println("initiating takeARest");
+                // System.out.println("initiating takeARest");
                 collectionSite.takeARest();
-                System.out.println("finished takeARest; initiating collectACanvas");
+                // System.out.println("finished takeARest; initiating collectACanvas");
                 collectionSite.collectACanvas();
-                System.out.println("finished collectACanvas");
+                // System.out.println("finished collectACanvas");
                 break;
             }
-            System.out.println("appraiseSit");
+            // System.out.println("appraiseSit");
         }
-        System.out.println("sumUpResults");
+        // System.out.println("sumUpResults");
         concentrationSite.sumUpResults(this.collectionSite.getPaintings());
-        System.out.println("Terminated");
+        // System.out.println("Terminated");
     }
 }

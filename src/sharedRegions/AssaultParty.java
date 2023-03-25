@@ -92,8 +92,8 @@ public class AssaultParty implements AssaultPartyInterface {
         thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         int roomDistance = thief.getMuseum().getRoom(room).getDistance();
         Situation situation;
-        System.out.println("START CRAWL IN");
-        System.out.println(thief.getID() + ": " + thief.getPosition());
+        // System.out.println("START CRAWL IN");
+        // System.out.println(thief.getID() + ": " + thief.getPosition());
         do {
             situation = whereAmI(thief);
             int movement = 0;
@@ -113,7 +113,7 @@ public class AssaultParty implements AssaultPartyInterface {
             if (movement > 0) {
                 thief.setPosition(this.id, Math.min(thief.getPosition() + movement, roomDistance));
                 updateLineIn();
-                System.out.println(thief.getID() + ": " + thief.getPosition());
+                // System.out.println(thief.getID() + ": " + thief.getPosition());
             } else {
                 thief.setNextToCrawl(false);   
                 updateLineIn();
@@ -162,8 +162,8 @@ public class AssaultParty implements AssaultPartyInterface {
     public synchronized boolean crawlOut() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         Situation situation;
-        System.out.println("START CRAWL OUT");
-        System.out.println(thief.getID() + ": " + thief.getPosition());
+        // System.out.println("START CRAWL OUT");
+        // System.out.println(thief.getID() + ": " + thief.getPosition());
         do {
             situation = whereAmI(thief);
             int movement = 0;
@@ -183,7 +183,7 @@ public class AssaultParty implements AssaultPartyInterface {
             if (movement > 0) {
                 thief.setPosition(this.id, Math.max(thief.getPosition() - movement, 0));
                 updateLineOut();
-                System.out.println(thief.getID() + ": " + thief.getPosition());
+                // System.out.println(thief.getID() + ": " + thief.getPosition());
             } else {
                 thief.setNextToCrawl(false);   
                 updateLineOut();
