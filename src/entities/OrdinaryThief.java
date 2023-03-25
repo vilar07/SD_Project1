@@ -268,7 +268,7 @@ public class OrdinaryThief extends Thread {
             System.out.println(id + " - finished reverseDirection in party " + assaultPartyID + "; initiating crawlOut in party " + assaultPartyID);
             while(assaultParties[assaultPartyID].crawlOut());
             System.out.println(id + " - finished crawlOut in party " + assaultPartyID + "; initiating handACanvas in party " + assaultPartyID);
-            collectionSite.handACanvas();
+            collectionSite.handACanvas(assaultPartyID);
             System.out.println(id + " - finished handACanvas in party " + assaultPartyID);
         }
         System.out.println(id + " terminated");

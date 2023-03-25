@@ -38,25 +38,11 @@ public interface CollectionSiteInterface {
      * Called by the Ordinary Thief to hand a canvas to the Master Thief if they have any
      * - Synchronization point between each busy-handed Ordinary Thief and the Master Thief
      */
-    public void handACanvas();
+    public void handACanvas(int party);
 
     /**
      * Get the number of the next Assault Party and remove it from the queue
      * @return the Assault Party identification
      */
     public int getNextAssaultPartyID();
-
-    /**
-     * Adds an Assault Party to the end of the FIFO
-     * Called by the last member of the party to crawl out
-     * @param party the Assault Party identification
-     */
-    public void addAssaultParty(int party);
-
-    /**
-     * Returns if all members of an Assault Party have arrived at the Collection Site
-     * @param assaultParties the array with the Assault Parties
-     * @return true if all members of at least 1 Assault Party have arrived, false otherwise
-     */
-    public boolean partyHasArrived(AssaultPartyInterface[] assaultParties);
 }

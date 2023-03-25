@@ -83,29 +83,17 @@ public class AssaultParty implements AssaultPartyInterface {
         masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
-    public synchronized boolean crawlInInstant() {
-        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
-        thieves.remove(thief);
-        return false;
-    }
-
     /**
      * Called by the Ordinary Thief to crawl in
      * @return false if they have finished the crawling
      */
     @Override
     public synchronized boolean crawlIn() {
-        boolean instant = false;
-        if (instant) {
-            return crawlInInstant();
-        }
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         int roomDistance = thief.getMuseum().getRoom(room).getDistance();
         Situation situation;
         do {
-            System.out.println(thief.getID() + ": pos=" + thief.getPosition());
             situation = whereAmI(thief);
             int movement = 0;
             switch (situation) {
@@ -132,7 +120,6 @@ public class AssaultParty implements AssaultPartyInterface {
                 notifyAll();
                 while (!thief.isNextToCrawl()) {
                     try {
-                        System.out.printf("Id: %d, here\n", thief.getID());
                         wait();
                     } catch (InterruptedException e) {
 
@@ -142,11 +129,9 @@ public class AssaultParty implements AssaultPartyInterface {
         } while (thief.getPosition() < roomDistance);
         thief.setNextToCrawl(false);
         OrdinaryThief nextThief = getNextInLine(Situation.FRONT);
-        System.out.println(thief.getID() + " - Next thief: " + nextThief.getID());
         nextThief.setNextToCrawl(true);
         this.thieves.remove(thief);
         notifyAll();
-        thief.setPosition(id, 0); // REMOVE THIS LINE WHEN CRAWLOUT IS WORKING
         return false;
     }
 
@@ -159,7 +144,6 @@ public class AssaultParty implements AssaultPartyInterface {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         while (thievesReadyToReverse < Constants.ASSAULT_PARTY_SIZE) {
             try {
-                System.out.println(thief.getID() + ": size=" + this.thieves.size());
                 wait();
             } catch (InterruptedException e) {
 
@@ -169,9 +153,60 @@ public class AssaultParty implements AssaultPartyInterface {
         thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
     }
 
-    public synchronized boolean crawlOut() {
+    public synchronized boolean crawlOutInstant() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
+        return false;
+    }
+
+    /**
+     * Called by the Ordinary Thief to crawl out
+     * @return false if they have finished the crawling
+     */
+    public synchronized boolean crawlOut() {
+        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
+        Situation situation;
+        System.out.println("Size of thieves: " + this.thieves.size());
+        do {
+            System.out.println(thief.getID() + ": pos=" + thief.getPosition());
+            situation = whereAmI(thief);
+            int movement = 0;
+            switch (situation) {
+                case FRONT:
+                movement = crawlFront(thief);
+                break;
+                case MID:
+                movement = crawlMid(thief);
+                break;
+                case BACK:
+                movement = crawlBack(thief);
+                break;
+                default:
+                break;
+            }
+            if (movement > 0) {
+                thief.setPosition(this.id, Math.max(thief.getPosition() - movement, 0));
+                updateLineOut();
+            } else {
+                thief.setNextToCrawl(false);   
+                updateLineOut();
+                OrdinaryThief nextThief = getNextInLine(situation);
+                nextThief.setNextToCrawl(true);
+                notifyAll();
+                while (!thief.isNextToCrawl()) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+
+                    }
+                }
+            }
+        } while (thief.getPosition() > 0);
+        thief.setNextToCrawl(false);
+        OrdinaryThief nextThief = getNextInLine(Situation.FRONT);
+        nextThief.setNextToCrawl(true);
+        this.thieves.remove(thief);
+        notifyAll();
         return false;
     }
     
@@ -314,28 +349,6 @@ public class AssaultParty implements AssaultPartyInterface {
         int nextPosition = thief.getPosition() + Math.min(Constants.MAX_THIEF_SEPARATION - backSeparation, thief.getMaxDisplacement());
         if (nextPosition <= thief.getMuseum().getRoom(room).getDistance() && nextPosition != thief.getPosition() + frontSeparation) {
             return nextPosition;
-        }
-        return 0;
-    }
-
-    /**
-     * Returns whether or not the thief in the back can crawl in further
-     * @return the maximum movement the Ordinary Thief can make
-     */
-    private int canICrawlBack() {
-        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        int nextPosition = thief.getPosition() + thief.getMaxDisplacement();
-        Iterator<OrdinaryThief> it = thieves.iterator();
-        OrdinaryThief frontThief = it.next();
-        if (it.hasNext()) {
-            OrdinaryThief midThief = it.next();
-            if (nextPosition != midThief.getPosition() && nextPosition != frontThief.getPosition()) {
-                return thief.getMaxDisplacement();
-            }
-        } else {
-            if (nextPosition != frontThief.getPosition()) {
-                return thief.getMaxDisplacement();
-            }
         }
         return 0;
     }
