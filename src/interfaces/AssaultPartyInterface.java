@@ -1,7 +1,6 @@
 package src.interfaces;
 
 import src.entities.OrdinaryThief;
-import src.room.Room;
 
 /**
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.

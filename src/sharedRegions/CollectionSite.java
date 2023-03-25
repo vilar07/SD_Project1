@@ -80,6 +80,10 @@ public class CollectionSite implements CollectionSiteInterface {
                 assaultPartyRooms.add(room);
             }
         }
+        System.out.println("APPRAISE SIT VARIABLES");
+        System.out.println(empty);
+        assaultParties.stream().forEach(System.out::print);
+        System.out.println();
         if (empty && assaultParties.size() == Constants.ASSAULT_PARTIES_NUMBER) {
             return 'E';
         }
@@ -87,7 +91,10 @@ public class CollectionSite implements CollectionSiteInterface {
                 (assaultPartyRooms.size() == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms.get(0)])) {
             return 'R';
         }
-        return 'P';
+        if (!empty) {
+            return 'P';
+        }
+        return 'R';
     }
 
     /**
@@ -97,15 +104,12 @@ public class CollectionSite implements CollectionSiteInterface {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
         masterThief.setState(MasterThief.State.WAITING_FOR_ARRIVAL);
         while (!partyHasArrived(masterThief.getAssaultParties())) {
-            System.out.println(partyHasArrived(masterThief.getAssaultParties()));
             try {
-                System.out.println("MASTER THIEF HERE");
                 wait();
             } catch (InterruptedException e) {
 
             }
         }
-        System.out.println("HERE!!!!!!!!!!!!!!");
     }
 
     /**
@@ -113,54 +117,36 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     public synchronized void collectACanvas() {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
+        System.out.println("ARRIVING THIEVES BEFORE");
+        for (int i = 0; i < arrivingThieves.size(); i++) {
+            arrivingThieves.get(i).stream().map(x -> x.getID()).forEach(System.out::print);
+            System.out.println();
+        }
         for (int i = 0; i < arrivingThieves.size(); i++) {
             if (arrivingThieves.get(i).size() >= Constants.ASSAULT_PARTY_SIZE) {
                 for (OrdinaryThief arrivingThief: arrivingThieves.get(i)) {
                     if (arrivingThief.hasBusyHands()) {
                         paintings++;
+                        System.out.println("PAINTING");
                         arrivingThief.setBusyHands(i, false);
                     } else {
-                        masterThief.setEmptyRoom(arrivingThief.getAssaultParties()[i].getRoom(), true);
+                        masterThief.setEmptyRoom(masterThief.getAssaultParties()[i].getRoom(), true);
                     }
                     arrivingThieves.get(i).remove(arrivingThief);
                 }
-                assaultParties.add(i);
                 masterThief.getAssaultParties()[i].setInOperation(false);
                 masterThief.getGeneralRepository().disbandAssaultParty(i);
+                assaultParties.add(i);
             }
+        }
+        System.out.println("ARRIVING THIEVES AFTER");
+        for (int i = 0; i < arrivingThieves.size(); i++) {
+            arrivingThieves.get(i).stream().map(x -> x.getID()).forEach(System.out::print);
+            System.out.println();
         }
         notifyAll();
         masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
-
-    /**
-     * Called by the Master Thief to collect all available canvas
-     */
-    /*
-    public synchronized void collectACanvas() {
-        MasterThief masterThief = (MasterThief) Thread.currentThread();
-        List<OrdinaryThief> arrivingPartyMembers = getMembersOfFullArrivingParties(masterThief.getAssaultParties());
-        Set<Integer> arrivingParties = new HashSet<>();
-        for (OrdinaryThief arrivingThief: arrivingPartyMembers) {
-            int assaultPartyID = arrivingThief.getAssaultParty();
-            arrivingParties.add(assaultPartyID);
-            if (arrivingThief.hasBusyHands()) {
-                paintings++;
-                arrivingThief.setBusyHands(assaultPartyID, false);
-            } else {
-                masterThief.setEmptyRoom(arrivingThief.getAssaultParties()[assaultPartyID].getRoom(), true);
-            }
-            arrivingThieves.remove(arrivingThief);
-        }
-        notifyAll();
-        for (int arrivingParty: arrivingParties) {
-            masterThief.getAssaultParties()[arrivingParty].setInOperation(false);
-            masterThief.getGeneralRepository().disbandAssaultParty(arrivingParty);
-            addAssaultParty(arrivingParty);
-        }
-        masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
-    }
-    */
 
     /**
      * Called by the Ordinary Thief to hand a canvas to the Master Thief if they have any
@@ -173,7 +159,6 @@ public class CollectionSite implements CollectionSiteInterface {
         notifyAll();
         while (this.arrivingThieves.get(party).contains(thief)) {
             try {
-                System.out.println("ORDINARY THIEF " + thief.getID() + " HERE");
                 wait();
             } catch (InterruptedException e) {
 

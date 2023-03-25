@@ -1,6 +1,5 @@
 package src.room;
 
-import src.Constants;
 import src.interfaces.GeneralRepositoryInterface;
 
 /**

@@ -55,20 +55,6 @@ public class Museum implements MuseumInterface {
     }
 
     /**
-     * Count the number of paintings inside the museum.
-     * @return Number of paintings inside the museum.
-     */
-    private synchronized int countPaintings(){
-        int numPaintings = 0;
-        
-        for(int i = 0; i < this.rooms.length; i++){
-            numPaintings += this.rooms[i].getPaintings();
-        }
-        
-        return numPaintings;
-    }
-
-    /**
      * The Ordinary Thief tries to roll a canvas
      * @param party the party identification
      * @return true if the thief rolls a canvas, false if the room was already empty

@@ -8,7 +8,6 @@ import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
-import src.interfaces.MuseumInterface;
 
 public class ConcentrationSite implements ConcentrationSiteInterface {
     /**
@@ -130,5 +129,13 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      */
     public boolean contains(OrdinaryThief thief) {
         return thieves.contains(thief);
+    }
+
+    /**
+     * Setter for the finished attribute
+     * @param finished true if the heist has ended, false otherwise
+     */
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

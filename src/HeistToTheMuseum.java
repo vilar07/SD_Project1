@@ -5,7 +5,6 @@ import src.sharedRegions.CollectionSite;
 import src.sharedRegions.ConcentrationSite;
 import src.sharedRegions.GeneralRepository;
 import src.sharedRegions.Museum;
-import src.Constants;
 import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
@@ -20,7 +19,7 @@ import src.interfaces.MuseumInterface;
  */
 public class HeistToTheMuseum
 {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         GeneralRepository repository = new GeneralRepository();
         CollectionSite collectionSite = new CollectionSite();
         ConcentrationSite concentrationSite = new ConcentrationSite();
