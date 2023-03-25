@@ -166,6 +166,14 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
+     * Getter for the Museum
+     * @return the Museum
+     */
+    public MuseumInterface getMuseum() {
+        return museum;
+    }
+
+    /**
      * Returns the Assault Party the Ordinary Thief is a part of
      * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
      */

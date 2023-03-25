@@ -74,7 +74,7 @@ public class AssaultParty implements AssaultPartyInterface {
         masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
     }
 
-    public synchronized boolean crawlIn() {
+    public synchronized boolean crawlInInstant() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         thieves.remove(thief);
@@ -85,12 +85,17 @@ public class AssaultParty implements AssaultPartyInterface {
      * Called by the Ordinary Thief to crawl in
      * @return false if they have finished the crawling
      */
-    /* 
     @Override
     public synchronized boolean crawlIn() {
+        boolean instant = true;
+        if (instant) {
+            return crawlInInstant();
+        }
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
+        int roomDistance = thief.getMuseum().getRoom(room).getDistance();
         do {
+            System.out.println(thief.getID() + ": " + thief.getPosition());
             Situation situation = inWhereAmI();
             int movement = 0;
             switch (situation) {
@@ -105,7 +110,7 @@ public class AssaultParty implements AssaultPartyInterface {
                 break;
             }
             if (movement > 0) {
-                thief.setPosition(this.id, thief.getPosition() + movement);
+                thief.setPosition(this.id, Math.min(thief.getPosition() + movement, roomDistance));
             } else {
                 thieves.remove(thief);
                 thieves.add(thief);
@@ -118,11 +123,11 @@ public class AssaultParty implements AssaultPartyInterface {
                     }
                 }
             }
-        } while (thief.getPosition() < room.getDistance());
+        } while (thief.getPosition() < roomDistance);
         thieves.remove(thief);
+        thief.setPosition(id, 0); // REMOVE THIS LINE WHEN CRAWLOUT IS WORKING
         return false;
     }
-    */
 
     /**
      * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
@@ -256,7 +261,6 @@ public class AssaultParty implements AssaultPartyInterface {
      * Returns whether or not the thief in front can crawl in further
      * @return  the maximum movement the Ordinary Thief can make
      */
-    /*
     private int canICrawlFront() {
         Iterator<OrdinaryThief> it = thieves.iterator();
         int i = 0;
@@ -270,15 +274,13 @@ public class AssaultParty implements AssaultPartyInterface {
                     thief.getPosition() - previousThief.getPosition()
             );
         }
-        return Math.min(room.getDistance() - thief.getPosition(), thief.getMaxDisplacement());
+        return Math.min(thief.getMuseum().getRoom(room).getDistance() - thief.getPosition(), thief.getMaxDisplacement());
     }
-    */
 
     /**
      * Returns whether or not the thief in the middle can crawl in further
      * @return the maximum movement the Ordinary Thief can make
      */
-    /*
     private int canICrawlMid() {
         OrdinaryThief backThief = thieves.getLast();
         OrdinaryThief frontThief = thieves.getFirst();
@@ -289,12 +291,11 @@ public class AssaultParty implements AssaultPartyInterface {
         }
         int frontSeparation = Math.abs(frontThief.getPosition() - thief.getPosition());
         int nextPosition = thief.getPosition() + Math.min(Constants.MAX_THIEF_SEPARATION - backSeparation, thief.getMaxDisplacement());
-        if (nextPosition <= room.getDistance() && nextPosition != thief.getPosition() + frontSeparation) {
+        if (nextPosition <= thief.getMuseum().getRoom(room).getDistance() && nextPosition != thief.getPosition() + frontSeparation) {
             return nextPosition;
         }
         return 0;
     }
-    */
 
     /**
      * Returns whether or not the thief in the back can crawl in further
