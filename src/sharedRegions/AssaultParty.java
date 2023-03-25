@@ -92,6 +92,8 @@ public class AssaultParty implements AssaultPartyInterface {
         thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         int roomDistance = thief.getMuseum().getRoom(room).getDistance();
         Situation situation;
+        System.out.println("START CRAWL IN");
+        System.out.println(thief.getID() + ": " + thief.getPosition());
         do {
             situation = whereAmI(thief);
             int movement = 0;
@@ -100,10 +102,10 @@ public class AssaultParty implements AssaultPartyInterface {
                 movement = crawlFront(thief);
                 break;
                 case MID:
-                movement = crawlMid(thief);
+                movement = crawlMid(thief, true);
                 break;
                 case BACK:
-                movement = crawlBack(thief);
+                movement = crawlBack(thief, true);
                 break;
                 default:
                 break;
@@ -111,6 +113,7 @@ public class AssaultParty implements AssaultPartyInterface {
             if (movement > 0) {
                 thief.setPosition(this.id, Math.min(thief.getPosition() + movement, roomDistance));
                 updateLineIn();
+                System.out.println(thief.getID() + ": " + thief.getPosition());
             } else {
                 thief.setNextToCrawl(false);   
                 updateLineIn();
@@ -159,6 +162,8 @@ public class AssaultParty implements AssaultPartyInterface {
     public synchronized boolean crawlOut() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         Situation situation;
+        System.out.println("START CRAWL OUT");
+        System.out.println(thief.getID() + ": " + thief.getPosition());
         do {
             situation = whereAmI(thief);
             int movement = 0;
@@ -167,10 +172,10 @@ public class AssaultParty implements AssaultPartyInterface {
                 movement = crawlFront(thief);
                 break;
                 case MID:
-                movement = crawlMid(thief);
+                movement = crawlMid(thief, false);
                 break;
                 case BACK:
-                movement = crawlBack(thief);
+                movement = crawlBack(thief, false);
                 break;
                 default:
                 break;
@@ -178,6 +183,7 @@ public class AssaultParty implements AssaultPartyInterface {
             if (movement > 0) {
                 thief.setPosition(this.id, Math.max(thief.getPosition() - movement, 0));
                 updateLineOut();
+                System.out.println(thief.getID() + ": " + thief.getPosition());
             } else {
                 thief.setNextToCrawl(false);   
                 updateLineOut();
@@ -343,17 +349,23 @@ public class AssaultParty implements AssaultPartyInterface {
     /**
      * Returns the maximum possible movement for the Ordinary Thief in the middle
      * @param thief the Ordinary Thief in the middle
+     * @param in true if crawling in, false if crawling out
      * @return the maximum possible movement
      */
-    private int crawlMid(OrdinaryThief thief) {
+    private int crawlMid(OrdinaryThief thief, boolean in) {
         OrdinaryThief frontThief = this.thieves.get(0);
         OrdinaryThief backThief = this.thieves.get(this.thieves.size() - 1);
-        int nextPosition, position = thief.getPosition(), frontPosition = frontThief.getPosition();
+        int nextPosition, movement, position = thief.getPosition(), frontPosition = frontThief.getPosition();
         for (int displacement = thief.getMaxDisplacement(); displacement > 0; displacement--) {
-            nextPosition = position + displacement;
+            movement = Math.min(Math.max(Math.abs(position - frontPosition) - Constants.ASSAULT_PARTY_SIZE, displacement), 
+                    Constants.ASSAULT_PARTY_SIZE - Math.abs(backThief.getPosition() - position));
+            if (in) {
+                nextPosition = position + movement;
+            } else {
+                nextPosition = position - movement;
+            }
             if (nextPosition != frontPosition) {
-                return Math.min(Math.max(Math.abs(position - frontPosition) - Constants.ASSAULT_PARTY_SIZE, displacement), 
-                                Constants.ASSAULT_PARTY_SIZE - Math.abs(backThief.getPosition() - position));
+                return movement;
             }
         }
         return 0;
@@ -364,26 +376,36 @@ public class AssaultParty implements AssaultPartyInterface {
      * @param thief the Ordinary Thief in the back
      * @return the maximum possible movement
      */
-    private int crawlBack(OrdinaryThief thief) {
+    private int crawlBack(OrdinaryThief thief, boolean in) {
         OrdinaryThief frontThief;
-        int nextPosition, frontThiefPosition, position = thief.getPosition();
+        int movement, nextPosition, frontThiefPosition, position = thief.getPosition();
         if (this.thieves.size() == Constants.ASSAULT_PARTY_SIZE) {
             frontThief = this.thieves.get(0);
             frontThiefPosition = frontThief.getPosition();
             OrdinaryThief midThief = this.thieves.get(1);
             for (int displacement = thief.getMaxDisplacement(); displacement > 0; displacement--) {
-                nextPosition = position + displacement;
+                movement = Math.min(displacement, Constants.MAX_THIEF_SEPARATION + Math.abs(frontThiefPosition - position));
+                if (in) {
+                    nextPosition = position + movement;
+                } else {
+                    nextPosition = position - movement;
+                }
                 if (nextPosition != frontThief.getPosition() && nextPosition != midThief.getPosition()) {
-                    return Math.min(displacement, Constants.MAX_THIEF_SEPARATION + Math.abs(frontThiefPosition - position));
+                    return movement;
                 }
             }
         } else {
             frontThief = this.thieves.get(0);
             frontThiefPosition = frontThief.getPosition();
             for (int displacement = thief.getMaxDisplacement(); displacement > 0; displacement--) {
-                nextPosition = position + displacement;
+                movement = Math.min(displacement, Constants.MAX_THIEF_SEPARATION + Math.abs(frontThiefPosition - position));
+                if (in) {
+                    nextPosition = position + movement;
+                } else {
+                    nextPosition = position - movement;
+                }
                 if (nextPosition != frontThiefPosition) {
-                    return Math.min(displacement, Constants.MAX_THIEF_SEPARATION + Math.abs(frontThiefPosition - position));
+                    return movement;
                 }
             }
         }
