@@ -33,8 +33,8 @@ public class Museum implements MuseumInterface {
             int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1);
             int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1);
             this.rooms[i] = new Room(i, distance, paintings);
-            generalRepository.setRoomState(i, paintings, distance);
         }
+        generalRepository.setInitialRoomStates(this.rooms);
     }
 
     /**

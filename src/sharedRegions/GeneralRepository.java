@@ -2,6 +2,7 @@ package src.sharedRegions;
 
 import src.Constants;
 import src.interfaces.GeneralRepositoryInterface;
+import src.room.Room;
 import src.utils.AssaultPartyElemLogging;
 import src.utils.AssaultPartyLogging;
 import src.utils.Logger;
@@ -217,5 +218,17 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      */
     public void setRoomState(int id, int paintings) {
         setRoomState(id, paintings, rooms[id].getDistance());
+    }
+
+    /**
+     * Sets the initial room states
+     * @param rooms an array with the rooms
+     */
+    public void setInitialRoomStates(Room[] rooms) {
+        for (int i = 0; i < this.rooms.length; i++) {
+            this.rooms[i].setDistance(rooms[i].getDistance());
+            this.rooms[i].setPaintings(rooms[i].getPaintings());
+        }
+        printState();
     }
 }

@@ -1,5 +1,7 @@
 package src.interfaces;
 
+import src.room.Room;
+
 /**
  * General Repository where all information is stored and logging occurs
  */
@@ -78,4 +80,10 @@ public interface GeneralRepositoryInterface {
      * @param paintings the number of paintings
      */
     public void setRoomState(int id, int paintings);
+
+    /**
+     * Sets the initial room states
+     * @param rooms an array with the rooms
+     */
+    public void setInitialRoomStates(Room[] rooms);
 }
