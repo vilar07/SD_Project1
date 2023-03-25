@@ -80,10 +80,6 @@ public class CollectionSite implements CollectionSiteInterface {
                 assaultPartyRooms.add(room);
             }
         }
-        System.out.println("APPRAISE SIT VARIABLES");
-        System.out.println(empty);
-        assaultParties.stream().forEach(System.out::print);
-        System.out.println();
         if (empty && assaultParties.size() == Constants.ASSAULT_PARTIES_NUMBER) {
             return 'E';
         }
@@ -117,17 +113,11 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     public synchronized void collectACanvas() {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
-        System.out.println("ARRIVING THIEVES BEFORE");
-        for (int i = 0; i < arrivingThieves.size(); i++) {
-            arrivingThieves.get(i).stream().map(x -> x.getID()).forEach(System.out::print);
-            System.out.println();
-        }
         for (int i = 0; i < arrivingThieves.size(); i++) {
             if (arrivingThieves.get(i).size() >= Constants.ASSAULT_PARTY_SIZE) {
                 for (OrdinaryThief arrivingThief: arrivingThieves.get(i)) {
                     if (arrivingThief.hasBusyHands()) {
                         paintings++;
-                        System.out.println("PAINTING");
                         arrivingThief.setBusyHands(i, false);
                     } else {
                         masterThief.setEmptyRoom(masterThief.getAssaultParties()[i].getRoom(), true);
@@ -138,11 +128,6 @@ public class CollectionSite implements CollectionSiteInterface {
                 masterThief.getGeneralRepository().disbandAssaultParty(i);
                 assaultParties.add(i);
             }
-        }
-        System.out.println("ARRIVING THIEVES AFTER");
-        for (int i = 0; i < arrivingThieves.size(); i++) {
-            arrivingThieves.get(i).stream().map(x -> x.getID()).forEach(System.out::print);
-            System.out.println();
         }
         notifyAll();
         masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);

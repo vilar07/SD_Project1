@@ -130,12 +130,4 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     public boolean contains(OrdinaryThief thief) {
         return thieves.contains(thief);
     }
-
-    /**
-     * Setter for the finished attribute
-     * @param finished true if the heist has ended, false otherwise
-     */
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-    }
 }

@@ -44,10 +44,4 @@ public interface ConcentrationSiteInterface {
      * @return true if the thief is in the Concentration Site, false otherwise
      */
     public boolean contains(OrdinaryThief thief);
-
-    /**
-     * Setter for the finished attribute
-     * @param finished true if the heist has ended, false otherwise
-     */
-    public void setFinished(boolean finished);
 }
