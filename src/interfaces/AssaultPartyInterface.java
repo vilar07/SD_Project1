@@ -79,6 +79,11 @@ public interface AssaultPartyInterface {
     public void addThiefToLine(OrdinaryThief thief);
 
     /**
+     * Increments the number of thieves that are ready to crawl out
+     */
+    public void addThiefReadyToReverse();
+
+    /**
      * Checks if given thief is in the Assault Party
      * @param thief the Ordinary Thief
      * @return true if they are part of the Assault Party, false otherwise

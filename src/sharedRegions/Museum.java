@@ -3,6 +3,7 @@ package src.sharedRegions;
 import java.util.Random;
 import src.Constants;
 import src.entities.OrdinaryThief;
+import src.interfaces.AssaultPartyInterface;
 import src.interfaces.GeneralRepositoryInterface;
 import src.interfaces.MuseumInterface;
 import src.room.Room;
@@ -72,13 +73,21 @@ public class Museum implements MuseumInterface {
      * @param party the party identification
      * @return true if the thief rolls a canvas, false if the room was already empty
      */
-    public synchronized boolean rollACanvas(int party) {
+    public boolean rollACanvas(int party) {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.AT_A_ROOM);
-        boolean res = this.rooms[thief.getAssaultParties()[party].getRoom()]
+        boolean res = false;
+        synchronized (this) {
+            res = this.rooms[thief.getAssaultParties()[party].getRoom()]
                 .rollACanvas(generalRepository);
-        if (res) {
-            thief.setBusyHands(party, res);
+            if (res) {
+                thief.setBusyHands(party, res);
+            }
+        }
+        AssaultPartyInterface assaultParty = thief.getAssaultParties()[party];
+        synchronized (assaultParty) {
+            assaultParty.addThiefReadyToReverse();
+            assaultParty.notifyAll();
         }
         return res;
     }

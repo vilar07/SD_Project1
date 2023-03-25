@@ -26,7 +26,7 @@ public class OrdinaryThief extends Thread {
     private final int maxDisplacement;
 
     /**
-     * Boolean value which is true if Ordinary Thief has a canvas in its possession or false otherwise
+     * Boolean value which is true if the Ordinary Thief has a canvas in its possession or false otherwise
      */
     private boolean busyHands;
 
@@ -34,6 +34,11 @@ public class OrdinaryThief extends Thread {
      * Position of the Ordinary Thief in relation to the room target
      */
     private int position;
+
+    /**
+     * Boolean value which is true if the Ordinary Thief is the next in line to crawl or false otherwise
+     */
+    private boolean nextToCrawl;
 
     /**
      * Array holding the Assault Parties shared regions
@@ -106,6 +111,7 @@ public class OrdinaryThief extends Thread {
                 + Constants.MIN_THIEF_DISPLACEMENT;
         busyHands = false;
         position = 0;
+        nextToCrawl = false;
         setState(State.CONCENTRATION_SITE);
     }
 
@@ -184,6 +190,22 @@ public class OrdinaryThief extends Thread {
             }
         }
         return -1;
+    }
+
+    /**
+     * Getter for the nextToCrawl attribute
+     * @return true if the Ordinary Thief is the next in line to crawl, false otherwise
+     */
+    public boolean isNextToCrawl() {
+        return nextToCrawl;
+    }
+
+    /**
+     * Setter for the nextToCrawl attribute
+     * @param nextToCrawl true if the Ordinary Thief is the next in line to crawl, false otherwise
+     */
+    public void setNextToCrawl(boolean nextToCrawl) {
+        this.nextToCrawl = nextToCrawl;
     }
 
     /**
