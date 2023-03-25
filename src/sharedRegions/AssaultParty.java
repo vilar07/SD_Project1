@@ -374,6 +374,7 @@ public class AssaultParty implements AssaultPartyInterface {
     /**
      * Returns the maximum possible movement for the Ordinary Thief in the back
      * @param thief the Ordinary Thief in the back
+     * @param in true if crawling in, false if crawling out
      * @return the maximum possible movement
      */
     private int crawlBack(OrdinaryThief thief, boolean in) {

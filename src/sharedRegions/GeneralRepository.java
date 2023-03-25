@@ -171,6 +171,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
             if (elems[i].getID() == thief + 1) {
                 elems[i].setPos(pos);
                 elems[i].setCv(cv);
+                printState();
                 return;
             }
             if (elems[i].getID() == 0) {
