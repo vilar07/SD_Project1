@@ -67,7 +67,7 @@ public class AssaultParty implements AssaultPartyInterface {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
         ConcentrationSiteInterface concentrationSite = masterThief.getConcentrationSite();
         synchronized (concentrationSite) {
-            while (!readyThieves(concentrationSite)) {
+            while (!readyThieves(concentrationSite) && thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
                 try {
                     concentrationSite.wait();
                 } catch (InterruptedException e) {

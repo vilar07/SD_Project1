@@ -80,7 +80,10 @@ public class CollectionSite implements CollectionSiteInterface {
                 assaultPartyRooms.add(room);
             }
         }
-        if (empty && assaultParties.size() == Constants.ASSAULT_PARTIES_NUMBER) {
+        System.out.println("empty@appraiseSit=" + empty);
+        System.out.println("assaultParties.size()@appraiseSit=" + this.assaultParties.size());
+        this.assaultParties.forEach(System.out::print);
+        if (empty && this.assaultParties.size() >= Constants.ASSAULT_PARTIES_NUMBER) {
             return 'E';
         }
         if (assaultParties.size() == 0 || 
@@ -126,7 +129,9 @@ public class CollectionSite implements CollectionSiteInterface {
                 }
                 masterThief.getAssaultParties()[i].setInOperation(false);
                 masterThief.getGeneralRepository().disbandAssaultParty(i);
-                assaultParties.add(i);
+                if (!assaultParties.contains(i)) {
+                    assaultParties.add(i);
+                }
             }
         }
         notifyAll();
