@@ -12,6 +12,9 @@ import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
 
+/**
+ * Collection Site where Master Thief plans and paintings are stored
+ */
 public class CollectionSite implements CollectionSiteInterface {
     /**
      * Number of paintings acquired
@@ -80,9 +83,6 @@ public class CollectionSite implements CollectionSiteInterface {
                 assaultPartyRooms.add(room);
             }
         }
-        System.out.println("empty@appraiseSit=" + empty);
-        System.out.println("assaultParties.size()@appraiseSit=" + this.assaultParties.size());
-        this.assaultParties.forEach(System.out::print);
         if (empty && this.assaultParties.size() >= Constants.ASSAULT_PARTIES_NUMBER) {
             return 'E';
         }

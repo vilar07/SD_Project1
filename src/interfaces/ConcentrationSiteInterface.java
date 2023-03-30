@@ -5,7 +5,6 @@ import src.entities.OrdinaryThief;
 /**
  * Concentration Site where ordinary thieves wait for orders
  */
-
 public interface ConcentrationSiteInterface {
 
     /**
@@ -27,7 +26,6 @@ public interface ConcentrationSiteInterface {
 
     /**
      * Called by an ordinary thief to wait for orders
-     * @param thief ordinary thief
      * @return true if needed, false otherwise
      */
     public boolean amINeeded();

@@ -11,6 +11,10 @@ import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
 
+/**
+ * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.
+ * Assault Party is shared by the thieves
+ */
 public class AssaultParty implements AssaultPartyInterface {
     /**
      * Queue with the identifications of the thieves in the party
@@ -287,6 +291,11 @@ public class AssaultParty implements AssaultPartyInterface {
         return thieves.contains(thief);
     }
 
+    /**
+     * Returns true if all the members of the Assault Party are ready (not present in the Concentration Site)
+     * @param concentrationSite the Concentration Site
+     * @return true if there are no members of the Assault Party in the Concentration Site, false otherwise
+     */
     public boolean readyThieves(ConcentrationSiteInterface concentrationSite) {
         for (OrdinaryThief ordinaryThief: thieves) {
             if (concentrationSite.contains(ordinaryThief)) {

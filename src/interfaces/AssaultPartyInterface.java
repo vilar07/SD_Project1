@@ -6,7 +6,6 @@ import src.entities.OrdinaryThief;
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.
  * Assault Party is shared by the thieves
  */
-
 public interface AssaultPartyInterface {
     /**
      * Called by the Master Thief to send the Assault Party to the museum

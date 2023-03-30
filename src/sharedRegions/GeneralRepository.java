@@ -18,14 +18,29 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      */
     private Logger logger;
 
+    /**
+     * State of the Master Thief
+     */
     private int masterThiefState;
 
+    /**
+     * Information of the Ordinary Thieves
+     */
     private OrdinaryThiefLogging[] ordinaryThieves;
 
+    /**
+     * Information of the Assault Parties
+     */
     private AssaultPartyLogging[] assaultParties;
 
+    /**
+     * Information of the rooms in the Museum
+     */
     private RoomLogging[] rooms;
 
+    /**
+     * Constructor for the General Repository
+     */
     public GeneralRepository() {
         logger = new Logger();
         masterThiefState = 0;

@@ -6,6 +6,9 @@ import src.interfaces.CollectionSiteInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
 
+/**
+ * Master Thief, the thief that commands the heist
+ */
 public class MasterThief extends Thread {
     /**
      * Current state of the Master Thief

@@ -24,9 +24,9 @@ import src.interfaces.GeneralRepositoryInterface;
 
     /**
      * Room constructor, the room stores its own position and the mumber of paintings inside.
-     * @param id Room id.
-     * @param distance Room distance.
-     * @param paintings Number of paintings inside the room.
+     * @param id the room number
+     * @param distance the distance to the room
+     * @param paintings the number of paintings inside the room
      */
     public Room(int id, int distance, int paintings)
     {
@@ -35,12 +35,17 @@ import src.interfaces.GeneralRepositoryInterface;
         this.paintings = paintings;
     }
 
+    /**
+     * Room constructor, the room stores its own position and the mumber of paintings inside.
+     * @param room the room number
+     */
     public Room(int room) {
         id = room;
     }
 
     /**
-     * @return Room id.
+     * Getter for the room identification
+     * @return room identification
      */
     public int getID()
     {
@@ -48,7 +53,8 @@ import src.interfaces.GeneralRepositoryInterface;
     }
     
     /**
-     * @return Room position inside the museum.
+     * Getter for the distance to the room
+     * @return Room position inside the museum
      */
     public int getDistance()
     {
@@ -56,7 +62,8 @@ import src.interfaces.GeneralRepositoryInterface;
     }
     
     /**
-     * @return number Of paintings of the room.
+     * Getter for the number of paintings inside the room
+     * @return number of paintings inside the room
      */
     public int getPaintings()
     {
@@ -82,7 +89,7 @@ import src.interfaces.GeneralRepositoryInterface;
     /**
      * Remove a painting from the room.
      * Propagates to the General Repository
-     * @param the General Repository
+     * @param generalRepository the General Repository
      * @return True if there is still a painting and it is removed.
      */
     public boolean rollACanvas(GeneralRepositoryInterface generalRepository) {

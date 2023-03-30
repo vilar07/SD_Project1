@@ -5,7 +5,6 @@ import src.room.Room;
 /**
  * The Museum has rooms inside of it. That rooms have paintings that can be stolen by the OrdinaryThiefs of the AssaultParty
  */
-
 public interface MuseumInterface {
     /**
      * Roll a canvas.

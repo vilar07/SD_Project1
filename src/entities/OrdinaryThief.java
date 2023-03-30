@@ -9,6 +9,9 @@ import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
 import src.interfaces.MuseumInterface;
 
+/**
+ * Ordinary Thief, one of the thieves involved in the heist
+ */
 public class OrdinaryThief extends Thread {
     /**
      * Current state of the Ordinary Thief

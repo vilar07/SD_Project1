@@ -8,7 +8,10 @@ import src.interfaces.GeneralRepositoryInterface;
 import src.interfaces.MuseumInterface;
 import src.room.Room;
 
-
+/**
+ * The Museum has rooms inside of it. Those rooms have paintings that can be stolen 
+ * by the Ordinary Thieves of the Assault Party.
+ */
 public class Museum implements MuseumInterface {
     /**
      * Rooms inside the museum

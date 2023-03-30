@@ -9,6 +9,9 @@ import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
 
+/**
+ * Concentration Site where ordinary thieves wait for orders
+ */
 public class ConcentrationSite implements ConcentrationSiteInterface {
     /**
      * FIFO with the thieves waiting for instructions
@@ -78,6 +81,10 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
         masterThief.getGeneralRepository().printTail(paintings);
     }
 
+    /**
+     * Called by an ordinary thief to wait for orders
+     * @return true if needed, false otherwise
+     */
     public synchronized boolean amINeeded() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
@@ -106,11 +113,18 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      */
     public int prepareExcursion() {
         OrdinaryThief ordinaryThief = (OrdinaryThief) Thread.currentThread();
-        AssaultPartyInterface assaultParty = ordinaryThief.getAssaultParties()[assaultPartyID];
         synchronized (this) {
+            while (ordinaryThief.getAssaultParty() == -1) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+
+                }
+            }
             thieves.remove(ordinaryThief);
             notifyAll();
         }
+        AssaultPartyInterface assaultParty = ordinaryThief.getAssaultParties()[ordinaryThief.getAssaultParty()];
         synchronized (assaultParty) {
             while (!assaultParty.isInOperation()) {
                 try {

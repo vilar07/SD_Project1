@@ -1,3 +1,6 @@
+/**
+ * Root package
+ */
 package src;
 
 import src.sharedRegions.AssaultParty;
@@ -14,11 +17,15 @@ import src.interfaces.GeneralRepositoryInterface;
 import src.interfaces.MuseumInterface;
 
 /**
- * Concurrent version of the HeistToTheMuseum.
+ * Concurrent version of the Heist To The Museum.
  * Runs on a single computer.
  */
 public class HeistToTheMuseum
-{
+{   
+    /**
+     * Main method to start the Heist To The Museum
+     * @param args not used
+     */
     public static void main(String[] args) {
         GeneralRepository repository = new GeneralRepository();
         CollectionSite collectionSite = new CollectionSite();
