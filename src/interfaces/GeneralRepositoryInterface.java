@@ -26,7 +26,7 @@ public interface GeneralRepositoryInterface {
      * Sets the Master Thief state
      * @param state the state code to change to
      */
-    public void setMasterThiefState(int state);
+    public void setMasterThiefState(String state);
 
     /**
      * Sets the Ordinary Thief state
@@ -35,14 +35,14 @@ public interface GeneralRepositoryInterface {
      * @param situation the situation of the thief
      * @param maxDisplacement the maximum displacement of the thief
      */
-    public void setOrdinaryThiefState(int id, int state, char situation, int maxDisplacement);
+    public void setOrdinaryThiefState(int id, String state, char situation, int maxDisplacement);
 
     /**
      * Sets the Ordinary Thief state
      * @param id the identification of the thief
      * @param state the state code to change to
      */
-    public void setOrdinaryThiefState(int id, int state);
+    public void setOrdinaryThiefState(int id, String state);
 
     /**
      * Sets the Assault Party room target

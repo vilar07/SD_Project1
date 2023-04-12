@@ -6,11 +6,14 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import src.Constants;
 import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
+import src.interfaces.GeneralRepositoryInterface;
+import src.interfaces.MuseumInterface;
+import src.room.Room;
+import src.utils.Constants;
 
 /**
  * Collection Site where Master Thief plans and paintings are stored
@@ -21,25 +24,40 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     private int paintings;
 
+    private boolean[] emptyRooms;
+
     /**
      * FIFO of the available Assault Parties
      */
-    private final Deque<Integer> assaultParties;
+    private final Deque<Integer> availableParties;
 
     /**
      * FIFOs of the arriving Ordinary Thieves (one for each Assault Party)
      */
     private final List<Deque<OrdinaryThief>> arrivingThieves;
 
+    private final GeneralRepositoryInterface generalRepository;
+
+    private final AssaultPartyInterface[] assaultParties;
+
+    private final MuseumInterface museum;
+
     /**
-     * CollectionSite constructor
+     * Collection Site constructor
      */
-    public CollectionSite() {
+    public CollectionSite(GeneralRepositoryInterface generalRepository, AssaultPartyInterface[] assaultParties, MuseumInterface museum) {
+        this.generalRepository = generalRepository;
+        this.assaultParties = assaultParties;
+        this.museum = museum;
         paintings = 0;
-        assaultParties = new ArrayDeque<>();
+        emptyRooms = new boolean[Constants.NUM_ROOMS];
+        for (int i = 0; i < emptyRooms.length; i++) {
+            emptyRooms[i] = false;
+        }
+        availableParties = new ArrayDeque<>();
         arrivingThieves = new LinkedList<>();
         for (int i = 0; i < Constants.ASSAULT_PARTIES_NUMBER; i++) {
-            assaultParties.add(i);
+            availableParties.add(i);
             arrivingThieves.add(new ArrayDeque<>(Constants.ASSAULT_PARTY_SIZE));
         }
     }
@@ -65,8 +83,7 @@ public class CollectionSite implements CollectionSiteInterface {
      * @param assaultPartyInterfaces an array with the Assault Parties
      * @return next situation
      */
-    public synchronized char appraiseSit(AssaultPartyInterface[] assaultPartyInterfaces) {
-        boolean[] emptyRooms = ((MasterThief) Thread.currentThread()).getEmptyRooms();
+    public synchronized char appraiseSit() {
         boolean empty = true;
         int nEmptyRooms = 0;
         for (boolean emptyRoom: emptyRooms) {
@@ -76,17 +93,17 @@ public class CollectionSite implements CollectionSiteInterface {
             }
         }
         List<Integer> assaultPartyRooms = new ArrayList<>();
-        int room;
-        for (AssaultPartyInterface assaultPartyInterface: assaultPartyInterfaces) {
+        Room room;
+        for (AssaultPartyInterface assaultPartyInterface: assaultParties) {
             room = assaultPartyInterface.getRoom();
-            if (room != -1) {
-                assaultPartyRooms.add(room);
+            if (room != null) {
+                assaultPartyRooms.add(room.getID());
             }
         }
-        if (empty && this.assaultParties.size() >= Constants.ASSAULT_PARTIES_NUMBER) {
+        if (empty && this.availableParties.size() >= Constants.ASSAULT_PARTIES_NUMBER) {
             return 'E';
         }
-        if (assaultParties.size() == 0 || 
+        if (availableParties.size() == 0 || 
                 (assaultPartyRooms.size() == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms.get(0)])) {
             return 'R';
         }
@@ -102,7 +119,7 @@ public class CollectionSite implements CollectionSiteInterface {
     public synchronized void takeARest() {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
         masterThief.setState(MasterThief.State.WAITING_FOR_ARRIVAL);
-        while (!partyHasArrived(masterThief.getAssaultParties())) {
+        while (!partyHasArrived()) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -123,14 +140,14 @@ public class CollectionSite implements CollectionSiteInterface {
                         paintings++;
                         arrivingThief.setBusyHands(i, false);
                     } else {
-                        masterThief.setEmptyRoom(masterThief.getAssaultParties()[i].getRoom(), true);
+                        setEmptyRoom(assaultParties[i].getRoom().getID(), true);
                     }
                     arrivingThieves.get(i).remove(arrivingThief);
                 }
-                masterThief.getAssaultParties()[i].setInOperation(false);
-                masterThief.getGeneralRepository().disbandAssaultParty(i);
-                if (!assaultParties.contains(i)) {
-                    assaultParties.add(i);
+                assaultParties[i].setInOperation(false);
+                generalRepository.disbandAssaultParty(i);
+                if (!availableParties.contains(i)) {
+                    availableParties.add(i);
                 }
             }
         }
@@ -161,7 +178,7 @@ public class CollectionSite implements CollectionSiteInterface {
      * @return the Assault Party identification
      */
     public int getNextAssaultPartyID() {
-        return assaultParties.poll();
+        return availableParties.poll();
     }
 
     /**
@@ -170,7 +187,7 @@ public class CollectionSite implements CollectionSiteInterface {
      * @param party the Assault Party identification
      */
     public void addAssaultParty(int party) {
-        assaultParties.add(party);
+        availableParties.add(party);
     }
 
     /**
@@ -178,12 +195,38 @@ public class CollectionSite implements CollectionSiteInterface {
      * @param assaultParties the array with the Assault Parties
      * @return true if all members of at least 1 Assault Party have arrived, false otherwise
      */
-    private boolean partyHasArrived(AssaultPartyInterface[] assaultParties) {
+    private boolean partyHasArrived() {
         for (Deque<OrdinaryThief> assaultParty: this.arrivingThieves) {
             if (assaultParty.size() >= Constants.ASSAULT_PARTY_SIZE) {
                 return true;
             }
         }
         return false;
+    }
+
+    public Room getNextRoom() {
+        for (int i = 0; i < emptyRooms.length; i++) {
+            if (!emptyRooms[i]) {
+                return museum.getRoom(i);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Getter for the perception of the empty rooms
+     * @return an array with size equal to NUM_ROOMS with elements that are true if the rooms with the corresponding index are empty and false otherwise
+     */
+    public boolean[] getEmptyRooms() {
+        return emptyRooms;
+    }
+
+    /**
+     * Setter for the empty rooms
+     * @param room the room identification
+     * @param empty true if it is empty, false otherwise
+     */
+    public void setEmptyRoom(int room, boolean empty) {
+        emptyRooms[room] = empty;
     }
 }

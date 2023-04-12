@@ -1,6 +1,7 @@
 package src.interfaces;
 
 import src.entities.OrdinaryThief;
+import src.room.Room;
 
 /**
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.
@@ -34,9 +35,9 @@ public interface AssaultPartyInterface {
 
     /**
      * Getter for the room destination
-     * @return the room identification
+     * @return the room
      */
-    public int getRoom();
+    public Room getRoom();
 
     /**
      * Getter for the assault party identification
@@ -58,10 +59,10 @@ public interface AssaultPartyInterface {
 
     /**
      * Setter for the room destination
-     * @param room the room identification
+     * @param room the room
      * @param generalRepository the General Repository
      */
-    public void setRoom(int room, GeneralRepositoryInterface generalRepository);
+    public void setRoom(Room room, GeneralRepositoryInterface generalRepository);
 
     /**
      * Sets the members of the Assault Party

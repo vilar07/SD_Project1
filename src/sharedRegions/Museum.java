@@ -1,7 +1,5 @@
 package src.sharedRegions;
 
-import java.util.Random;
-import src.Constants;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.GeneralRepositoryInterface;
@@ -23,29 +21,17 @@ public class Museum implements MuseumInterface {
      */
     private final GeneralRepositoryInterface generalRepository;
 
+    private final AssaultPartyInterface[] assaultParties;
+
     /**
      * Museum constructor, initializes rooms
      * @param generalRepository the General Repository
      */
-    public Museum(GeneralRepositoryInterface generalRepository) {
-        this.rooms = new Room[Constants.NUM_ROOMS];
+    public Museum(GeneralRepositoryInterface generalRepository, AssaultPartyInterface[] assaultParties, Room[] rooms) {
         this.generalRepository = generalRepository;
-        generalRepository.printHead();
-        Random random = new Random(System.currentTimeMillis());
-        for(int i = 0; i < this.rooms.length; i++){
-            int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1);
-            int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1);
-            this.rooms[i] = new Room(i, distance, paintings);
-        }
+        this.assaultParties = assaultParties;
+        this.rooms = rooms;
         generalRepository.setInitialRoomStates(this.rooms);
-    }
-
-    /**
-     * Getter for the General Repository
-     * @return the General Repository
-     */
-    public GeneralRepositoryInterface getGeneralRepository() {
-        return generalRepository;
     }
 
     /**
@@ -66,17 +52,13 @@ public class Museum implements MuseumInterface {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.AT_A_ROOM);
         boolean res = false;
+        Room room = assaultParties[party].getRoom();
         synchronized (this) {
-            res = this.rooms[thief.getAssaultParties()[party].getRoom()]
-                .rollACanvas(generalRepository);
+            res = room.rollACanvas();
             if (res) {
                 thief.setBusyHands(party, res);
+                generalRepository.setRoomState(room.getID(), room.getPaintings());
             }
-        }
-        AssaultPartyInterface assaultParty = thief.getAssaultParties()[party];
-        synchronized (assaultParty) {
-            assaultParty.addThiefReadyToReverse();
-            assaultParty.notifyAll();
         }
         return res;
     }

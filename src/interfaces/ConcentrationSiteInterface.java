@@ -10,12 +10,11 @@ public interface ConcentrationSiteInterface {
     /**
      * Called by the master thief, when enough ordinary thieves are available and there is still a
      * room with paintings
-     * - Synchronization point between Master Thief and every Ordinary Thief constituting the Assault
-     * Party
-     * @param assaultParty the Assault Party
+     * - Synchronization point between Master Thief and every Ordinary Thief constituting the Assault Party
+     * @param assaultParty the Assault Party identification
      * @param room number of the room in the museum
      */
-    public void prepareAssaultParty(AssaultPartyInterface assaultParty, int room);
+    public void prepareAssaultParty(int assaultParty);
 
     /**
      * The Master Thief announces the end of operations

@@ -6,9 +6,9 @@ package src.utils;
  */
 public class OrdinaryThiefLogging {
     /**
-     * State of the Ordinary Thief (1000, 2000, 3000, 4000 or 5000)
+     * State of the Ordinary Thief ("CONC", "COLL", "CRIN", "ROOM" or "COUT")
      */
-    private int state;
+    private String state;
 
     /**
      * Situation of the Ordinary Thief ('W' - waiting or 'P' - in party)
@@ -16,9 +16,9 @@ public class OrdinaryThiefLogging {
     private char situation;
 
     /**
-     * Maximum displacement of the Ordinary Thief (between 2 and 6)
+     * Maximum displacement of the Ordinary Thief (between '2' and '6')
      */
-    private int maxDisplacement;
+    private char maxDisplacement;
 
     /**
      * OrdinaryThief constructor
@@ -26,7 +26,7 @@ public class OrdinaryThiefLogging {
      * @param situation the situation
      * @param maxDisplacement the maximum displacement
      */
-    public OrdinaryThiefLogging(int state, char situation, int maxDisplacement) {
+    public OrdinaryThiefLogging(String state, char situation, char maxDisplacement) {
         this.state = state;
         this.situation = situation;
         this.maxDisplacement = maxDisplacement;
@@ -36,7 +36,7 @@ public class OrdinaryThiefLogging {
      * Setter for the state
      * @param state the state
      */
-    public void setState(int state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -52,7 +52,7 @@ public class OrdinaryThiefLogging {
      * Setter for the maximum displacement
      * @param maxDisplacement the maximum displacement
      */
-    public void setMaxDisplacement(int maxDisplacement) {
+    public void setMaxDisplacement(char maxDisplacement) {
         this.maxDisplacement = maxDisplacement;
     }
 
@@ -60,7 +60,7 @@ public class OrdinaryThiefLogging {
      * Getter for the state
      * @return the state
      */
-    public int getState() {
+    public String getState() {
         return state;
     }
 
@@ -76,7 +76,7 @@ public class OrdinaryThiefLogging {
      * Getter for the maximum displacement
      * @return the maximum displacement
      */
-    public int getMaxDisplacement() {
+    public char getMaxDisplacement() {
         return maxDisplacement;
     }
 }

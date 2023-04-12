@@ -1,4 +1,4 @@
-package src;
+package src.utils;
 
 /**
  * Constants to be used in the Heist To The Museum.

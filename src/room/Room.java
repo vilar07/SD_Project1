@@ -1,7 +1,5 @@
 package src.room;
 
-import src.interfaces.GeneralRepositoryInterface;
-
 /**
  * Rooms contains paintings that can be stolen by the Thieves attacking the museum.
  */
@@ -88,18 +86,14 @@ import src.interfaces.GeneralRepositoryInterface;
 
     /**
      * Remove a painting from the room.
-     * Propagates to the General Repository
-     * @param generalRepository the General Repository
-     * @return True if there is still a painting and it is removed.
+     * @return true if there is still a painting and it is removed.
      */
-    public boolean rollACanvas(GeneralRepositoryInterface generalRepository) {
+    public boolean rollACanvas() {
         if (this.paintings > 0) {
             this.paintings--;
-            generalRepository.setRoomState(id, paintings);
             return true;
         }
         return false;
     }
-
  }
 

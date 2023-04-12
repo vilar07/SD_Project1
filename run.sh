@@ -1,5 +1,5 @@
-for i in $(seq 1 10)
+for i in $(seq 1 1000)
 do
      echo -e "\nRun n.º " $i
-     java src.HeistToTheMuseum
+     java src.heist.HeistToTheMuseum
 done

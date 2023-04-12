@@ -14,12 +14,6 @@ public interface MuseumInterface {
     public boolean rollACanvas(int id);
 
     /**
-     * Getter for the General Repository
-     * @return the General Repository
-     */
-    public GeneralRepositoryInterface getGeneralRepository();
-
-    /**
      * Getter for a specific room of the Museum
      * @param id the room identification
      * @return the room

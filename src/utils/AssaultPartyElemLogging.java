@@ -7,27 +7,27 @@ package src.utils;
  */
 public class AssaultPartyElemLogging {
     /**
-     * The member identification (from 1 to 6)
+     * The member identification (from '1' to '6')
      */
-    private int id;
+    private char id;
 
     /**
      * The present position (from 0 to the distance to the room)
      */
-    private int pos;
+    private String pos;
 
     /**
-     * 1 if carrying a canvas, 0 if not
+     * '1' if carrying a canvas, '0' if not
      */
-    private int cv;
+    private char cv;
 
     /**
      * AssaultPartyElemLogging constructor
      * @param id the member identification
      * @param pos the present position
-     * @param cv 1 if carrying a canvas, 0 if not
+     * @param cv '1' if carrying a canvas, '0' if not
      */
-    public AssaultPartyElemLogging(int id, int pos, int cv) {
+    public AssaultPartyElemLogging(char id, String pos, char cv) {
         this.id = id;
         this.pos = pos;
         this.cv = cv;
@@ -37,7 +37,7 @@ public class AssaultPartyElemLogging {
      * Setter for the member identification
      * @param id the member identification
      */
-    public void setID(int id) {
+    public void setID(char id) {
         this.id = id;
     }
 
@@ -45,15 +45,15 @@ public class AssaultPartyElemLogging {
      * Setter for the present position
      * @param pos the present position
      */
-    public void setPos(int pos) {
+    public void setPos(String pos) {
         this.pos = pos;
     }
 
     /**
      * Setter for the action of carrying a canvas
-     * @param cv 1 if carrying a canvas, 0 if not
+     * @param cv '1' if carrying a canvas, '0' if not
      */
-    public void setCv(int cv) {
+    public void setCv(char cv) {
         this.cv = cv;
     }
 
@@ -61,7 +61,7 @@ public class AssaultPartyElemLogging {
      * Getter for the member identification
      * @return the member identification
      */
-    public int getID() {
+    public char getID() {
         return id;
     }
 
@@ -69,15 +69,15 @@ public class AssaultPartyElemLogging {
      * Getter for the present position
      * @return the present position
      */
-    public int getPos() {
+    public String getPos() {
         return pos;
     }
 
     /**
      * Getter for the action of carrying a canvas
-     * @return 1 if carrying a canvas, 0 if not
+     * @return '1' if carrying a canvas, '0' if not
      */
-    public int getCv() {
+    public char getCv() {
         return cv;
     }
 }

@@ -6,9 +6,9 @@ package src.utils;
  */
 public class AssaultPartyLogging {
     /**
-     * The room identification (between 1 and 5)
+     * The room identification (between '1' and '5')
      */
-    private int room;
+    private char room;
 
     /**
      * Array holding the 3 elements of the party
@@ -20,7 +20,7 @@ public class AssaultPartyLogging {
      * @param room the room identification
      * @param elems the array with the elements
      */
-    public AssaultPartyLogging(int room, AssaultPartyElemLogging[] elems) {
+    public AssaultPartyLogging(char room, AssaultPartyElemLogging[] elems) {
         this.room = room;
         this.elems = elems;
     }
@@ -29,7 +29,7 @@ public class AssaultPartyLogging {
      * Setter for the room identification
      * @param room the room identification
      */
-    public void setRoom(int room) {
+    public void setRoom(char room) {
         this.room = room;
     }
 
@@ -45,7 +45,7 @@ public class AssaultPartyLogging {
      * Getter for the room identification
      * @return the room identification
      */
-    public int getRoom() {
+    public char getRoom() {
         return room;
     }
 
