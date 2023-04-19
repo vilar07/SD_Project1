@@ -9,10 +9,16 @@ import src.interfaces.GeneralRepositoryInterface;
  * Master Thief, the thief that commands the heist
  */
 public class MasterThief extends Thread {
+    public static final int PLANNING_THE_HEIST = 1000;
+    public static final int DECIDING_WHAT_TO_DO = 2000;
+    public static final int ASSEMBLING_A_GROUP = 3000;
+    public static final int WAITING_FOR_ARRIVAL = 4000;
+    public static final int PRESENTING_THE_REPORT = 5000;
+
     /**
      * Current state of the Master Thief
      */
-    private MasterThief.State state;
+    private int state;
 
     /**
      * Variable holding the Collection Site shared region
@@ -35,33 +41,13 @@ public class MasterThief extends Thread {
     private final GeneralRepositoryInterface generalRepository;
 
     /**
-     * Enumerated reference type with the possible states of the Master Thief lifecycle
-     */
-    public enum State {
-        PLANNING_THE_HEIST ("PLAN"),
-        DECIDING_WHAT_TO_DO ("DECI"),
-        ASSEMBLING_A_GROUP ("AGRP"),
-        WAITING_FOR_ARRIVAL ("WAIT"),
-        PRESENTING_THE_REPORT ("PRES");
-
-        /**
-         * Code associated with each state (to be used in logging)
-         */
-        private final String code;
-
-        /**
-         * State constructor
-         * @param code code of the state
-         */
-        State(String code) {
-            this.code = code;
-        }
-    }
-
-    /**
      * Public constructor for Master Thief
      * Initializes the state as PLANNING_THE_HEIST and her perception that all rooms of the museum
      * are empty
+     * @param collectionSite the Collection Site
+     * @param concentrationSite the Concentration Site
+     * @param assaultParties the Assault Parties
+     * @param repository the General Repository
      */
     public MasterThief(CollectionSiteInterface collectionSite,
             ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface repository) {
@@ -69,16 +55,34 @@ public class MasterThief extends Thread {
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
         this.generalRepository = repository;
-        setState(State.PLANNING_THE_HEIST);
+        setState(PLANNING_THE_HEIST);
     }
 
     /**
      * Sets the state of the Master Thief and propagates it to the General Repository
      * @param state the updated Master Thief state
      */
-    public void setState(State state) {
+    public void setState(int state) {
         this.state = state;
-        generalRepository.setMasterThiefState(state.code);
+        switch (state) {
+            case PLANNING_THE_HEIST:
+            generalRepository.setMasterThiefState("PLAN");
+            break;
+            case DECIDING_WHAT_TO_DO:
+            generalRepository.setMasterThiefState("DECI");
+            break;
+            case ASSEMBLING_A_GROUP:
+            generalRepository.setMasterThiefState("AGRP");
+            break;
+            case WAITING_FOR_ARRIVAL:
+            generalRepository.setMasterThiefState("WAIT");
+            break;
+            case PRESENTING_THE_REPORT:
+            generalRepository.setMasterThiefState("PRES");
+            break;
+            default:
+            break;
+        }
     }
 
     /**

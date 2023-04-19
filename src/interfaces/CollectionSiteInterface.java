@@ -37,7 +37,8 @@ public interface CollectionSiteInterface {
 
     /**
      * Called by the Ordinary Thief to hand a canvas to the Master Thief if they have any
-     * - Synchronization point between each busy-handed Ordinary Thief and the Master Thief
+     * - Synchronization point between each Ordinary Thief and the Master Thief.
+     * @param party the identification of the Assault Party the thief belongs to.
      */
     public void handACanvas(int party);
 
@@ -47,18 +48,9 @@ public interface CollectionSiteInterface {
      */
     public int getNextAssaultPartyID();
 
+    /**
+     * Returns the next empty room. Uses the perception of the Master Thief, not the Museum information.
+     * @return the room.
+     */
     public Room getNextRoom();
-
-    /**
-     * Getter for the perception of the empty rooms
-     * @return an array with size equal to NUM_ROOMS with elements that are true if the rooms with the corresponding index are empty and false otherwise
-     */
-    public boolean[] getEmptyRooms();
-
-    /**
-     * Setter for the empty rooms
-     * @param room the room identification
-     * @param empty true if it is empty, false otherwise
-     */
-    public void setEmptyRoom(int room, boolean empty);
 }

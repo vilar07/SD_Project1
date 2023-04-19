@@ -12,20 +12,20 @@ import src.room.Room;
  */
 public class Museum implements MuseumInterface {
     /**
-     * Rooms inside the museum
+     * Rooms inside the museum.
      */
     private final Room[] rooms;
 
     /**
-     * General Repository shared region
+     * The General Repository where logging occurs.
      */
     private final GeneralRepositoryInterface generalRepository;
 
     private final AssaultPartyInterface[] assaultParties;
 
     /**
-     * Museum constructor, initializes rooms
-     * @param generalRepository the General Repository
+     * Museum constructor, initializes rooms.
+     * @param generalRepository the General Repository.
      */
     public Museum(GeneralRepositoryInterface generalRepository, AssaultPartyInterface[] assaultParties, Room[] rooms) {
         this.generalRepository = generalRepository;
@@ -35,28 +35,19 @@ public class Museum implements MuseumInterface {
     }
 
     /**
-     * Get room array
-     * @return Array of Room objects
-     */
-    public Room[] getRooms()
-    {
-        return this.rooms;
-    }
-
-    /**
-     * The Ordinary Thief tries to roll a canvas
-     * @param party the party identification
-     * @return true if the thief rolls a canvas, false if the room was already empty
+     * The Ordinary Thief tries to roll a canvas.
+     * @param party the party identification.
+     * @return true if the thief rolls a canvas, false if the room was already empty.
      */
     public boolean rollACanvas(int party) {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.State.AT_A_ROOM);
+        thief.setState(OrdinaryThief.AT_A_ROOM);
         boolean res = false;
         Room room = assaultParties[party].getRoom();
         synchronized (this) {
             res = room.rollACanvas();
             if (res) {
-                thief.setBusyHands(party, res);
+                assaultParties[party].setBusyHands(thief.getID(), res);
                 generalRepository.setRoomState(room.getID(), room.getPaintings());
             }
         }
@@ -64,9 +55,9 @@ public class Museum implements MuseumInterface {
     }
 
     /**
-     * Getter for a specific room of the Museum
-     * @param id the room identification
-     * @return the room
+     * Getter for a specific room of the Museum.
+     * @param id the room identification.
+     * @return the room.
      */
     public Room getRoom(int id) {
         return rooms[id];

@@ -8,15 +8,15 @@ import src.room.Room;
 public interface MuseumInterface {
     /**
      * Roll a canvas.
-     * @param id the room identification
-     * @return true if the thief rolls a canvas, false if the room was already empty (There were no more paintings in the room)
+     * @param id the room identification.
+     * @return true if the thief rolls a canvas, false if the room was already empty (There were no more paintings in the room).
      */
     public boolean rollACanvas(int id);
 
     /**
-     * Getter for a specific room of the Museum
-     * @param id the room identification
-     * @return the room
+     * Getter for a specific room of the Museum.
+     * @param id the room identification.
+     * @return the room.
      */
     public Room getRoom(int id);
 }

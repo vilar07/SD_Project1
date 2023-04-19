@@ -10,10 +10,16 @@ import src.interfaces.MuseumInterface;
  * Ordinary Thief, one of the thieves involved in the heist
  */
 public class OrdinaryThief extends Thread {
+    public static final int CONCENTRATION_SITE = 1000;
+    public static final int COLLECTION_SITE = 2000;
+    public static final int CRAWLING_INWARDS = 3000;
+    public static final int AT_A_ROOM = 4000;
+    public static final int CRAWLING_OUTWARDS = 5000;
+
     /**
      * Current state of the Ordinary Thief
      */
-    private OrdinaryThief.State state;
+    private int state;
 
     /**
      * Thief unique id.
@@ -24,11 +30,6 @@ public class OrdinaryThief extends Thread {
      * Maximum displacement of the Ordinary Thief
      */
     private final int maxDisplacement;
-
-    /**
-     * Boolean value which is true if the Ordinary Thief has a canvas in its possession or false otherwise
-     */
-    private boolean busyHands;
 
     /**
      * Array holding the Assault Parties shared regions
@@ -56,30 +57,6 @@ public class OrdinaryThief extends Thread {
     private final GeneralRepositoryInterface generalRepository;
 
     /**
-     * Enumerated reference type with the possible states of the Ordinary Thief lifecycle
-     */
-    public enum State {
-        CONCENTRATION_SITE ("CONC"),
-        COLLECTION_SITE ("COLL"),
-        CRAWLING_INWARDS ("CRIN"),
-        AT_A_ROOM ("ROOM"),
-        CRAWLING_OUTWARDS ("COUT");
-
-        /**
-         * Code associated with each state (to be used in logging)
-         */
-        private final String code;
-
-        /**
-         * State constructor
-         * @param code code of the state
-         */
-        State(String code) {
-            this.code = code;
-        }
-    }
-
-    /**
      * Ordinary Thief constructor
      * @param id the identification of the thief
      * @param museum the Museum
@@ -87,6 +64,7 @@ public class OrdinaryThief extends Thread {
      * @param concentrationSite the Concentration Site
      * @param assaultParties the Assault Parties array
      * @param generalRepository the General Repository
+     * @param maxDisplacement the maximum displacement
      */
     public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface generalRepository, int maxDisplacement) {
         this.id = id;
@@ -96,8 +74,7 @@ public class OrdinaryThief extends Thread {
         this.assaultParties = assaultParties;
         this.generalRepository = generalRepository;
         this.maxDisplacement = maxDisplacement;
-        busyHands = false;
-        setState(State.CONCENTRATION_SITE);
+        setState(CONCENTRATION_SITE);
     }
 
     /**
@@ -115,15 +92,6 @@ public class OrdinaryThief extends Thread {
     public int getMaxDisplacement() {
         return maxDisplacement;
     }
-
-    /**
-     * Getter for if the Ordinary Thief has busy hands
-     * @return true if thief has rolled a canvas, false otherwise
-     */
-    public boolean hasBusyHands() {
-        return busyHands;
-    }
-
     
     /**
      * Returns the Assault Party the Ordinary Thief is a part of
@@ -143,20 +111,25 @@ public class OrdinaryThief extends Thread {
      * Propagates information to the GeneralRepository
      * @param state the state
      */
-    public void setState(State state) {
+    public void setState(int state) {
         this.state = state;
-        generalRepository.setOrdinaryThiefState(id, state.code, getSituation(), maxDisplacement);
-    }
-
-    /**
-     * Setter for the busy hands attribute
-     * Propagates information to the GeneralRepository
-     * @param party the Assault Party the Ordinary Thief belongs to
-     * @param busyHands true if carrying a canvas, false otherwise
-     */
-    public void setBusyHands(int party, boolean busyHands) {
-        this.busyHands = busyHands;
-        // generalRepository.setAssaultPartyMember(party, id, position, busyHands ? 1 : 0);
+        switch (state) {
+            case CONCENTRATION_SITE:
+            generalRepository.setOrdinaryThiefState(id, "CONC", getSituation(), maxDisplacement);
+            break;
+            case COLLECTION_SITE:
+            generalRepository.setOrdinaryThiefState(id, "COLL", getSituation(), maxDisplacement);
+            break;
+            case CRAWLING_INWARDS:
+            generalRepository.setOrdinaryThiefState(id, "CRIN", getSituation(), maxDisplacement);
+            break;
+            case AT_A_ROOM:
+            generalRepository.setOrdinaryThiefState(id, "ROOM", getSituation(), maxDisplacement);
+            break;
+            case CRAWLING_OUTWARDS:
+            generalRepository.setOrdinaryThiefState(id, "COUT", getSituation(), maxDisplacement);
+            break;
+        }
     }
 
     /**
@@ -164,7 +137,7 @@ public class OrdinaryThief extends Thread {
      * @return 'W' if waiting or 'P' if in party
      */
     private char getSituation() {
-        return (state == State.CONCENTRATION_SITE || state == State.COLLECTION_SITE) ? 'W' : 'P';
+        return (state == CONCENTRATION_SITE || state == COLLECTION_SITE) ? 'W' : 'P';
     }
 
     /**

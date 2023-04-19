@@ -12,27 +12,39 @@ import src.interfaces.GeneralRepositoryInterface;
 import src.utils.Constants;
 
 /**
- * Concentration Site where ordinary thieves wait for orders
+ * Concentration Site where ordinary thieves wait for orders.
  */
 public class ConcentrationSite implements ConcentrationSiteInterface {
-    private final GeneralRepositoryInterface generalRepository;
-
-    private final AssaultPartyInterface[] assaultParties;
-
-    private final CollectionSiteInterface collectionSite;
-
     /**
-     * FIFO with the thieves waiting for instructions
+     * FIFO with the thieves waiting for instructions.
      */
     private final Deque<OrdinaryThief> thieves;
 
     /**
-     * Boolean variable that is false until the Master Thief announces the end of the heist
+     * Boolean variable that is false until the Master Thief announces the end of the heist.
      */
     private boolean finished;
 
     /**
-     * Public constructor for the Concentration Site shared region
+     * The General Repository where logging occurs.
+     */
+    private final GeneralRepositoryInterface generalRepository;
+
+    /**
+     * The Assault Party shared regions.
+     */
+    private final AssaultPartyInterface[] assaultParties;
+
+    /**
+     * The Collection Site shared region.
+     */
+    private final CollectionSiteInterface collectionSite;
+
+    /**
+     * Public constructor for the Concentration Site shared region.
+     * @param generalRepository the General Repository.
+     * @param assaultParties the Assault Parties.
+     * @param collectionSite the Collection Site.
      */
     public ConcentrationSite(GeneralRepositoryInterface generalRepository, AssaultPartyInterface[] assaultParties, CollectionSiteInterface collectionSite) {
         this.generalRepository = generalRepository;
@@ -44,14 +56,13 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
 
     /**
      * Called by the master thief, when enough ordinary thieves are available and there is still a
-     * room with paintings
-     * - Synchronization point between Master Thief and every Ordinary Thief constituting the Assault Party
+     * room with paintings.
+     * - Synchronization point between Master Thief and every Ordinary Thief constituting the Assault Party.
      * @param assaultParty the Assault Party identification
-     * @param room number of the room in the museum
      */
     public void prepareAssaultParty(int assaultParty) {
         MasterThief master = (MasterThief) Thread.currentThread();
-        master.setState(MasterThief.State.ASSEMBLING_A_GROUP);
+        master.setState(MasterThief.ASSEMBLING_A_GROUP);
         synchronized (this) {
             while (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
                 try {
@@ -60,10 +71,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
 
                 }
             } 
-        }
-        if (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
-            System.out.println("Não devia acontecer!");
-            return;
         }
         assaultParties[assaultParty].setRoom(this.collectionSite.getNextRoom(), generalRepository);
         OrdinaryThief[] ordinaryThieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
@@ -84,7 +91,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     public synchronized void sumUpResults(int paintings) {
         finished = true;
         notifyAll();
-        ((MasterThief) Thread.currentThread()).setState(MasterThief.State.PRESENTING_THE_REPORT);
+        ((MasterThief) Thread.currentThread()).setState(MasterThief.PRESENTING_THE_REPORT);
         generalRepository.printTail(paintings);
     }
 
@@ -94,7 +101,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      */
     public synchronized boolean amINeeded() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
+        thief.setState(OrdinaryThief.CONCENTRATION_SITE);
         thieves.add(thief);
         this.notifyAll();
         if (finished) {
@@ -120,19 +127,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      */
     public int prepareExcursion() {
         OrdinaryThief ordinaryThief = (OrdinaryThief) Thread.currentThread();
-        /* 
-        synchronized (this) {
-            while (ordinaryThief.getAssaultParty() == -1) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-
-                }
-            }
-            thieves.remove(ordinaryThief);
-            notifyAll();
-        }
-        */
         AssaultPartyInterface assaultParty = assaultParties[ordinaryThief.getAssaultParty()];
         synchronized (assaultParty) {
             while (!assaultParty.isInOperation()) {
@@ -143,16 +137,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
                 }
             }
         }
-        ordinaryThief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         return assaultParty.getID();
-    }
-
-    /**
-     * Returns true if an Ordinary Thief is in the Concentration Site
-     * @param thief the Ordinary Thief
-     * @return true if the thief is in the Concentration Site, false otherwise
-     */
-    public boolean contains(OrdinaryThief thief) {
-        return thieves.contains(thief);
     }
 }

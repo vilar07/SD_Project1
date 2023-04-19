@@ -25,8 +25,8 @@ import src.room.Room;
 public class HeistToTheMuseum
 {   
     /**
-     * Main method to start the Heist To The Museum
-     * @param args not used
+     * Main method to start the Heist To The Museum.
+     * @param args not used.
      */
     public static void main(String[] args) {
         Random random = new Random(System.currentTimeMillis());

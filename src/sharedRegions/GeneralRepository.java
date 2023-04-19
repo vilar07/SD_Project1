@@ -10,36 +10,36 @@ import src.utils.OrdinaryThiefLogging;
 import src.utils.RoomLogging;
 
 /**
- * General Repository where all information is stored and logging occurs
+ * General Repository where logging occurs.
  */
 public class GeneralRepository implements GeneralRepositoryInterface {
     /**
-     * Logger that handles the writing of the internal state of the simulation to the logging file
+     * Logger that handles the writing of the internal state of the simulation to the logging file.
      */
     private Logger logger;
 
     /**
-     * State of the Master Thief
+     * State of the Master Thief.
      */
     private String masterThiefState;
 
     /**
-     * Information of the Ordinary Thieves
+     * Information of the Ordinary Thieves.
      */
     private OrdinaryThiefLogging[] ordinaryThieves;
 
     /**
-     * Information of the Assault Parties
+     * Information of the Assault Parties.
      */
     private AssaultPartyLogging[] assaultParties;
 
     /**
-     * Information of the rooms in the Museum
+     * Information of the rooms in the Museum.
      */
     private RoomLogging[] rooms;
 
     /**
-     * Constructor for the General Repository
+     * Constructor for the General Repository.
      */
     public GeneralRepository() {
         logger = new Logger();
@@ -64,7 +64,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
     
     /**
-     * Prints the head of the logging file
+     * Prints the head of the logging file.
      */
     public void printHead() {
         StringBuilder stringBuilder = new StringBuilder(
@@ -78,7 +78,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     /**
-     * Prints the state of the simulation to the logging file
+     * Prints the state of the simulation to the logging file.
      */
     public synchronized void printState() {
         StringBuilder stringBuilder = new StringBuilder(
@@ -111,8 +111,8 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     /**
-     * Prints the tail of the logging file
-     * @param total number of paintings acquired
+     * Prints the tail of the logging file.
+     * @param total number of paintings acquired.
      */
     public void printTail(int total) {
         logger.print(String.format("My friends, tonight's effort produced %2d priceless paintings!\n", total));
@@ -120,8 +120,8 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     /**
-     * Sets the Master Thief state
-     * @param state the state code to change to
+     * Sets the Master Thief state.
+     * @param state the state code to change to.
      */
     public void setMasterThiefState(String state) {
         masterThiefState = state;
@@ -129,11 +129,11 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     /**
-     * Sets the Ordinary Thief state
-     * @param id the identification of the thief
-     * @param state the state code to change to
-     * @param situation the situation of the thief
-     * @param maxDisplacement the maximum displacement of the thief
+     * Sets the Ordinary Thief state.
+     * @param id the identification of the thief.
+     * @param state the state code to change to.
+     * @param situation the situation of the thief.
+     * @param maxDisplacement the maximum displacement of the thief.
      */
     public void setOrdinaryThiefState(int id, String state, char situation, int maxDisplacement) {
         ordinaryThieves[id].setState(state);
@@ -143,18 +143,18 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     /**
-     * Sets the Ordinary Thief state
-     * @param id the identification of the thief
-     * @param state the state code to change to
+     * Sets the Ordinary Thief state.
+     * @param id the identification of the thief.
+     * @param state the state code to change to.
      */
     public void setOrdinaryThiefState(int id, String state) {
         setOrdinaryThiefState(id, state, ordinaryThieves[id].getSituation(), ordinaryThieves[id].getMaxDisplacement());
     }
 
     /**
-     * Sets the Assault Party room target
-     * @param party the party number
-     * @param room the room identification
+     * Sets the Assault Party room target.
+     * @param party the party number.
+     * @param room the room identification.
      */
     public void setAssaultPartyRoom(int party, int room) {
         assaultParties[party].setRoom((char) (room + 1 + '0'));
@@ -162,11 +162,11 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     /**
-     * Sets an Assault Party member
-     * @param party the party number
-     * @param thief the identification of the thief
-     * @param pos the present position of the thief
-     * @param cv 1 if the thief is carrying a canvas, 0 otherwise
+     * Sets an Assault Party member.
+     * @param party the party number.
+     * @param thief the identification of the thief.
+     * @param pos the present position of the thief.
+     * @param cv 1 if the thief is carrying a canvas, 0 otherwise.
      */
     public void setAssaultPartyMember(int party, int thief, int pos, int cv) {
         AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
@@ -189,8 +189,26 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     /**
-     * Resets the Assault Party logging details
-     * @param party the party number
+     * Removes an Assault Party member.
+     * @param party the identification of the Assault Party.
+     * @param thief the identification of the Ordinary Thief.
+     */
+    public void removeAssaultPartyMember(int party, int thief) {
+        AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
+        for (int i = 0; i < elems.length; i++) {
+            if (elems[i].getID() == (char) (thief + 1 + '0')) {
+                elems[i].setID('-');
+                elems[i].setPos("--");
+                elems[i].setCv('-');
+                printState();
+                return;
+            }
+        }
+    }
+
+    /**
+     * Resets the Assault Party logging details.
+     * @param party the party number.
      */
     public void disbandAssaultParty(int party) {
         assaultParties[party].setRoom('-');
@@ -200,13 +218,14 @@ public class GeneralRepository implements GeneralRepositoryInterface {
             elems[i].setPos("--");
             elems[i].setCv('-');
         }
+        printState();
     }
 
     /**
-     * Sets the room state
-     * @param id the room identification
-     * @param paintings the number of paintings
-     * @param distance the distance to the outside gathering site
+     * Sets the room state.
+     * @param id the room identification.
+     * @param paintings the number of paintings.
+     * @param distance the distance to the outside gathering site.
      */
     public void setRoomState(int id, int paintings, int distance) {
         rooms[id].setPaintings(paintings);
@@ -215,17 +234,17 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     }
 
     /**
-     * Sets the room state
-     * @param id the room identification
-     * @param paintings the number of paintings
+     * Sets the room state.
+     * @param id the room identification.
+     * @param paintings the number of paintings.
      */
     public void setRoomState(int id, int paintings) {
         setRoomState(id, paintings, rooms[id].getDistance());
     }
 
     /**
-     * Sets the initial room states
-     * @param rooms an array with the rooms
+     * Sets the initial room states.
+     * @param rooms an array with the rooms.
      */
     public void setInitialRoomStates(Room[] rooms) {
         for (int i = 0; i < this.rooms.length; i++) {
